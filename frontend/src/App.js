@@ -8,7 +8,7 @@ import Auction from "./components/auctions_page/Auction";
 
 function App() {
   return (
-    <div className="App bg-danger">
+    <div className="App bg-dark">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Starter />} />

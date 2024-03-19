@@ -35,4 +35,9 @@ public class ProductController {
     return productService.deleteProductById(id,adminToken);
     }
 
+    @DeleteMapping()
+    public void deleteAllProducts(){
+         productService.deleteAll();
+    }
+
 }

@@ -9,4 +9,5 @@ public interface ProductService {
 
     List<ProductDTO> getAllProducts();
     ProductDTO deleteProductById(String id, String adminToken);
+    void deleteAll();
 }

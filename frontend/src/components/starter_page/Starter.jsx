@@ -7,8 +7,14 @@ export default function Starter() {
     <div>
       <Navbar name="Muzayede Evim" />
       <Link to="/auctions" className="text-white mx-2 ">
-        Auction sayfasi
+        Urunler sayfasi
       </Link>
+
+      <div className="my-5 text-light" style={{ fontSize: "90px" }}>
+        Acik arttirma projesine
+        <br />
+        Hosgeldiniz
+      </div>
     </div>
   );
 }

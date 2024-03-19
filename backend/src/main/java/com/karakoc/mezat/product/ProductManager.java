@@ -1,6 +1,10 @@
 package com.karakoc.mezat.product;
 
 
+import com.karakoc.mezat.cloudinary.entity.Image;
+import com.karakoc.mezat.cloudinary.repository.ImageRepository;
+import com.karakoc.mezat.cloudinary.service.CloudinaryService;
+import com.karakoc.mezat.cloudinary.service.ImageService;
 import com.karakoc.mezat.exceptions.general.BadRequestException;
 import com.karakoc.mezat.exceptions.general.ForbiddenException;
 import com.karakoc.mezat.exceptions.general.NotfoundException;
@@ -19,6 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,15 +36,17 @@ import static com.karakoc.mezat.user.User.onlyAdminAndUserIsPresentValidation;
 public class ProductManager implements ProductService{
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final CloudinaryService cloudinaryService; // CloudinaryService'e bağlantı
+    private final ImageRepository imageRepository;
+
 
     public ProductDTO createProduct(CreateProductRequest request) {
         Optional<User> admin = userRepository.findUserByToken(request.getAdminToken());
         onlyAdminAndUserIsPresentValidation(admin);
 
-
         Product product = new Product();
         product.setId(UUID.randomUUID().toString());
-        product.setProductTitle(request.getProductTitle());
+        product.setProductTitle(request.getProductTitle().toUpperCase());
         product.setPrice(request.getPrice());
 
         try {
@@ -47,28 +54,20 @@ public class ProductManager implements ProductService{
                 throw new BadRequestException("Empty file.");
             }
 
-            String originalFilename = request.getMultipartFile().getOriginalFilename();
-            Path destination = Paths.get("rootDir").resolve(originalFilename).normalize().toAbsolutePath();
-
-            // Dosya isminde benzersizlik kontrolü
-            int fileNumber = 0;
-            String fileNameWithoutExtension = FilenameUtils.removeExtension(originalFilename);
-            String fileExtension = FilenameUtils.getExtension(originalFilename);
-            while (Files.exists(destination)) {
-                fileNumber++;
-                String numberedFileName = fileNameWithoutExtension + "_" + fileNumber + "." + fileExtension;
-                destination = Paths.get("rootDir").resolve(numberedFileName).normalize().toAbsolutePath();
-            }
-
-            Files.copy(request.getMultipartFile().getInputStream(), destination);
-            product.setPhotoPath("C:/Users/emirhan karakoc/Downloads/mezat/mezat/rootDir/" + destination.getFileName().toString());
+            // Cloudinary'ye yükle
+            Map uploadResult = cloudinaryService.upload(request.getMultipartFile());
+            String photoPath = (String) uploadResult.get("url"); // Cloudinary'den gelen URL'yi al
+            product.setImageCloudId((String) uploadResult.get("public_id"));
+            product.setImageName((String) uploadResult.get("original_filename"));
+            product.setPhotoPath(photoPath); // Ürünün fotoğraf yolunu ayarla
         } catch (IOException e) {
             throw new BadRequestException("Store exception");
         }
 
-        Product product1 = productRepository.save(product);
-        return productToDTO(product1);
+        Product savedProduct = productRepository.save(product);
+        return productToDTO(savedProduct);
     }
+
 
     public ProductDTO getProductById(String productId){
         Optional<Product> product = productRepository.findById(productId);
@@ -99,5 +98,8 @@ public class ProductManager implements ProductService{
         else {
             throw new NotfoundException("Product not found.");
         }
+    }
+    public void deleteAll(){
+        productRepository.deleteAll();
     }
 }

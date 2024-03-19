@@ -20,6 +20,9 @@ public class Product {
     private String photoPath;
     private String productTitle;
     private double price;
+    private String imageName;
+    private String imageUrl;
+    private String imageCloudId;
 
 
 

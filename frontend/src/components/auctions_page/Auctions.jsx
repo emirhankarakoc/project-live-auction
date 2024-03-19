@@ -34,27 +34,37 @@ export default function Auctions() {
     };
 
     fetchProducts();
+    console.log(products);
   }, []);
 
   return (
     <div>
       <Container>
         <Navbar name="Açık Arttırma Sayfası" />
-        <Link to="/" className="text-white mx-2">
+        <Link to="/" className="text-white">
           Ana sayfaya don
         </Link>
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          <Row className="mx-4">
+          <Row className="mx-4 my-2">
             {products.map((product) => (
               <Col key={product.id}>
-                <Card style={{ width: "18rem", marginBottom: "20px" }}>
-                  <Card.Img variant="top" src="https://picsum.photos/300/200" />
+                <Card
+                  style={{
+                    width: "18rem",
+                    marginBottom: "20px",
+                  }}
+                >
+                  <Card.Img
+                    variant="top"
+                    src={product.photoPath}
+                    style={{ height: "151px" }}
+                  />
                   <CardBody>
                     <CardTitle tag="h5">{product.productTitle}</CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
-                      {product.price}
+                      {product.price} TL
                     </CardSubtitle>
                     <Button>
                       <Link
