@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../general/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
+import { APIURL } from "../../endpoints";
 
 export default function Profile() {
   const { username } = useParams();
@@ -13,9 +14,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8080/accounts/${username}`
-        );
+        const response = await fetch(`${APIURL}/accounts/${username}`);
 
         if (!response.ok) {
           setResponseMessage("Kullanıcı bulunamadı.");

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../general/Navbar";
 import { Button, Col, Container, Row } from "react-bootstrap";
+import { APIURL } from "../../endpoints";
 
 export default function Auction(props) {
   const { id } = useParams();
@@ -15,7 +16,7 @@ export default function Auction(props) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/products/${id}`);
+        const response = await fetch(`${APIURL}/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }

@@ -5,6 +5,7 @@ import Form from "react-bootstrap/Form";
 import Navbar from "../Navbar";
 import axios from "axios"; // Import axios for making HTTP requests
 import { Link } from "react-router-dom";
+import { APIURL } from "../../../endpoints";
 
 function Login(props) {
   const [username, setUsername] = useState("");
@@ -14,13 +15,10 @@ function Login(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8080/accounts/login",
-        {
-          username,
-          password,
-        }
-      );
+      const response = await axios.post(`${APIURL}/accounts/login`, {
+        username,
+        password,
+      });
 
       setResponseMessage(
         response.data

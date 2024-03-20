@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { APIURL } from "../../../endpoints";
 
 // Form doğrulama şeması
 const validationSchema = Yup.object().shape({
@@ -40,14 +41,11 @@ function Register(props) {
   // Form gönderildiğinde çalışacak fonksiyon
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/accounts/register",
-        {
-          username: data.username,
-          email: data.email,
-          password: data.password,
-        }
-      );
+      const response = await axios.post(`${APIURL}/accounts/register`, {
+        username: data.username,
+        email: data.email,
+        password: data.password,
+      });
       console.log(response.data);
 
       setResponseMessage(
