@@ -48,11 +48,9 @@ export default function Auction(props) {
         </Row>
       </Container>
 
-      <Button>
-        <Link to={"/auctions"} className="text-white text-decoration-none">
-          Geri Dön
-        </Link>
-      </Button>
+      <Link to={"/auctions"} className="text-white text-decoration-none">
+        <Button>Geri Dön</Button>
+      </Link>
     </div>
   );
 }

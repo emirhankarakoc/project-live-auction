@@ -12,6 +12,7 @@ import {
   Container,
   Row,
 } from "react-bootstrap";
+import axios from "axios";
 
 export default function Auctions() {
   const [products, setProducts] = useState([]);
@@ -33,8 +34,7 @@ export default function Auctions() {
       }
     };
 
-    fetchProducts();
-    console.log(products);
+    fetchProducts(); // Call the function
   }, []);
 
   return (
@@ -45,7 +45,7 @@ export default function Auctions() {
           Ana sayfaya don
         </Link>
         {isLoading ? (
-          <p>Loading...</p>
+          <p className="text-light">Ürünler yüklenirken lütfen bekleyin.</p>
         ) : (
           <Row className="mx-4 my-2">
             {products.map((product) => (
@@ -54,26 +54,27 @@ export default function Auctions() {
                   style={{
                     width: "18rem",
                     marginBottom: "20px",
+                    backgroundColor: "white",
                   }}
                 >
                   <Card.Img
                     variant="top"
                     src={product.photoPath}
-                    style={{ height: "151px" }}
+                    style={{ height: "150px" }}
                   />
                   <CardBody>
                     <CardTitle tag="h5">{product.productTitle}</CardTitle>
                     <CardSubtitle className="mb-2 text-muted" tag="h6">
                       {product.price} TL
                     </CardSubtitle>
-                    <Button>
-                      <Link
-                        to={`/product/${product.id}`}
-                        className="text-white text-decoration-none"
-                      >
-                        Incele
-                      </Link>
-                    </Button>
+
+                    <Link
+                      to={`/product/${product.id}`}
+                      className="text-white text-decoration-none"
+                    >
+                      {" "}
+                      <Button>Incele</Button>
+                    </Link>
                   </CardBody>
                 </Card>
               </Col>
