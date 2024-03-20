@@ -11,7 +11,7 @@ import Profile from "./components/user_page/Profile";
 
 function App() {
   return (
-    <div className="App bg-dark">
+    <div className="App bg-dark" style={{ minHeight: "100dvh" }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Starter />} />
