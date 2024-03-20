@@ -14,9 +14,11 @@ export default function User() {
         </Dropdown.Toggle>
 
         <Dropdown.Menu>
-          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+          <Dropdown.Item href={`/user/${localStorage.getItem("userToken")}`}>
+            Profilim
+          </Dropdown.Item>
 
-          <Dropdown.Item onClick={logOut}>Cikis yap</Dropdown.Item>
+          <Dropdown.Item onClick={logOut}>Çıkış Yap</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </div>

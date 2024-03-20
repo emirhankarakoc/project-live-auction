@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import AuctionSearcher from "./AuctionSearcher";
 import UpperNavbar from "./UpperNavbar";
 import LoginOrRegister from "./login/LoginOrRegister";
-import Login from "./login/Login";
 import Logo from "./Logo";
 import User from "./User";
 

@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Navbar from "../Navbar";
 import axios from "axios"; // Import axios for making HTTP requests
-import { Link } from "react-router-dom";
 
 function Login(props) {
   const [username, setUsername] = useState("");

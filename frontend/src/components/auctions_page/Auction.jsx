@@ -39,7 +39,7 @@ export default function Auction(props) {
       <Container>
         <Row className="my-3">
           <Col>
-            <div className="">
+            <div>
               <h2 className="text-light">{product.productTitle}</h2>
               <img style={{ width: "700px" }} src={product.photoPath}></img>
               <h4 className="text-light my-2">FIYAT: {product.price}</h4>
