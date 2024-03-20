@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { APIURL } from "../../../endpoints";
 
 const validationSchema = Yup.object().shape({
   firstname: Yup.string().required("Ad alanı zorunludur"),

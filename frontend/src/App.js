@@ -7,10 +7,12 @@ import Auctions from "./components/auctions_page/Auctions";
 import Auction from "./components/auctions_page/Auction";
 import Login from "./components/general/login/Login";
 import Register from "./components/general/login/Register";
+import Profile from "./components/user_page/Profile";
+import About from "./components/static_pages/About";
 
 function App() {
   return (
-    <div className="App bg-dark">
+    <div className="App bg-dark" style={{ minHeight: "100dvh" }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Starter />} />
@@ -18,6 +20,8 @@ function App() {
           <Route path="/product/:id" element={<Auction />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/user/:username" element={<Profile />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </div>

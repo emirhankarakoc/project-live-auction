@@ -24,10 +24,14 @@ public class AccountController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request){
+    public LoginResponse login(@RequestBody LoginRequest request){
         User user = userRepository.findByMail(request.getUsername()).orElseThrow(()-> new BadRequestException("Invalid username or password."));
+        LoginResponse response = new LoginResponse();
+
         if (user.getPassword().equals(request.getPassword())){
-            return user.getToken();
+        response.setUsername(user.getUsername());
+        response.setToken(user.getToken());
+        return response;
         }else{
             throw new BadRequestException("Invalid username or password.");
         }
@@ -35,9 +39,9 @@ public class AccountController {
     }
 
 
-    @GetMapping("/{token}")
-    public UserDTO getUserFromToken(@PathVariable String token){
-        User user = userRepository.findUserByToken(token).orElseThrow(()-> new BadRequestException("Invalid token."));
+    @GetMapping("/{username}")
+    public UserDTO getUserFromToken(@PathVariable String username){
+        User user = userRepository.findByUsername(username).orElseThrow(()-> new BadRequestException("Invalid username."));
         return userToDto(user);
     }
 

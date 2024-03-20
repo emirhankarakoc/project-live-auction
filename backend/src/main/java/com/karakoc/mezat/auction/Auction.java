@@ -5,6 +5,7 @@ import com.karakoc.mezat.offer.CreateOfferRequest;
 import com.karakoc.mezat.offer.Offer;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class Auction {
     private LocalDateTime startDate;
     private double price;
     @OneToMany
+    @JoinColumn(name = "offerId")
     private List<Offer> offers;
 
 
