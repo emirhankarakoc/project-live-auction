@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import AuctionSearcher from "./AuctionSearcher";
 import UpperNavbar from "./UpperNavbar";
 import LoginOrRegister from "./login/LoginOrRegister";
 import Login from "./login/Login";
 import Logo from "./Logo";
+import User from "./User";
 
 export default function Navbar(props) {
+  const userToken = localStorage.getItem("userToken");
   return (
     <div>
       <UpperNavbar />
@@ -24,7 +26,7 @@ export default function Navbar(props) {
             </Col>
             <Col>
               <div className="mt-3">
-                <LoginOrRegister />
+                {!userToken ? <LoginOrRegister /> : <User />}
               </div>{" "}
             </Col>
           </Row>

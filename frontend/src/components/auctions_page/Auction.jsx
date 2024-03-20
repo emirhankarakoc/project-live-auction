@@ -10,6 +10,8 @@ export default function Auction(props) {
 
   const [isLoading, setIsLoading] = useState(true);
 
+  const userToken = localStorage.getItem("userToken");
+
   useEffect(() => {
     const fetchProduct = async () => {
       try {

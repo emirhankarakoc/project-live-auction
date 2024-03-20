@@ -8,10 +8,9 @@ export default function LoginOrRegister() {
     <div>
       <div className="d-inline" style={{ marginRight: "30px" }}>
         <Link to={"/login"}>
-          {" "}
           <Button variant="light" size="md">
             Giriş Yap
-          </Button>{" "}
+          </Button>
         </Link>
       </div>
 
@@ -20,7 +19,7 @@ export default function LoginOrRegister() {
           {" "}
           <Button variant="light" size="md">
             Kayıt ol
-          </Button>{" "}
+          </Button>
         </Link>
       </div>
     </div>

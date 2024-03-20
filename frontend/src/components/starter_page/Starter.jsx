@@ -3,6 +3,7 @@ import Navbar from "../general/Navbar";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
 export default function Starter() {
+  console.log(localStorage.getItem("userToken"));
   return (
     <div>
       <Navbar name="Muzayede Evim" />

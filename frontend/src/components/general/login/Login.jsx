@@ -4,8 +4,9 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Navbar from "../Navbar";
 import axios from "axios"; // Import axios for making HTTP requests
+import { Link } from "react-router-dom";
 
-function Login() {
+function Login(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
@@ -21,9 +22,16 @@ function Login() {
         }
       );
       console.log(response.data);
+
       setResponseMessage(
-        response.data ? `Token: ${response.data}` : "Login successful"
+        response.data
+          ? `Giriş başarılı , yönlendiriliyorsunuz.`
+          : "Login successful"
       );
+      setTimeout(() => {
+        localStorage.setItem("userToken", response.data);
+        window.location.replace("/auctions");
+      }, 2000);
     } catch (error) {
       console.log(error);
       setResponseMessage(`Error: ${error.response.data}`);
@@ -69,7 +77,7 @@ function Login() {
               </Button>
             </Form>
             {responseMessage && (
-              <h2 className="text-light">{responseMessage}</h2>
+              <h2 className="text-light mt-2">{responseMessage}</h2>
             )}
           </Col>
         </Row>

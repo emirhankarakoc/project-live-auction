@@ -34,6 +34,7 @@ export default function Auctions() {
       }
     };
 
+    console.log(localStorage.getItem("userToken"));
     fetchProducts(); // Call the function
   }, []);
 
