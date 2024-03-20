@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import { APIURL } from "../../../endpoints";
+import { http } from "../../../lib/http";
 
 const validationSchema = Yup.object().shape({
   firstname: Yup.string().required("Ad alanı zorunludur"),
@@ -45,15 +45,11 @@ function Register(props) {
   const onSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
-    try {
-      const response = await axios.post("http://localhost:8080/users", data);
-      console.log(response.data);
 
-      setResponseMessage(
-        response.data
-          ? "Kayıt başarılı, giriş yapabilirsiniz."
-          : "Kayıt başarısız"
-      );
+    try {
+      const response = await http.post("/users", data);
+
+      setResponseMessage("Kayıt başarılı, giriş yapabilirsiniz.");
       setTimeout(() => {
         window.location.replace("/login");
       }, 2000);

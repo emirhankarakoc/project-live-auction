@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../general/Navbar";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import { APIURL } from "../../endpoints";
+import { http, httpError } from "../../lib/http";
 
 export default function Auction(props) {
   const { id } = useParams();
@@ -16,14 +16,11 @@ export default function Auction(props) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await fetch(`${APIURL}/${id}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data = await response.json();
-        setProduct(data);
+        const response = http.get(`/products/${id}`);
+
+        setProduct(response.data);
       } catch (error) {
-        console.error(error);
+        console.error(httpError(error));
       } finally {
         setIsLoading(false);
       }
@@ -32,6 +29,8 @@ export default function Auction(props) {
     fetchProduct();
     console.log(product);
   }, []);
+
+  if (isLoading) return <>Ürünler yüklenirken lütfen bekleyiniz.</>;
 
   return (
     <div className="bg-dark">

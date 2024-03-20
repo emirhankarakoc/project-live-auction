@@ -7,7 +7,7 @@ export default function UpperNavbar() {
     <div>
       <Container className="bg-dark">
         <Row>
-          <Col></Col>
+          <Col sm={4}></Col>
 
           <Col>
             <div className="text-sm text-justify text-light d-inline">
@@ -37,6 +37,12 @@ export default function UpperNavbar() {
                 className="text-light mx-2 text-decoration-none"
               >
                 İletişim
+              </Link>
+              <Link
+                to="/admin"
+                className="text-light mx-2 text-decoration-none"
+              >
+                Admin
               </Link>
             </div>
           </Col>

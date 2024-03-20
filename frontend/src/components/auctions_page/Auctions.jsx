@@ -13,7 +13,7 @@ import {
   Row,
 } from "react-bootstrap";
 import axios from "axios";
-import { APIURL } from "../../endpoints";
+import { http, httpError } from "../../lib/http";
 
 export default function Auctions() {
   const [products, setProducts] = useState([]);
@@ -22,14 +22,11 @@ export default function Auctions() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`${APIURL}/products`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
-        const data = await response.json();
-        setProducts(data);
+        const response = await http.get("/products");
+
+        setProducts(response.data);
       } catch (error) {
-        console.error(error);
+        console.error(httpError(error));
       } finally {
         setIsLoading(false);
       }

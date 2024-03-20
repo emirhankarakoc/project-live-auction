@@ -3,36 +3,27 @@ import { Col, Container, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Navbar from "../Navbar";
-import axios from "axios"; // Import axios for making HTTP requests
 import { Link } from "react-router-dom";
-import { APIURL } from "../../../endpoints";
+import { http, httpError } from "../../../lib/http";
 
 function Login(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
-
+  console.log("component re-rendered");
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
     try {
-      const response = await axios.post(`${APIURL}/accounts/login`, {
-        username,
-        password,
-      });
+      const response = await http.post(`/accounts/login`, data);
 
-      setResponseMessage(
-        response.data
-          ? `Giriş başarılı , yönlendiriliyorsunuz.`
-          : "Login successful"
-      );
+      setResponseMessage(`Giriş başarılı , yönlendiriliyorsunuz.`);
       setTimeout(() => {
         localStorage.setItem("userToken", response.data.token);
         localStorage.setItem("username", response.data.username);
         window.location.replace("/auctions");
-      }, 2000);
+      }, 3000);
     } catch (error) {
-      console.log(error);
-      setResponseMessage(`Error: ${error.response.data}`);
+      setResponseMessage(`Error: ${httpError(error)}`);
     }
   };
 
@@ -50,9 +41,8 @@ function Login(props) {
                 </Form.Label>
                 <Form.Control
                   type="email"
-                  placeholder="Kullanıcı adınızı girin"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  name="username"
+                  placeholder="Mail adresinizi giriniz"
                 />
                 <Form.Text className="text-white">
                   Mail adreslerinizi başkalarıyla paylaşmıyoruz.
@@ -62,9 +52,8 @@ function Login(props) {
                 <Form.Label className="text-light">Şifre</Form.Label>
                 <Form.Control
                   type="password"
+                  name="password"
                   placeholder="Şifrenizi girin"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                 />
               </Form.Group>
               <Button variant="danger" type="submit" className="w-100">

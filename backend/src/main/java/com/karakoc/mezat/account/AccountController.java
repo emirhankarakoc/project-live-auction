@@ -6,6 +6,7 @@ import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserDTO;
 import com.karakoc.mezat.user.UserRepository;
 import com.karakoc.mezat.user.UserService;
+import com.karakoc.mezat.user.roles.UserRole;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -40,9 +41,28 @@ public class AccountController {
 
 
     @GetMapping("/{username}")
-    public UserDTO getUserFromToken(@PathVariable String username){
-        User user = userRepository.findByUsername(username).orElseThrow(()-> new BadRequestException("Invalid username."));
-        return userToDto(user);
+    public GetUserResponse getUserFromUsername(@PathVariable String username) throws InterruptedException {
+
+        Thread.sleep(5000);
+        // todo burayi duzelt
+        User user1 = userRepository.findByUsername(username).orElseThrow(()-> new BadRequestException("Invalid username."));
+
+        GetUserResponse user = new GetUserResponse();
+        user.setUsername(user1.getUsername());
+        user.setFirstname(user1.getFirstname());
+        user.setLastname(user1.getLastname());
+        user.setPhoneNumber(user1.getPhoneNumber());
+        user.setUserRole(user1.getUserRole());
+
+        return user;
+    }
+
+    @GetMapping("/token/{token}")
+    public UserRole getUserFromToken (@PathVariable String token){
+        User user1 = userRepository.findUserByToken(token).orElseThrow(()-> new BadRequestException("Invalid token."));
+
+        return user1.getUserRole();
+
     }
 
 }

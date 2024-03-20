@@ -1,34 +1,41 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../general/Navbar";
-import { Col, Container, Row } from "react-bootstrap";
-import { APIURL } from "../../endpoints";
+import { Col, Container, Nav, Row, Spinner } from "react-bootstrap";
+import { http, httpError } from "../../lib/http";
 
 export default function Profile() {
   const { username } = useParams();
   console.log(username);
   const [responseMessage, setResponseMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${APIURL}/accounts/${username}`);
-
-        if (!response.ok) {
-          setResponseMessage("Kullanıcı bulunamadı.");
-          throw new Error("Kullaıcı bulunamadı.");
-        }
-        const data = await response.json();
-        setUser(data);
+        const response = await http.get(`/accounts/${username}`);
+        setUser(response.data);
       } catch (error) {
-        console.log(error);
+        setResponseMessage(httpError(error));
       }
     };
 
     fetchUser();
   }, []);
+
+  if (!user) {
+    return (
+      <div className="text-light">
+        <Navbar />
+        <p> Kullanıcı profili yükleniyor. Lütfen bekleyiniz</p>
+        <br />
+        <Spinner
+          style={{ width: "5rem", height: "5rem", borderWidth: "1rem" }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -41,6 +48,7 @@ export default function Profile() {
             <Col>
               <h3>
                 {user.firstname} {user.lastname} adlı kullanıcının profili
+                {user.mail}
               </h3>
             </Col>
           </Row>
