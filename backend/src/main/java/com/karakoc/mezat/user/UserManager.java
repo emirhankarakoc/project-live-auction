@@ -38,6 +38,9 @@ public class UserManager implements UserService{
         validatePasswords(request.getPassword(), request.getRepeatPassword());
         validateMailAdress(request.getMail());
 
+        if (userRepository.findByMail(request.getMail()).isPresent()){
+            throw new BadRequestException("This mail adress already exists.");
+        }
         if (userRepository.findByUsername(request.getUsername()).isPresent()){
             throw new BadRequestException("This username already exists.");
         }
