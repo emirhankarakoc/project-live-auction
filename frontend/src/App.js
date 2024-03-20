@@ -8,6 +8,7 @@ import Auction from "./components/auctions_page/Auction";
 import Login from "./components/general/login/Login";
 import Register from "./components/general/login/Register";
 import Profile from "./components/user_page/Profile";
+import About from "./components/static_pages/About";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/user/:username" element={<Profile />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </div>
