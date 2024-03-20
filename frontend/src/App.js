@@ -19,7 +19,7 @@ function App() {
           <Route path="/product/:id" element={<Auction />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/user/:id" element={<Profile />} />
+          <Route path="/user/:username" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>

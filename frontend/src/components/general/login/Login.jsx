@@ -21,7 +21,6 @@ function Login(props) {
           password,
         }
       );
-      console.log(response.data);
 
       setResponseMessage(
         response.data
@@ -29,7 +28,8 @@ function Login(props) {
           : "Login successful"
       );
       setTimeout(() => {
-        localStorage.setItem("userToken", response.data);
+        localStorage.setItem("userToken", response.data.token);
+        localStorage.setItem("username", response.data.username);
         window.location.replace("/auctions");
       }, 2000);
     } catch (error) {

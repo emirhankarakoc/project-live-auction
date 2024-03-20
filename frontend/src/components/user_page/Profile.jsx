@@ -4,8 +4,8 @@ import Navbar from "../general/Navbar";
 import { Col, Container, Row } from "react-bootstrap";
 
 export default function Profile() {
-  const { id } = useParams();
-  console.log(id);
+  const { username } = useParams();
+  console.log(username);
   const [responseMessage, setResponseMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({});
@@ -13,7 +13,9 @@ export default function Profile() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/accounts/${id}`);
+        const response = await fetch(
+          `http://localhost:8080/accounts/${username}`
+        );
 
         if (!response.ok) {
           setResponseMessage("Kullanıcı bulunamadı.");
