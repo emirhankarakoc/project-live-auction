@@ -8,7 +8,7 @@ export default function LoginOrRegister() {
     <div>
       <div className="d-inline" style={{ marginRight: "30px" }}>
         <Link to={"/login"}>
-          <Button variant="light" size="md">
+          <Button variant="danger" size="md">
             Giriş Yap
           </Button>
         </Link>
@@ -16,8 +16,7 @@ export default function LoginOrRegister() {
 
       <div className="d-inline" style={{ marginLeft: "30px" }}>
         <Link to={"/register"}>
-          {" "}
-          <Button variant="light" size="md">
+          <Button variant="danger" size="md">
             Kayıt ol
           </Button>
         </Link>

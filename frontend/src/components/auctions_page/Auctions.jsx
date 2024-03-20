@@ -17,7 +17,7 @@ import axios from "axios";
 export default function Auctions() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const token = localStorage.getItem("userToken");
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -43,7 +43,7 @@ export default function Auctions() {
       <Container>
         <Navbar name="Açık Arttırma Sayfası" />
         <Link to="/" className="text-white">
-          Ana sayfaya don
+          {!token && <div>Ana sayfaya dön</div>}
         </Link>
         {isLoading ? (
           <p className="text-light">Ürünler yüklenirken lütfen bekleyin.</p>
