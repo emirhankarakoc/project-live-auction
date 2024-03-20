@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
   lastname: Yup.string().required("Soyad alanı zorunludur"),
   phoneNumber: Yup.string().required("Telefon numarası alanı zorunludur"),
   username: Yup.string().required("Kullanıcı adı alanı zorunludur"),
-  email: Yup.string()
+  mail: Yup.string()
     .email("Geçersiz e-posta formatı")
     .required("E-posta alanı zorunludur"),
   password: Yup.string()
@@ -37,17 +37,15 @@ function Register(props) {
     resolver: yupResolver(validationSchema),
   });
 
-  const onSubmit = async (data) => {
+  /***
+   * @param {React.FormEvent} e
+   *
+   */
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
     try {
-      const response = await axios.post("http://localhost:8080/users", {
-        firstname: data.firstname,
-        lastname: data.lastname,
-        phoneNumber: data.phoneNumber,
-        username: data.username,
-        password: data.password,
-        repeatPassword: data.repeatPassword,
-        mail: data.email,
-      });
+      const response = await axios.post("http://localhost:8080/users", data);
       console.log(response.data);
 
       setResponseMessage(
@@ -71,7 +69,7 @@ function Register(props) {
         <Row className="justify-content-md-center">
           <Col md={6}>
             <h1 className="text-light text-center mb-4">Kayıt Ol</h1>
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={onSubmit}>
               <Form.Group className="mb-3" controlId="formBasicFirstname">
                 <Form.Label className="text-light">Ad</Form.Label>
                 <Form.Control
@@ -113,7 +111,7 @@ function Register(props) {
                 <Form.Control
                   type="email"
                   placeholder="E-posta adresinizi girin"
-                  {...register("email")}
+                  {...register("mail")}
                 />
                 <p className="text-danger">{errors.email?.message}</p>
               </Form.Group>

@@ -18,7 +18,7 @@ public class UserController {
 
 
     @PostMapping()
-    public UserDTO createUser(CreateUserRequest req){
+    public UserDTO createUser( CreateUserRequest req){
         return userService.register(req);
     }
 
