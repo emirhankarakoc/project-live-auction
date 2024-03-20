@@ -17,7 +17,8 @@ public class CreateUserRequest {
 
 
     public static void validatePhoneNumber(String phoneNumber){
-        if (phoneNumber.length()!=10){
+        if (phoneNumber == null) throw new BadRequestException("Phone number must be not null.");
+        if ( phoneNumber.length()!=10){
             throw new BadRequestException("Phone number length must be 10.");
         }
 

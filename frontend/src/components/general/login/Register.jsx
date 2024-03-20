@@ -8,9 +8,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { APIURL } from "../../../endpoints";
 
-// Form doğrulama şeması
 const validationSchema = Yup.object().shape({
-  email: Yup.string()
+  firstname: Yup.string().required("Ad alanı zorunludur"),
+  lastname: Yup.string().required("Soyad alanı zorunludur"),
+  phoneNumber: Yup.string().required("Telefon numarası alanı zorunludur"),
+  username: Yup.string().required("Kullanıcı adı alanı zorunludur"),
+  mail: Yup.string()
     .email("Geçersiz e-posta formatı")
     .required("E-posta alanı zorunludur"),
   password: Yup.string()
@@ -19,15 +22,12 @@ const validationSchema = Yup.object().shape({
       /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/,
       "En az 8 karakter, bir büyük harf, bir küçük harf, bir rakam ve bir özel karakter içermelidir"
     ),
-  passwordConfirmation: Yup.string()
+  repeatPassword: Yup.string()
     .required("Şifre onayı zorunludur")
     .oneOf([Yup.ref("password"), null], "Şifreler eşleşmelidir"),
 });
 
 function Register(props) {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
 
   const {
@@ -38,14 +38,15 @@ function Register(props) {
     resolver: yupResolver(validationSchema),
   });
 
-  // Form gönderildiğinde çalışacak fonksiyon
-  const onSubmit = async (data) => {
+  /***
+   * @param {React.FormEvent} e
+   *
+   */
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
     try {
-      const response = await axios.post(`${APIURL}/accounts/register`, {
-        username: data.username,
-        email: data.email,
-        password: data.password,
-      });
+      const response = await axios.post("http://localhost:8080/users", data);
       console.log(response.data);
 
       setResponseMessage(
@@ -69,26 +70,51 @@ function Register(props) {
         <Row className="justify-content-md-center">
           <Col md={6}>
             <h1 className="text-light text-center mb-4">Kayıt Ol</h1>
-            <Form onSubmit={handleSubmit(onSubmit)}>
+            <Form onSubmit={onSubmit}>
+              <Form.Group className="mb-3" controlId="formBasicFirstname">
+                <Form.Label className="text-light">Ad</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Adınızı girin"
+                  {...register("firstname")}
+                />
+                <p className="text-danger">{errors.firstname?.message}</p>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicLastname">
+                <Form.Label className="text-light">Soyad</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Soyadınızı girin"
+                  {...register("lastname")}
+                />
+                <p className="text-danger">{errors.lastname?.message}</p>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicPhoneNumber">
+                <Form.Label className="text-light">Telefon Numarası</Form.Label>
+                <Form.Control
+                  type="text"
+                  placeholder="Telefon numaranızı girin"
+                  {...register("phoneNumber")}
+                />
+                <p className="text-danger">{errors.phoneNumber?.message}</p>
+              </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicUsername">
                 <Form.Label className="text-light">Kullanıcı Adı</Form.Label>
                 <Form.Control
                   type="text"
                   placeholder="Kullanıcı adınızı girin"
                   {...register("username")}
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
                 />
+                <p className="text-danger">{errors.username?.message}</p>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label className="text-light">E-posta Adresi</Form.Label>
                 <Form.Control
                   type="email"
                   placeholder="E-posta adresinizi girin"
-                  {...register("email")}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  {...register("mail")}
                 />
+                <p className="text-danger">{errors.email?.message}</p>
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label className="text-light">Şifre</Form.Label>
@@ -96,9 +122,17 @@ function Register(props) {
                   type="password"
                   placeholder="Şifrenizi girin"
                   {...register("password")}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
                 />
+                <p className="text-danger">{errors.password?.message}</p>
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="formBasicRepeatPassword">
+                <Form.Label className="text-light">Şifre Tekrarı</Form.Label>
+                <Form.Control
+                  type="password"
+                  placeholder="Şifrenizi tekrar girin"
+                  {...register("repeatPassword")}
+                />
+                <p className="text-danger">{errors.repeatPassword?.message}</p>
               </Form.Group>
               <Button variant="danger" type="submit" className="w-100">
                 Kayıt Ol
