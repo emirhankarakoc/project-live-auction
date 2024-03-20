@@ -45,10 +45,7 @@ function Login(props) {
         <Row>
           <h1 className="text-light">Giriş Yap</h1>
           <Col>
-            <Form
-              style={{ width: "800px", marginLeft: "200px" }}
-              onSubmit={handleSubmit}
-            >
+            <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label className="text-light">
                   Mail Adresi & Kullanıcı adı
