@@ -16,15 +16,15 @@ export default function Navbar(props) {
         <div>
           <Row>
             <Col>
-              <Logo />
+              <Logo/>
             </Col>
             <Col>
-              <div className="mt-3">
+              <div className="mt-4">
                 <AuctionSearcher />
               </div>
             </Col>
             <Col>
-              <div className="mt-3">
+              <div className="mt-4">
                 {!userToken ? <LoginOrRegister /> : <User />}
               </div>{" "}
             </Col>

@@ -6,8 +6,8 @@ export default function UpperNavbar() {
   return (
     <div>
       <Container className="bg-dark">
-        <Row>
-          <Col sm={4}></Col>
+        <Row className="pt-2">
+          <Col sm={7}></Col>
 
           <Col>
             <div className="text-sm text-justify text-light d-inline">

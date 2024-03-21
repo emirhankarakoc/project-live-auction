@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const HOSTLINK = "https://project-mezat.lm.r.appspot.com";
+const HOSTLINK = "https://emirhan-backend.kgzkbi.easypanel.host";
 const LOCALHOST = "http://localhost:8080";
 export const APIURL = HOSTLINK;
 

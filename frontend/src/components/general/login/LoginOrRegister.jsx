@@ -5,17 +5,17 @@ import { Link } from "react-router-dom";
 export default function LoginOrRegister() {
   return (
     <div>
-      <div className="d-inline" style={{ marginRight: "30px" }}>
+      <div className="d-inline" style={{ marginRight: "10px" }}>
         <Link to={"/login"}>
-          <Button variant="danger" size="md">
+          <Button variant="secondary" size="md">
             Giriş Yap
           </Button>
         </Link>
       </div>
 
-      <div className="d-inline" style={{ marginLeft: "30px" }}>
+      <div className="d-inline" style={{ marginLeft: "10px" }}>
         <Link to={"/register"}>
-          <Button variant="danger" size="md">
+          <Button variant="warning" size="md">
             Kayıt ol
           </Button>
         </Link>
