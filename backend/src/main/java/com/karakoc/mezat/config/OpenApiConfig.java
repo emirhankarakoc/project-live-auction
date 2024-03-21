@@ -18,7 +18,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         servers = {
                 @Server(
                         description = "CLOUD ENV",
-                        url = "https://project-mezat.lm.r.appspot.com/"
+                        url = "https://emirhan-backend.kgzkbi.easypanel.host/"
                 ),
                 @Server(
                         description = "development ENV",

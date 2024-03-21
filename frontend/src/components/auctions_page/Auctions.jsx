@@ -40,11 +40,7 @@ export default function Auctions() {
     <div>
       <Container>
         <Navbar name="Açık Arttırma Sayfası" />
-        {products.length == 0 && (
-          <div className="text-light">
-            Getirilecek bir açık artırma bulunmamaktadır.
-          </div>
-        )}
+
         <Link to="/" className="text-white">
           {!token && <div>Ana sayfaya dön</div>}
         </Link>
