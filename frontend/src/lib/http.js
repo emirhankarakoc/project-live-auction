@@ -2,7 +2,7 @@ import axios from "axios";
 
 const HOSTLINK = "https://project-mezat.lm.r.appspot.com";
 const LOCALHOST = "http://localhost:8080";
-export const APIURL = LOCALHOST;
+export const APIURL = HOSTLINK;
 
 export const http = axios.create({
   baseURL: APIURL,
