@@ -26,7 +26,7 @@ export default function Navbar(props) {
             <Col>
               <div className="mt-3">
                 {!userToken ? <LoginOrRegister /> : <User />}
-              </div>{" "}
+              </div>
             </Col>
           </Row>
         </div>

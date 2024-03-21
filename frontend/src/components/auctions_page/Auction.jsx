@@ -11,13 +11,10 @@ export default function Auction(props) {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const userToken = localStorage.getItem("userToken");
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = http.get(`/products/${id}`);
-
+        const response = await http.get(`/products/${id}`);
         setProduct(response.data);
       } catch (error) {
         console.error(httpError(error));
@@ -30,25 +27,28 @@ export default function Auction(props) {
     console.log(product);
   }, []);
 
+  console.log(product);
   if (isLoading) return <>Ürünler yüklenirken lütfen bekleyiniz.</>;
-
+  if (!product) return <></>;
   return (
     <div className="bg-dark">
       <Navbar />
 
-      <Container>
-        <Row className="my-3">
-          <Col>
-            <div>
-              <h2 className="text-light">{product.productTitle}</h2>
-              <img style={{ width: "700px" }} src={product.photoPath}></img>
-              <h4 className="text-light my-2">FIYAT: {product.price}</h4>
-            </div>
-            <Button className="bg-warning">Teklif ver</Button>
-          </Col>
-          <Col className="text-white">burada teklifler olcak</Col>
-        </Row>
-      </Container>
+      {product && (
+        <Container>
+          <Row className="my-3">
+            <Col>
+              <div>
+                <h2 className="text-light">{product.productTitle}</h2>
+                <img style={{ width: "700px" }} src={product.photoPath}></img>
+                <h4 className="text-light my-2">FIYAT: {product.price}</h4>
+              </div>
+              <Button className="bg-warning">Teklif ver</Button>
+            </Col>
+            <Col className="text-white">burada teklifler olcak</Col>
+          </Row>
+        </Container>
+      )}
 
       <Link to={"/auctions"} className="text-white text-decoration-none">
         <Button>Geri Dön</Button>
