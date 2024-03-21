@@ -13,6 +13,7 @@ import com.karakoc.mezat.user.UserDTO;
 import com.karakoc.mezat.user.UserRepository;
 import com.karakoc.mezat.user.roles.UserRole;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,7 @@ import static com.karakoc.mezat.user.User.onlyAdminAndUserIsPresentValidation;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ProductManager implements ProductService{
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
@@ -61,7 +63,8 @@ public class ProductManager implements ProductService{
             product.setImageName((String) uploadResult.get("original_filename"));
             product.setPhotoPath(photoPath); // Ürünün fotoğraf yolunu ayarla
         } catch (IOException e) {
-            throw new BadRequestException("Store exception");
+            log.info(e.getMessage());
+            throw new BadRequestException(e.getMessage());
         }
 
         Product savedProduct = productRepository.save(product);
