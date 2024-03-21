@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../general/Navbar";
 import { Link } from "react-router-dom";
+import AuctionCard from "../general/AuctionCard";
 import {
-  Button,
-  Card,
-  CardBody,
-  CardSubtitle,
-  CardText,
-  CardTitle,
-  Col,
   Container,
   Row,
 } from "react-bootstrap";
 import axios from "axios";
 import { http, httpError } from "../../lib/http";
+import Pagination from '../general/Pagination';
 
 export default function Auctions() {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1)
+  const [postsPerPage, setPostsPerPage] = useState(12)
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("userToken");
+  
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -35,53 +33,45 @@ export default function Auctions() {
     console.log(localStorage.getItem("userToken"));
     fetchProducts(); // Call the function
   }, []);
+  
+	const lastPostIndex = currentPage * postsPerPage;
+	const firstPostIndex = lastPostIndex - postsPerPage;
+	const currentPosts = products.slice(firstPostIndex, lastPostIndex);
+	
 
-  return (
+	return (
     <div>
-      <Container>
-        <Navbar name="Açık Arttırma Sayfası" />
+    	<Container>
+	        <Navbar name="Açık Arttırma Sayfası" />
+	
+	        <Link to="/" className="text-white">
+	          {!token && <div>Ana sayfaya dön</div>}
+	        </Link>
+	        {isLoading ? (
+	          <p className="text-light">Ürünler yüklenirken lütfen bekleyin.</p>
+	        ) : (
+	          <Row className="my-3">
+	            {currentPosts.map((product, index) => {return (
+					<AuctionCard
+					key={index}
+					photoPath={product.photoPath}
+					productTitle={product.productTitle}
+					price={product.price}
+					id={product.id}
+					/>					
+				)}
+	            )}
+	          </Row>
+	        )}
+        
+      	</Container>
 
-        <Link to="/" className="text-white">
-          {!token && <div>Ana sayfaya dön</div>}
-        </Link>
-        {isLoading ? (
-          <p className="text-light">Ürünler yüklenirken lütfen bekleyin.</p>
-        ) : (
-          <Row className="mx-4 my-2">
-            {products.map((product) => (
-              <Col key={product.id}>
-                <Card
-                  style={{
-                    width: "18rem",
-                    marginBottom: "20px",
-                    backgroundColor: "white",
-                  }}
-                >
-                  <Card.Img
-                    variant="top"
-                    src={product.photoPath}
-                    style={{ height: "150px" }}
-                  />
-                  <CardBody>
-                    <CardTitle tag="h5">{product.productTitle}</CardTitle>
-                    <CardSubtitle className="mb-2 text-muted" tag="h6">
-                      {product.price} TL
-                    </CardSubtitle>
-
-                    <Link
-                      to={`/product/${product.id}`}
-                      className="text-white text-decoration-none"
-                    >
-                      {" "}
-                      <Button>Incele</Button>
-                    </Link>
-                  </CardBody>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        )}
-      </Container>
+		<Pagination 
+		totalPosts={products.length}
+	    postsPerPage={postsPerPage}
+	    setCurrentPage={setCurrentPage}
+	    />
+   
     </div>
   );
 }
