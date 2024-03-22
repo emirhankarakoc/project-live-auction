@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import AuctionCard from "../general/AuctionCard";
 import {
   Container,
+  Nav,
   Row,
 } from "react-bootstrap";
 import axios from "axios";
@@ -39,7 +40,21 @@ export default function Auctions() {
 	const currentPosts = products.slice(firstPostIndex, lastPostIndex);
 	const totalPages = Math.ceil(products.length/postsPerPage)
 
+<<<<<<< Updated upstream
 	return (
+=======
+  if (products.length == 0)
+    return (
+      <>
+        <Navbar />
+        <div>
+          <h3>Gosterilecek bir urun yok.</h3>
+        </div>
+      </>
+    );
+
+  return (
+>>>>>>> Stashed changes
     <div>
     	<Container>
 	        <Navbar name="Açık Arttırma Sayfası" />

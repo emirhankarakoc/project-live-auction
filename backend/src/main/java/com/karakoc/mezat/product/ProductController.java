@@ -2,6 +2,7 @@ package com.karakoc.mezat.product;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,9 +27,13 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
+    @GetMapping("/page/{page}/{size}")
+    public Page<ProductDTO> getAllProductsPageable(@PathVariable int page, @PathVariable int size){
+        return productService.getAllProductsPageable(page,size);
+    }
     @GetMapping()
-    public List<ProductDTO> getAllProducts(){
-        return productService.getAllProducts();
+    public List<ProductDTO> getAll(){
+        return productService.getAll();
     }
     @DeleteMapping("/{id}/{adminToken}")
     public ProductDTO deleteProductById(@PathVariable String id, @PathVariable String adminToken){

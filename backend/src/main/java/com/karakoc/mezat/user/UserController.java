@@ -1,5 +1,8 @@
 package com.karakoc.mezat.user;
 
+import com.karakoc.mezat.account.GetUserResponse;
+import com.karakoc.mezat.exceptions.general.BadRequestException;
+import com.karakoc.mezat.user.roles.UserRole;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,4 +39,21 @@ public class UserController {
         return userService.deleteUserById(request);
     }
 
+    @PostMapping("/admin")
+    public UserDTO createAdmin(CreateUserRequest request){
+        return userService.createAdmin(request);
+    }
+
+    @GetMapping("/{id}")
+    public UserDTO getUserById(@PathVariable  String userId){
+        return userService.getUserById(userId);
+    }
+    @GetMapping("/{username}")
+   public GetUserResponse getUserFromUsername(@PathVariable String username) throws InterruptedException{
+        return userService.getUserFromUsername(username);
+    }
+    @GetMapping("/{token}")
+    public UserRole getUserRoleFromToken (@PathVariable String token){
+        return userService.getUserRoleFromToken(token);
+    }
 }
