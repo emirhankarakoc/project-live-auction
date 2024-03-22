@@ -44,10 +44,7 @@ export default function Auctions() {
         <Navbar name="Açık Arttırma Sayfası" />
 
         {products.length == 0 && (
-          <div
-            className="text-light
-          "
-          >
+          <div className="text-light">
             Getirilecek bir açık artırma bulunmamaktadır.
           </div>
         )}
