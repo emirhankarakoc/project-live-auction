@@ -3,10 +3,8 @@ package com.karakoc.mezat.auction;
 import com.karakoc.mezat.exceptions.general.BadRequestException;
 import com.karakoc.mezat.offer.CreateOfferRequest;
 import com.karakoc.mezat.offer.Offer;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import com.karakoc.mezat.product.Product;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -19,12 +17,19 @@ import java.util.UUID;
 public class Auction {
     @Id
     private String id;
-    private String productId;
+
+    @OneToOne
+    @JoinColumn(name = "productId")
+    private Product product;;
     private LocalDateTime startDate;
     private double price;
     @OneToMany
     @JoinColumn(name = "offerId")
     private List<Offer> offers;
+
+
+    @Enumerated
+    private EAuctionStatus auctionStatus;
 
 
 
@@ -33,22 +38,12 @@ public class Auction {
             throw new BadRequestException("Auction start date must be in future.");
         }
         Auction auction = new Auction();
+        auction.setAuctionStatus(EAuctionStatus.READY);
         auction.setId(UUID.randomUUID().toString());
-        auction.setProductId(request.getProductId());
         auction.setStartDate(request.getStartDate());
         auction.setPrice(request.getStartPrice());
         auction.setOffers(new ArrayList<>());
         return auction;
-    }
-
-    public static AuctionDTO auctionToDTO(Auction auction){
-        AuctionDTO dto = new AuctionDTO();
-        dto.setId(auction.getId());
-        dto.setOffers(auction.getOffers());
-        dto.setProductId(auction.getProductId());
-        dto.setStartDate(auction.getStartDate());
-        dto.setStartPrice(auction.getPrice());
-        return dto;
     }
 
 
@@ -62,11 +57,29 @@ public class Auction {
 
     }
 
+    public static AuctionDTO auctionToDTO(Auction auction){
+        AuctionDTO dto = new AuctionDTO();
+        dto.setId(auction.getId());
+        dto.setProduct(auction.getProduct());
+        dto.setOffers(auction.getOffers());
+        dto.setStartDate(auction.getStartDate());
+        dto.setStartPrice(auction.getPrice());
+        return dto;
+    }
+
     public static List<AuctionDTO> auctionsToDTO(List<Auction> auctions){
         List<AuctionDTO> auctionDTOS = new ArrayList<>();
         for(Auction auction : auctions){
             auctionDTOS.add(auctionToDTO(auction));
         }
         return auctionDTOS;
+    }
+
+    public  static List<AuctionDTO> getAllAuctionsByStatus(EAuctionStatus status,List<Auction> auctions){
+        List<Auction> statusAuctions = new ArrayList<>();
+        for (Auction auction : auctions){
+            if (auction.getAuctionStatus().equals(status)) statusAuctions.add(auction);
+        }
+        return auctionsToDTO(statusAuctions);
     }
 }

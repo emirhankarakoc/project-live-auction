@@ -49,7 +49,6 @@ public class ProductManager implements ProductService{
     public ProductDTO createProduct(CreateProductRequest request) {
         Optional<User> admin = userRepository.findUserByToken(request.getAdminToken());
         onlyAdminAndUserIsPresentValidation(admin);
-
         Product product = new Product();
         product.setId(UUID.randomUUID().toString());
         product.setProductTitle(request.getProductTitle().toUpperCase());

@@ -94,7 +94,7 @@ public class UserManager implements UserService{
 
     }
 
-    public GetUserResponse getUserFromUsername( String username) throws InterruptedException {
+    public GetUserResponse getUserFromUsername( String username) {
         User user1 = userRepository.findByUsername(username).orElseThrow(()-> new BadRequestException("Invalid username."));
 
         GetUserResponse user = new GetUserResponse();

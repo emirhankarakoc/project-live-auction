@@ -45,11 +45,11 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserDTO getUserById(@PathVariable  String userId){
-        return userService.getUserById(userId);
+    public UserDTO getUserById(@PathVariable  String id){
+        return userService.getUserById(id);
     }
     @GetMapping("/{username}")
-   public GetUserResponse getUserFromUsername(@PathVariable String username) throws InterruptedException{
+   public GetUserResponse getUserFromUsername(@PathVariable String username){
         return userService.getUserFromUsername(username);
     }
     @GetMapping("/{token}")

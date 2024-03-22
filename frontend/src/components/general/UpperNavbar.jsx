@@ -38,12 +38,6 @@ export default function UpperNavbar() {
               >
                 İletişim
               </Link>
-              <Link
-                to="/admin"
-                className="text-light mx-2 text-decoration-none"
-              >
-                Admin
-              </Link>
             </div>
           </Col>
         </Row>

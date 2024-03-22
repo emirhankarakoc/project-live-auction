@@ -18,7 +18,7 @@ public interface UserService {
     List<UserDTO> getAllUsers();
     UserDTO deleteUserById(DeleteUserByIdRequest request);
     UserDTO getUserById(String userId);
-    GetUserResponse getUserFromUsername(String username) throws InterruptedException;
+    GetUserResponse getUserFromUsername(String username);
     UserRole getUserRoleFromToken (String token);
     UserDTO createAdmin(CreateUserRequest request);
     LoginResponse login( LoginRequest request);
