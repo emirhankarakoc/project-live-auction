@@ -44,15 +44,15 @@ public class UserController {
         return userService.createAdmin(request);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public UserDTO getUserById(@PathVariable  String id){
         return userService.getUserById(id);
     }
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
    public GetUserResponse getUserFromUsername(@PathVariable String username){
         return userService.getUserFromUsername(username);
     }
-    @GetMapping("/{token}")
+    @GetMapping("/token/{token}")
     public UserRole getUserRoleFromToken (@PathVariable String token){
         return userService.getUserRoleFromToken(token);
     }
