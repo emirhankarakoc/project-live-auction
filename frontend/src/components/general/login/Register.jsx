@@ -11,7 +11,12 @@ import { http } from "../../../lib/http";
 const validationSchema = Yup.object().shape({
   firstname: Yup.string().required("Ad alanı zorunludur"),
   lastname: Yup.string().required("Soyad alanı zorunludur"),
-  phoneNumber: Yup.string().required("Telefon numarası alanı zorunludur"),
+  phoneNumber: Yup.string()
+    .required("Telefon numarası alanı zorunludur")
+    .matches(
+      /^(?:\+?0?[1-9]{1,3}[ \-]*)?(?:\([0-9]{2,3}\)[ \-]*)?[1-9]\d{8}$|^0[1-9]\d{8}$/,
+      "Telefon numarası geçerli değil"
+    ),
   username: Yup.string().required("Kullanıcı adı alanı zorunludur"),
   mail: Yup.string()
     .email("Geçersiz e-posta formatı")
