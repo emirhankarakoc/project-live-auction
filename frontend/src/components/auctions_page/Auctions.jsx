@@ -13,7 +13,7 @@ import Pagination from '../general/Pagination';
 export default function Auctions() {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1)
-  const [postsPerPage, setPostsPerPage] = useState(12)
+  const [postsPerPage, setPostsPerPage] = useState(1)
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("userToken");
   
@@ -37,7 +37,7 @@ export default function Auctions() {
 	const lastPostIndex = currentPage * postsPerPage;
 	const firstPostIndex = lastPostIndex - postsPerPage;
 	const currentPosts = products.slice(firstPostIndex, lastPostIndex);
-	
+	const totalPages = products.length/postsPerPage;
 
 	return (
     <div>
@@ -65,7 +65,7 @@ export default function Auctions() {
 	        )}
         
       	</Container>
-
+		<label className="text-light">Sayfa {currentPage} / {totalPages}</label>
 		<Pagination 
 		totalPosts={products.length}
 	    postsPerPage={postsPerPage}

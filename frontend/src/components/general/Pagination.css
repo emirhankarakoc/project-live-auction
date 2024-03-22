@@ -23,5 +23,11 @@
 	font-weight: 900;
 	border-color: #101010;
 	background: #ffc107;
-	color: #101010;
+	color: #343a40;
+}
+.pagination button:focus {
+	font-weight: 900;
+	border-color: #101010;
+	background: #ffc107;
+	color: #343a40;
 }

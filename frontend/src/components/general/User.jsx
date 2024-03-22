@@ -11,7 +11,7 @@ export default function User() {
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle variant="danger" id="dropdown-basic">
+        <Dropdown.Toggle variant="warning" id="dropdown-basic">
           Hesabim
         </Dropdown.Toggle>
 
