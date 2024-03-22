@@ -1,12 +1,18 @@
 package com.karakoc.mezat.user;
 
 
+import com.karakoc.mezat.account.GetUserResponse;
+import com.karakoc.mezat.account.LoginRequest;
+import com.karakoc.mezat.account.LoginResponse;
 import com.karakoc.mezat.exceptions.general.BadRequestException;
 import com.karakoc.mezat.exceptions.general.NotfoundException;
 import com.karakoc.mezat.user.roles.UserRole;
 import lombok.AllArgsConstructor;
 import org.hibernate.sql.Delete;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -87,5 +93,57 @@ public class UserManager implements UserService{
         }
 
     }
+
+    public GetUserResponse getUserFromUsername( String username) throws InterruptedException {
+        User user1 = userRepository.findByUsername(username).orElseThrow(()-> new BadRequestException("Invalid username."));
+
+        GetUserResponse user = new GetUserResponse();
+        user.setUsername(user1.getUsername());
+        user.setFirstname(user1.getFirstname());
+        user.setLastname(user1.getLastname());
+        user.setPhoneNumber(user1.getPhoneNumber());
+        user.setUserRole(user1.getUserRole());
+
+        return user;
+    }
+
+    public UserRole getUserRoleFromToken ( String token){
+        User user1 = userRepository.findUserByToken(token).orElseThrow(()-> new BadRequestException("Invalid token."));
+
+        return user1.getUserRole();
+
+    }
+
+    public UserDTO createAdmin(CreateUserRequest request){
+        validatePhoneNumber(request.getPhoneNumber());
+        validatePasswords(request.getPassword(), request.getRepeatPassword());
+        validateMailAdress(request.getMail());
+
+        if (userRepository.findByUsername(request.getUsername()).isPresent()){
+            throw new BadRequestException("This username already exists.");
+        }
+        if (userRepository.findByMail(request.getMail()).isPresent()){
+            throw new BadRequestException("This mail adress already exists.");
+        }
+        User user = User.createUser(request);
+        user.setUserRole(UserRole.ROLE_ADMIN);
+        userRepository.save(user);
+        return userToDto(user);
+    }
+
+    public LoginResponse login( LoginRequest request){
+        User user = userRepository.findByMail(request.getUsername()).orElseThrow(()-> new BadRequestException("Invalid username or password."));
+        LoginResponse response = new LoginResponse();
+
+        if (user.getPassword().equals(request.getPassword())){
+            response.setUsername(user.getUsername());
+            response.setToken(user.getToken());
+            return response;
+        }else{
+            throw new BadRequestException("Invalid username or password.");
+        }
+
+    }
+
 
 }

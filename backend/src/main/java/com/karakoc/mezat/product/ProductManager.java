@@ -15,6 +15,7 @@ import com.karakoc.mezat.user.roles.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 
@@ -30,7 +31,10 @@ import java.util.UUID;
 
 import static com.karakoc.mezat.product.Product.productDTOS;
 import static com.karakoc.mezat.product.Product.productToDTO;
-import static com.karakoc.mezat.user.User.onlyAdminAndUserIsPresentValidation;
+import static com.karakoc.mezat.user.User.onlyAdminAndUserIsPresentValidation;import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 
 @Service
 @AllArgsConstructor
@@ -84,9 +88,16 @@ public class ProductManager implements ProductService{
         }
     }
 
-    public List<ProductDTO> getAllProducts() {
+    public Page<ProductDTO> getAllProductsPageable(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        List<ProductDTO> productDTOList = productDTOS(productPage.getContent());
+        return new PageImpl<>(productDTOList, pageable, productPage.getTotalElements());
+    }
+    public List<ProductDTO> getAll(){
         return productDTOS(productRepository.findAll());
     }
+
 
 
     public ProductDTO deleteProductById(String id, String adminToken) {

@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/cloudinary")
+//@RestController
+//@RequestMapping("/cloudinary")
 @CrossOrigin(origins = "http://localhost:3000")
 @AllArgsConstructor
 public class CloudinaryController {

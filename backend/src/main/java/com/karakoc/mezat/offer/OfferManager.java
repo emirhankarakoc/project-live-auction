@@ -28,16 +28,17 @@ public class OfferManager implements OfferService {
     private final SocketIOServer socketIOServer;
 
 
+
     public OfferDTO createOffer(CreateOfferRequest request) {
         Auction auction = auctionRepository.findById(request.getAuctionId())
                 .orElseThrow(() -> new NotfoundException("Auction not found"));
 
         User user = userRepository.findUserByToken(request.getUserToken())
-                .orElseThrow(()-> new NotfoundException("User not found."));
+                .orElseThrow(() -> new NotfoundException("User not found."));
 
-        auctionValidationsForNewOffers(auction,request);
+        auctionValidationsForNewOffers(auction, request);
 
-        //validations.
+        // Teklif oluşturma işlemi
         Offer offer = Offer.createOffer(request);
         OfferDTO dto = offerToDTO(offer);
         offerRepository.save(offer);
@@ -45,8 +46,12 @@ public class OfferManager implements OfferService {
         auction.getOffers().add(offer);
         auctionRepository.save(auction);
 
+        // Sokete yeni teklif mesajı gönderme işlemi
+        socketIOServer.getBroadcastOperations().sendEvent("new_offer", dto);
+
         return dto;
     }
+
 
     public List<OfferDTO> getAll(){
         return offersToDTO(offerRepository.findAll());
