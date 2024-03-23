@@ -1,7 +1,5 @@
 package com.karakoc.mezat.auction;
 
-import com.karakoc.mezat.product.CreateProductRequest;
-import com.karakoc.mezat.product.Product;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -9,8 +7,8 @@ import java.time.LocalDateTime;
 public class CreateAuctionRequest {
     private String productId;
     private LocalDateTime startDate;
-
+    private LocalDateTime endDate;
     private double startPrice;
-
+    private String description;
     private String adminToken;
 }

@@ -21,49 +21,53 @@ public class Auction {
     @OneToOne
     @JoinColumn(name = "productId")
     private Product product;;
-    private LocalDateTime startDate;
+    private LocalDateTime endDate;
     private double price;
     @OneToMany
     @JoinColumn(name = "offerId")
     private List<Offer> offers;
 
+    private String description;
 
     @Enumerated
     private EAuctionStatus auctionStatus;
 
 
 
-    public static Auction createAuction(CreateAuctionRequest request){
-        if (request.getStartDate().isBefore(LocalDateTime.now())){
+    public static Auction createAuction(CreateAuctionRequest request) {
+        if (request.getEndDate().isBefore(LocalDateTime.now())) {
             throw new BadRequestException("Auction start date must be in future.");
         }
         Auction auction = new Auction();
-        auction.setAuctionStatus(EAuctionStatus.READY);
+        auction.setAuctionStatus(EAuctionStatus.CREATED);
         auction.setId(UUID.randomUUID().toString());
-        auction.setStartDate(request.getStartDate());
+        auction.setEndDate(request.getEndDate());
+        auction.setDescription(request.getDescription());
         auction.setPrice(request.getStartPrice());
         auction.setOffers(new ArrayList<>());
         return auction;
     }
 
 
-    public static void auctionValidationsForNewOffers(Auction auction, CreateOfferRequest request){
+    public static void auctionValidationsForNewOffers(Auction auction, CreateOfferRequest request) {
         if (auction.getPrice() > request.getPrice()) {
             throw new BadRequestException("New offer must be higher than old price.");
         }
-        if (auction.getStartDate().isBefore(LocalDateTime.now())){
-            throw new BadRequestException("This auction is not active.");
+        if (auction.getEndDate().isBefore(LocalDateTime.now())) {
+            throw new BadRequestException("Sorry, this auction is not active.");
         }
 
     }
 
-    public static AuctionDTO auctionToDTO(Auction auction){
+    public static AuctionDTO auctionToDTO(Auction auction) {
         AuctionDTO dto = new AuctionDTO();
         dto.setId(auction.getId());
         dto.setProduct(auction.getProduct());
         dto.setOffers(auction.getOffers());
-        dto.setStartDate(auction.getStartDate());
+        dto.setDescription(auction.getDescription());
+        dto.setEndDate(auction.getEndDate());
         dto.setStartPrice(auction.getPrice());
+        dto.setAuctionStatus(auction.getAuctionStatus());
         return dto;
     }
 

@@ -1,16 +1,15 @@
 package com.karakoc.mezat.account;
 
-import com.karakoc.mezat.exceptions.general.BadRequestException;
-import com.karakoc.mezat.exceptions.general.NotfoundException;
-import com.karakoc.mezat.user.*;
-import com.karakoc.mezat.user.roles.UserRole;
+import com.karakoc.mezat.user.CreateUserRequest;
+import com.karakoc.mezat.user.UserDTO;
+import com.karakoc.mezat.user.UserRepository;
+import com.karakoc.mezat.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
-
-import java.util.Optional;
-
-import static com.karakoc.mezat.user.User.userToDto;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @AllArgsConstructor
@@ -22,13 +21,24 @@ public class AccountController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request){
-       return userService.login(request);
+    @Operation(summary = "Kullanıcı Girişi", description = "Kullanıcının sisteme giriş yapmasını sağlar.")
+    public LoginResponse login(@RequestBody LoginRequest request) {
+        return userService.login(request);
     }
+
     @PostMapping("/register")
-    public UserDTO register(@RequestBody CreateUserRequest request){
+    @Operation(summary = "Kullanıcı Kaydı", description = "Kullanıcının sisteme kayıt olmasını sağlar.")
+
+    public UserDTO register(@RequestBody CreateUserRequest request) {
         return userService.register(request);
     }
-    
+
+    @PostMapping("/register/admin")
+    @Operation(summary = "Admin user oluştur", description = "")
+
+    public UserDTO createAdmin(CreateUserRequest request) {
+        return userService.createAdmin(request);
+    }
+
 
 }
