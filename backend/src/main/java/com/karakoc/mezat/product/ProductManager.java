@@ -34,6 +34,7 @@ import static com.karakoc.mezat.product.Product.productToDTO;
 import static com.karakoc.mezat.user.User.onlyAdminAndUserIsPresentValidation;import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -45,7 +46,7 @@ public class ProductManager implements ProductService{
     private final CloudinaryService cloudinaryService; // CloudinaryService'e bağlantı
     private final ImageRepository imageRepository;
 
-
+    @Transactional
     public ProductDTO createProduct(CreateProductRequest request) {
         Optional<User> admin = userRepository.findUserByToken(request.getAdminToken());
         onlyAdminAndUserIsPresentValidation(admin);

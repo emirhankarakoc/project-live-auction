@@ -1,21 +1,21 @@
 package com.karakoc.mezat.auction;
 
+import org.springframework.data.domain.Page;
+
 import java.util.List;
 
 public interface AuctionService {
     AuctionDTO createAuction(CreateAuctionRequest request);
 
 
-    List<AuctionDTO> getAll();
+    Page<AuctionDTO> getAll(int page, int size);
 
     AuctionDTO getAuction(String auctionId);
 
-    public List<AuctionDTO> getEndedAuctions(String adminToken);
+    Page<AuctionDTO> getEndedAuctions(String adminToken,int page,int size);
+    Page<AuctionDTO> getCreatedAuctions(String adminToken, int page, int size);
 
-    public List<AuctionDTO> getCreatedAuctions(String adminToken);
-
-    public List<AuctionDTO> getReadyAuctions();
-
+    Page<AuctionDTO> getReadyAuctions(int page,int size);
     AuctionDTO setAuctionStatusToOpen(String auctionId, String adminToken);
 
     AuctionDTO deleteAuctionById(String auctionId, String adminToken);

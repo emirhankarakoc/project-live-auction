@@ -4,6 +4,7 @@ package com.karakoc.mezat.auction;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,29 +34,29 @@ public class AuctionController {
     @GetMapping
     @Operation(summary = "Tüm müzayedeleri getir (Kaldırılacak)", description = "Tüm müzayedeleri getirir.")
 
-    public List<AuctionDTO> getAll() {
-        return service.getAll();
+    public Page<AuctionDTO> getAll(int page, int size) {
+        return service.getAll(page,size);
     }
 
-    @GetMapping("/filter/closed/{adminToken}")
+    @GetMapping("/filter/closed/token/{adminToken}/page/{page}/size{size}")
     @Operation(summary = "Bitmiş müzayedeler", description = "Süresi bitmiş müzayedeleri getirir.")
 
-    public List<AuctionDTO> getEndedAuctions(@PathVariable String adminToken) {
-        return service.getEndedAuctions(adminToken);
+    public Page<AuctionDTO> getEndedAuctions(@PathVariable String adminToken, @PathVariable int page, @PathVariable int size) {
+        return service.getEndedAuctions(adminToken,page,size);
     }
 
-    @GetMapping("/filter/created/{adminToken}")
+    @GetMapping("/filter/created/token/{adminToken}/page/{page}/size/{size}")
     @Operation(summary = "Yayınlanmamış müzayedeler", description = "Daha başlamamış müzayedeleri getirir.")
 
-    public List<AuctionDTO> getCreatedAuctions(@PathVariable String adminToken) {
-        return service.getCreatedAuctions(adminToken);
+    public Page<AuctionDTO> getCreatedAuctions(@PathVariable String adminToken, @PathVariable int page, @PathVariable int size) {
+        return service.getCreatedAuctions(adminToken,page,size);
     }
 
-    @GetMapping("/filter/ready")
+    @GetMapping("/filter/ready/page/{page}/size/{size}")
     @Operation(summary = "Yayındaki müzayedeler", description = "Kullanıcının sisteme giriş yapmasını sağlar.")
 
-    public List<AuctionDTO> getReadyAuctions() {
-        return service.getReadyAuctions();
+    public Page<AuctionDTO> getReadyAuctions(@PathVariable int page, @PathVariable int size) {
+        return service.getReadyAuctions(page,size);
     }
 
     @PutMapping("/filter/ready/auction/{auctionId}/token/{adminToken}")

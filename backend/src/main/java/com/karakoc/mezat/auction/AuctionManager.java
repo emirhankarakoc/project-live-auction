@@ -3,16 +3,22 @@ package com.karakoc.mezat.auction;
 import com.karakoc.mezat.exceptions.general.BadRequestException;
 import com.karakoc.mezat.exceptions.general.NotfoundException;
 import com.karakoc.mezat.product.Product;
+import com.karakoc.mezat.product.ProductDTO;
 import com.karakoc.mezat.product.ProductRepository;
 import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static com.karakoc.mezat.auction.Auction.*;
+import static com.karakoc.mezat.product.Product.productDTOS;
 
 @Service
 @AllArgsConstructor
@@ -45,26 +51,40 @@ public class AuctionManager implements AuctionService{
         return auctionToDTO(auction);
     }
 
-    public List<AuctionDTO> getCreatedAuctions(String adminToken) {
+    public Page<AuctionDTO> getCreatedAuctions(String adminToken,int page, int size) {
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
 
-        List<Auction> auctions = auctionRepository.findAll();
-        return getAllAuctionsByStatus(EAuctionStatus.CREATED, auctions);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Auction> auctionPage = auctionRepository.findAllByAuctionStatus(EAuctionStatus.CREATED,pageable);
+        List<AuctionDTO> auctionDTOList = auctionsToDTO(auctionPage.getContent());
+        return new PageImpl<>(auctionDTOList,pageable,auctionPage.getTotalElements());
     }
 
-    public List<AuctionDTO> getReadyAuctions() {
-        List<Auction> auctions = auctionRepository.findAll();
-        return getAllAuctionsByStatus(EAuctionStatus.READY, auctions);
+    public Page<AuctionDTO> getReadyAuctions(int page,int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Auction> auctionPage = auctionRepository.findAllByAuctionStatus(EAuctionStatus.READY,pageable);
+        List<AuctionDTO> auctionDTOList = auctionsToDTO(auctionPage.getContent());
+        return new PageImpl<>(auctionDTOList,pageable,auctionPage.getTotalElements());
     }
 
-    public List<AuctionDTO> getEndedAuctions(String adminToken) {
+    public Page<AuctionDTO> getEndedAuctions(String adminToken,int page,int size) {
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
-        List<Auction> auctions = auctionRepository.findAll();
-        return getAllAuctionsByStatus(EAuctionStatus.ENDED, auctions);
+//        List<Auction> auctions = auctionRepository.findAll();
+//        return getAllAuctionsByStatus(EAuctionStatus.ENDED, auctions);
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Auction> auctionPage = auctionRepository.findAllByAuctionStatus(EAuctionStatus.ENDED,pageable);
+        List<AuctionDTO> auctionDTOList = auctionsToDTO(auctionPage.getContent());
+        return new PageImpl<>(auctionDTOList,pageable,auctionPage.getTotalElements());
+
+
+
     }
 
-    public List<AuctionDTO> getAll() {
-        return auctionsToDTO(auctionRepository.findAll());
+    public Page<AuctionDTO> getAll(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Auction> auctionPage = auctionRepository.findAll(pageable);
+        List<AuctionDTO> auctionsDTO = auctionsToDTO(auctionPage.getContent());
+        return new PageImpl<>(auctionsDTO,pageable,auctionPage.getTotalElements());
     }
 
     @Transactional
