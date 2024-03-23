@@ -1,7 +1,7 @@
 function Rules() {
   return (
     <div>
-      <h2>Açık Artırma Kuralları</h2>
+      <h2 style={{ color: "white" }}>Açık Artırma Kuralları</h2>
       <table>
         <tr>
           <th>Kural</th>
