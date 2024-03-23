@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 public class AuctionDTO {
     private String id;
-    private ProductDTO productDTO;
+    private ProductDTO product;
     private double startPrice;
     private LocalDateTime endDate;
     private LocalDateTime createddatetime;

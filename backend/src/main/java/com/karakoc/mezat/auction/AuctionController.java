@@ -55,7 +55,7 @@ public class AuctionController {
     @GetMapping("/filter/ready/page/{page}/size/{size}")
     @Operation(summary = "Yayındaki müzayedeler", description = "Kullanıcının sisteme giriş yapmasını sağlar.")
 
-    public Page<AuctionDTO> getReadyAuctions(@PathVariable int page, @PathVariable int size) {
+    public Page<AuctionDTO> getReadyAuctions(@PathVariable int page, @PathVariable int size) throws InterruptedException {
         return service.getReadyAuctions(page,size);
     }
 

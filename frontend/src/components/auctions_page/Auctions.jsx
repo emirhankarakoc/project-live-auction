@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../general/Navbar";
-import AuctionCard from "../general/AuctionCard";
-import {
-  Container,
-  Row,
-  Col,
-  Form,
-  Spinner,
-  Card,
-  Button,
-} from "react-bootstrap";
+import { Container, Row, Col, Spinner, Card, Button } from "react-bootstrap";
 import { http, httpError } from "../../lib/http";
 import { Link } from "react-router-dom";
 
 export default function Auctions() {
   const [auctions, setAuctions] = useState([]);
-  const [message, setMessage] = useState("");
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(10);
 
@@ -28,24 +18,30 @@ export default function Auctions() {
         setAuctions(data.data.content);
       } catch (error) {
         console.log(error);
-        setMessage(httpError(error));
       }
     };
     fetchAuctions();
   }, []);
-  if (!auctions) {
-    return (
-      <div>
-        <p>Ürünler yüklenirken lütfen bekleyin.</p>
-        <Spinner />
-      </div>
-    );
-  }
 
   if (auctions.length === 0) {
     return (
       <div>
-        Gösterilecek herhangi bir ürün yok.
+        <Navbar />
+        <div className="text-light">
+          Ürünler yüklenirken lütfen bekleyiniz
+          <br />
+          <Spinner className="mt-3" size="xl" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!auctions) {
+    return (
+      <div>
+        <Navbar />
+        <div className="text-light"> Gösterilecek herhangi bir ürün yok.</div>
+        <br />
         <Link to={"/"}>
           <Button variant="warning" className="text-decoration-none">
             Ana sayfaya dön

@@ -34,7 +34,7 @@ public class AuctionManager implements AuctionService{
         auction.setProduct(product);
         auctionRepository.save(auction);
         AuctionDTO dto = auctionToDTO(auction);
-        dto.setProductDTO(productToDTO(product));
+        dto.setProduct(productToDTO(product));
         return dto;
     }
 
@@ -59,7 +59,7 @@ public class AuctionManager implements AuctionService{
         return new PageImpl<>(auctionDTOList,pageable,auctionPage.getTotalElements());
     }
 
-    public Page<AuctionDTO> getReadyAuctions(int page,int size) {
+    public Page<AuctionDTO> getReadyAuctions(int page,int size) throws InterruptedException {
         Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").descending());
         Page<Auction> auctionPage = auctionRepository.findAllByAuctionStatus(EAuctionStatus.READY,pageable);
         List<AuctionDTO> auctionDTOList = auctionsToDTO(auctionPage.getContent());

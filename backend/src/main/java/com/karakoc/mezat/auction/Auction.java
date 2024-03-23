@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static com.karakoc.mezat.product.Product.productToDTO;
+
 @Entity
 @Data
 public class Auction {
@@ -65,6 +67,7 @@ public class Auction {
     public static AuctionDTO auctionToDTO(Auction auction) {
         AuctionDTO dto = new AuctionDTO();
         dto.setCreateddatetime(auction.getCreateddatetime());
+        dto.setProduct(productToDTO(auction.getProduct()));
         dto.setId(auction.getId());
         dto.setDescription(auction.getDescription());
         dto.setEndDate(auction.getEndDate());

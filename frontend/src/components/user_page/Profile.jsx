@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../general/Navbar";
-import { Col, Container, Nav, Row, Spinner } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import { http, httpError } from "../../lib/http";
 
 export default function Profile() {

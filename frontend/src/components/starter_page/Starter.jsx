@@ -9,20 +9,14 @@ export default function Starter() {
   return (
     <div>
       <Navbar name="Muzayede Evim" />
-      <Link to="/auctions" className="text-white mx-2 ">
-        Urunler sayfasi
-      </Link>
-
-      <Container className="mt-5">
+      <Container className="">
         <Row>
           <Col className="col-7">
             <div
               className="my-5 text-light text-center"
               style={{ fontSize: "75px" }}
             >
-              Açık artırma projesine
-              <br />
-              Hoş geldiniz
+              Müzayede evine hoşgeldiniz
             </div>
             <Link to="/auctions" className="text-white mx-2 ">
               <Button className="btn btn-warning btn-lg">
