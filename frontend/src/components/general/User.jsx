@@ -12,7 +12,7 @@ export default function User() {
     <div>
       <Dropdown>
         <Dropdown.Toggle variant="warning" id="dropdown-basic">
-          Hesabim
+          Hesabım
         </Dropdown.Toggle>
 
         <Dropdown.Menu>

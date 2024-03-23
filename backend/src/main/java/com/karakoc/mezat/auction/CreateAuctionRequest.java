@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 @Data
 public class CreateAuctionRequest {
     private String productId;
-    private LocalDateTime startDate;
     private LocalDateTime endDate;
     private double startPrice;
     private String description;

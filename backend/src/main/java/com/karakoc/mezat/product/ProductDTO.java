@@ -10,5 +10,4 @@ public class ProductDTO {
     private String id;
     private String photoPath;
     private String productTitle;
-    private double price;
 }

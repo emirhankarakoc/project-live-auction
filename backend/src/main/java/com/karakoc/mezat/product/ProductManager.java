@@ -53,7 +53,6 @@ public class ProductManager implements ProductService{
         Product product = new Product();
         product.setId(UUID.randomUUID().toString());
         product.setProductTitle(request.getProductTitle().toUpperCase());
-        product.setPrice(request.getPrice());
 
         try {
             if (request.getMultipartFile().isEmpty()) {

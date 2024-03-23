@@ -19,9 +19,7 @@ public class Product {
     private String id;
     private String photoPath;
     private String productTitle;
-    private double price;
     private String imageName;
-    private String imageUrl;
     private String imageCloudId;
 
 
@@ -29,7 +27,6 @@ public class Product {
     public static ProductDTO productToDTO(Product product){
         ProductDTO dto = new ProductDTO();
         dto.setId(product.getId());
-        dto.setPrice(product.getPrice());
         dto.setProductTitle(product.getProductTitle());
         dto.setPhotoPath(product.getPhotoPath());
         return dto;

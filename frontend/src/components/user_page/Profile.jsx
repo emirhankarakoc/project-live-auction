@@ -6,15 +6,13 @@ import { http, httpError } from "../../lib/http";
 
 export default function Profile() {
   const { username } = useParams();
-  console.log(username);
   const [responseMessage, setResponseMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState();
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await http.get(`/accounts/${username}`);
+        const response = await http.get(`/users/username/${username}`);
         setUser(response.data);
       } catch (error) {
         setResponseMessage(httpError(error));

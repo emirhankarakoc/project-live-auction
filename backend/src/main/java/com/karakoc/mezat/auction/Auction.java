@@ -20,9 +20,11 @@ public class Auction {
 
     @OneToOne
     @JoinColumn(name = "productId")
-    private Product product;;
+    private Product product;
     private LocalDateTime endDate;
+    private LocalDateTime createddatetime;
     private double price;
+
     @OneToMany
     @JoinColumn(name = "offerId")
     private List<Offer> offers;
@@ -39,6 +41,7 @@ public class Auction {
             throw new BadRequestException("Auction start date must be in future.");
         }
         Auction auction = new Auction();
+        auction.setCreateddatetime(LocalDateTime.now());
         auction.setAuctionStatus(EAuctionStatus.CREATED);
         auction.setId(UUID.randomUUID().toString());
         auction.setEndDate(request.getEndDate());
@@ -61,13 +64,11 @@ public class Auction {
 
     public static AuctionDTO auctionToDTO(Auction auction) {
         AuctionDTO dto = new AuctionDTO();
+        dto.setCreateddatetime(auction.getCreateddatetime());
         dto.setId(auction.getId());
-        dto.setProduct(auction.getProduct());
-        dto.setOffers(auction.getOffers());
         dto.setDescription(auction.getDescription());
         dto.setEndDate(auction.getEndDate());
         dto.setStartPrice(auction.getPrice());
-        dto.setAuctionStatus(auction.getAuctionStatus());
         return dto;
     }
 
@@ -77,13 +78,5 @@ public class Auction {
             auctionDTOS.add(auctionToDTO(auction));
         }
         return auctionDTOS;
-    }
-
-    public  static List<AuctionDTO> getAllAuctionsByStatus(EAuctionStatus status,List<Auction> auctions){
-        List<Auction> statusAuctions = new ArrayList<>();
-        for (Auction auction : auctions){
-            if (auction.getAuctionStatus().equals(status)) statusAuctions.add(auction);
-        }
-        return auctionsToDTO(statusAuctions);
     }
 }
