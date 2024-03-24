@@ -85,8 +85,20 @@ public class UserManager implements UserService{
         Optional<User> user = userRepository.findById(userId);
         UserDTO dto;
         if (user.isPresent()){
-             dto = userToDto(user.get());
-             return dto;
+            dto = userToDto(user.get());
+            return dto;
+        }
+        else {
+            throw new NotfoundException("User not found.");
+        }
+
+    }
+    public UserDTO getUserByToken(String token){
+        Optional<User> user = userRepository.findUserByToken(token);
+        UserDTO dto;
+        if (user.isPresent()){
+            dto = userToDto(user.get());
+            return dto;
         }
         else {
             throw new NotfoundException("User not found.");

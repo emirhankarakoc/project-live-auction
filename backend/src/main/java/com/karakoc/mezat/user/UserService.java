@@ -18,6 +18,7 @@ public interface UserService {
     List<UserDTO> getAllUsers();
     UserDTO deleteUserById(DeleteUserByIdRequest request);
     UserDTO getUserById(String userId);
+    UserDTO getUserByToken(String token);
     GetUserResponse getUserFromUsername(String username);
     UserRole getUserRoleFromToken (String token);
     UserDTO createAdmin(CreateUserRequest request);

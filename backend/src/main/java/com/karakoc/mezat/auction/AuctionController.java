@@ -37,6 +37,10 @@ public class AuctionController {
     public Page<AuctionDTO> getAll(@PathVariable int page,@PathVariable int size) {
         return service.getAll(page,size);
     }
+    @GetMapping("/page/{page}/size/{size}/search/{keyword}")
+   public Page<AuctionDTO> getAllBySearchbox(@PathVariable int page,@PathVariable int size,@PathVariable String keyword){
+        return service.getAllBySearchbox(page,size,keyword);
+    }
 
     @GetMapping("/filter/closed/token/{adminToken}/page/{page}/size{size}")
     @Operation(summary = "Bitmiş müzayedeler", description = "Süresi bitmiş müzayedeleri getirir.")
@@ -64,6 +68,10 @@ public class AuctionController {
 
     public AuctionDTO setAuctionStatusToOpen(@PathVariable String auctionId, @PathVariable String adminToken) {
         return service.setAuctionStatusToOpen(auctionId, adminToken);
+    }
+    @PutMapping("/{auctionId}/{adminToken}/sell")
+    public AuctionDTO closeAuction(@PathVariable String auctionId, @PathVariable  String adminToken){
+        return service.closeAuction(auctionId,adminToken);
     }
 
     @DeleteMapping("/{auctionId}/token/{adminToken}")

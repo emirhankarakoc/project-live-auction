@@ -90,7 +90,7 @@ public class ProductManager implements ProductService{
     }
 
     public Page<ProductDTO> getAllProductsPageable(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());
         Page<Product> productPage = productRepository.findAll(pageable);
         List<ProductDTO> productDTOList = productDTOS(productPage.getContent());
         return new PageImpl<>(productDTOList, pageable, productPage.getTotalElements());

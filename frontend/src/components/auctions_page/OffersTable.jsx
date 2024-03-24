@@ -11,7 +11,6 @@ export default function OffersTable(props) {
       try {
         const response = await http.get(`/offers/auction/${props.id}`);
         setOffers(response.data);
-        console.log(offers);
       } catch (error) {
         console.log(httpError(error));
       }

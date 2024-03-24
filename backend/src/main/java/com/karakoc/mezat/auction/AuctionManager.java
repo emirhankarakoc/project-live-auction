@@ -48,6 +48,15 @@ public class AuctionManager implements AuctionService{
         auctionRepository.save(auction);
         return auctionToDTO(auction);
     }
+    public AuctionDTO closeAuction(String auctionId,String adminToken){
+        User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
+        Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
+        log.info("bi tane auctionu bitirdik. haneye hayirli olsun.");
+        auction.setAuctionStatus(EAuctionStatus.ENDED);
+        auctionRepository.save(auction);
+        return auctionToDTO(auction);
+
+    }
 
     public AuctionDTO getAuction(String auctionId) {
         Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
@@ -56,14 +65,14 @@ public class AuctionManager implements AuctionService{
 
     public Page<AuctionDTO> getCreatedAuctions(String adminToken,int page, int size) {
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());
         Page<Auction> auctionPage = auctionRepository.findAllByAuctionStatus(EAuctionStatus.CREATED,pageable);
         List<AuctionDTO> auctionDTOList = auctionsToDTO(auctionPage.getContent());
         return new PageImpl<>(auctionDTOList,pageable,auctionPage.getTotalElements());
     }
 
     public Page<AuctionDTO> getReadyAuctions(int page,int size) throws InterruptedException {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());
         Page<Auction> auctionPage = auctionRepository.findAllByAuctionStatus(EAuctionStatus.READY,pageable);
         List<AuctionDTO> auctionDTOList = auctionsToDTO(auctionPage.getContent());
         return new PageImpl<>(auctionDTOList,pageable,auctionPage.getTotalElements());
@@ -73,7 +82,7 @@ public class AuctionManager implements AuctionService{
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
 //        List<Auction> auctions = auctionRepository.findAll();
 //        return getAllAuctionsByStatus(EAuctionStatus.ENDED, auctions);
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());
         Page<Auction> auctionPage = auctionRepository.findAllByAuctionStatus(EAuctionStatus.ENDED,pageable);
         List<AuctionDTO> auctionDTOList = auctionsToDTO(auctionPage.getContent());
         return new PageImpl<>(auctionDTOList,pageable,auctionPage.getTotalElements());
@@ -83,8 +92,14 @@ public class AuctionManager implements AuctionService{
     }
 
     public Page<AuctionDTO> getAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());
         Page<Auction> auctionPage = auctionRepository.findAll(pageable);
+        List<AuctionDTO> auctionsDTO = auctionsToDTO(auctionPage.getContent());
+        return new PageImpl<>(auctionsDTO,pageable,auctionPage.getTotalElements());
+    }
+    public Page<AuctionDTO> getAllBySearchbox(int page,int size, String keyword){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());
+        Page<Auction> auctionPage = auctionRepository.findByProductProductTitleContains(pageable,keyword);
         List<AuctionDTO> auctionsDTO = auctionsToDTO(auctionPage.getContent());
         return new PageImpl<>(auctionsDTO,pageable,auctionPage.getTotalElements());
     }

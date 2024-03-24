@@ -44,11 +44,6 @@ export default function Products_manager() {
     <div>
       <Navbar />
       <Container className="text-light">
-        <Row className="d-flex justify-content-center">
-          <div className="border border-danger">
-            <h1>Müzayede Evinin Yönetim Paneli</h1>
-          </div>
-        </Row>
         <Row>
           <Row>
             <h3>Müzayede için Ürün Ekle</h3>
@@ -57,7 +52,7 @@ export default function Products_manager() {
         </Row>
         <Row>
           <Row>
-            <h3>Ürün Listeleme</h3>
+            <h3>Ürün Listesi</h3>
             <p>
               Bunlar ürün, müzayede değil. Ürünlerden müzayede
               oluşturabilirsiniz.

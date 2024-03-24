@@ -29,7 +29,7 @@ export default function ListAuctions(props) {
 
     fetchData();
   }, []);
-
+  console.log(auctions);
   const handleDelete = (auctionId) => {
     setSelectedAuctionId(auctionId);
     setShowModal(true);
@@ -165,6 +165,16 @@ export default function ListAuctions(props) {
                       }}
                     >
                       Tekliflere aç
+                    </Button>
+                  </Row>
+                  <Row>
+                    <Button className="bg-primary my-1">
+                      <Link
+                        to={`/auction/${auction.id}/offers`}
+                        className="text-decoration-none text-light"
+                      >
+                        Teklifleri gör
+                      </Link>
                     </Button>
                   </Row>
                 </div>

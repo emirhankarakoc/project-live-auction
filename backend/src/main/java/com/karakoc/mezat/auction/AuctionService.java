@@ -17,6 +17,8 @@ public interface AuctionService {
 
     Page<AuctionDTO> getReadyAuctions(int page,int size) throws InterruptedException;
     AuctionDTO setAuctionStatusToOpen(String auctionId, String adminToken);
+    AuctionDTO closeAuction(String auctionId,String adminToken);
 
     AuctionDTO deleteAuctionById(String auctionId, String adminToken);
+    Page<AuctionDTO> getAllBySearchbox(int page,int size, String keyword);
 }

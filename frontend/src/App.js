@@ -13,6 +13,8 @@ import Rules from "./components/static_pages/Rules";
 import CreateAuction from "./components/general/CreateAuction";
 import Products_manager from "./components/manager_page/Products_manager";
 import Auctions_manager from "./components/manager_page/Auctions_manager";
+import FilteredAuctions from "./components/auctions_page/FilteredAuctions";
+import ProductOffersList from "./components/general/ProductOffersList";
 
 function App() {
   return (
@@ -21,6 +23,15 @@ function App() {
         <Routes>
           <Route path="/" element={<Starter />} />
           <Route path="/auctions" element={<Auctions />} />
+          <Route
+            path="/auctions/search/:keyword"
+            element={<FilteredAuctions />}
+          />
+          <Route path="/auctions/search/" element={<FilteredAuctions />} />
+          <Route
+            path="/auction/:auctionId/offers/"
+            element={<ProductOffersList />}
+          />
           <Route path="/auction/:id" element={<Auction />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

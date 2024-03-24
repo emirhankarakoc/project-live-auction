@@ -15,5 +15,6 @@ public class AuctionDTO {
     private LocalDateTime endDate;
     private LocalDateTime createddatetime;
     private String description;
+    private EAuctionStatus status;
 
 }

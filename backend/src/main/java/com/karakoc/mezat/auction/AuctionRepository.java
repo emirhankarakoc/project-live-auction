@@ -9,4 +9,6 @@ public interface AuctionRepository extends JpaRepository<Auction,String> {
 
     Page<Auction> findAllByAuctionStatus(EAuctionStatus status, Pageable pageable);
 
+    Page<Auction> findByProductProductTitleContains(Pageable pageable, String key);
+
 }

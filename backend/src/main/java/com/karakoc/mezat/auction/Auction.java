@@ -72,6 +72,7 @@ public class Auction {
         dto.setDescription(auction.getDescription());
         dto.setEndDate(auction.getEndDate());
         dto.setStartPrice(auction.getPrice());
+        dto.setStatus(auction.getAuctionStatus());
         return dto;
     }
 

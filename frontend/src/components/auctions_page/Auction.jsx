@@ -13,8 +13,8 @@ export default function Auction(props) {
   const [newOffer, setNewOffer] = useState(false);
 
   useEffect(() => {
-    const socket = io("ws://ws.backend.kgzkbi.easypanel.host/", {
-      // const socket = io("ws://10.64.67.66:8085", {
+    //const socket = io("ws://ws.backend.kgzkbi.easypanel.host/", {
+    const socket = io("ws://10.64.67.66:8085", {
       path: "/socket.io/",
       transports: ["websocket"],
       upgrade: false,
@@ -40,6 +40,9 @@ export default function Auction(props) {
     };
   }, []);
   const createOffer = async () => {
+    if (!localStorage.getItem("userToken")) {
+      window.location.replace("/login");
+    }
     try {
       const form = new FormData();
       form.append("price", auction.startPrice + 50);
@@ -73,7 +76,7 @@ export default function Auction(props) {
                   {auction.product.productTitle}
                 </h2>
                 <img
-                  style={{ width: "700px" }}
+                  style={{ width: "700px", height: "300px" }}
                   src={auction.product.photoPath}
                 ></img>
                 <h4 className="text-light my-2">
@@ -85,7 +88,6 @@ export default function Auction(props) {
               </Button>
             </Col>
             <Col className="text-white">
-              burada teklifler olcak{" "}
               <OffersTable key={newOffer} id={auction.id} />
             </Col>
           </Row>

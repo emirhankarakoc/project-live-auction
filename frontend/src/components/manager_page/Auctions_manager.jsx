@@ -33,15 +33,10 @@ export default function Auctions_manager() {
     <div>
       <Navbar />
       <Container className="text-light">
-        <Row className="d-flex justify-content-center">
-          <div className="border border-danger">
-            <h1>Müzayede Evinin Yönetim Paneli</h1>
-          </div>
-        </Row>
-
         <Row>
           <Row>
-            <h3>Ürün Listeleme</h3>
+            <h3>Müzayede Listesi</h3>
+            <p>Müzayedeler başlamamış olabilirler. Teklife açmayı unutmayın.</p>
           </Row>
           <Row>
             <ListAuctions />
