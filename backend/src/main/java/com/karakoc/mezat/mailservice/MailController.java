@@ -1,10 +1,9 @@
-package com.karakoc.mezat.config.mailservice;
+package com.karakoc.mezat.mailservice;
 
 import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserRepository;
 import com.karakoc.mezat.user.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

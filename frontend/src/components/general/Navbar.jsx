@@ -13,22 +13,10 @@ export default function Navbar(props) {
       <UpperNavbar />
 
       <Container className="bg-dark">
-        <div>
-          <Row>
-            <Col>
-              <Logo/>
-            </Col>
-            <Col>
-              <div className="mt-4">
-                <AuctionSearcher />
-              </div>
-            </Col>
-            <Col>
-              <div className="mt-4">
-                {!userToken ? <LoginOrRegister /> : <User />}
-              </div>
-            </Col>
-          </Row>
+        <div className="d-flex flex-wrap align-items-center justify-content-between flex-wrap gap-3">
+          <Logo />
+          <AuctionSearcher />
+          {!userToken ? <LoginOrRegister /> : <User />}
         </div>
       </Container>
     </div>

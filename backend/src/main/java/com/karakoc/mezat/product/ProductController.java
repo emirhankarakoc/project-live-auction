@@ -32,12 +32,14 @@ public class ProductController {
         return productService.getProductById(id);
     }
 
-    @GetMapping("/page/{page}/{size}")
+    @GetMapping("/pageable")
     @Operation(summary = "Tüm ürünleri getir (pageable)", description = "")
-
-    public Page<ProductDTO> getAllProductsPageable(@PathVariable int page, @PathVariable int size) {
+    public Page<ProductDTO> getAllProductsPageable(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         return productService.getAllProductsPageable(page, size);
     }
+
 
     @GetMapping()
     @Operation(summary = "Tüm ürünleri getir(kaldırılacak)", description = "")

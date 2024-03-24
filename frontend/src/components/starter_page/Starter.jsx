@@ -11,7 +11,7 @@ export default function Starter() {
       <Navbar name="Muzayede Evim" />
       <Container className="">
         <Row>
-          <Col className="col-7">
+          <Col className="col-md-7">
             <div
               className="my-5 text-light text-center"
               style={{ fontSize: "75px" }}
@@ -24,7 +24,7 @@ export default function Starter() {
               </Button>
             </Link>
           </Col>
-          <Col className="col-5">
+          <Col className="col-md-5 ">
             <Image
               src={start_page}
               style={{ width: "400px", height: "400px" }}

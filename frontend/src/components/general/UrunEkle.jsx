@@ -57,35 +57,37 @@ export default function UrunEkle() {
   }
   return (
     <>
-      <div className="d-flex justify-content-center border border-danger p-2">
-        <div className="d-flex justify-content-center">
-          {isLoad && <Spinner />}
-        </div>
+      <div className="container">
+        <div className="d-flex justify-content-center border border-warning rounded-5  p-3 p-md-3">
+          <div className="d-flex justify-content-center">
+            {isLoad && <Spinner />}
+          </div>
 
-        <div className="col-md-6 col-lg-3">
-          <Form onSubmit={handleSubmit} className="row g-3 ">
-            <input
-              type="file"
-              name="multipartFile"
-              className="form-control"
-              accept="image/*"
-              onChange={onImageChange}
-            />
-            {image && <img src={image} alt="Uploaded" />}
+          <div className="col-md-6 col-lg-3">
+            <Form onSubmit={handleSubmit} className="row g-3 ">
+              <input
+                type="file"
+                name="multipartFile"
+                className="form-control"
+                accept="image/*"
+                onChange={onImageChange}
+              />
+              {image && <img src={image} alt="Uploaded" />}
 
-            <input
-              type="text"
-              name="productTitle"
-              className="form-control"
-              placeholder="Ürün ismi"
-            />
-            <Button variant="danger" type="submit" className="mb-2">
-              Ekle
-            </Button>
-            <div className="d-flex justify-content-center">
-              {message && <div>{message}</div>}
-            </div>
-          </Form>
+              <input
+                type="text"
+                name="productTitle"
+                className="form-control"
+                placeholder="Ürün ismi"
+              />
+              <Button variant="warning" type="submit" className="mb-2">
+                Ekle
+              </Button>
+              <div className="d-flex justify-content-center">
+                {message && <div>{message}</div>}
+              </div>
+            </Form>
+          </div>
         </div>
       </div>
     </>

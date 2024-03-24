@@ -14,7 +14,7 @@ export default function Auction(props) {
 
   useEffect(() => {
     const socket = io("ws://ws.backend.kgzkbi.easypanel.host/", {
-      //  const socket = io("ws://10.64.67.66:8085", {
+      //const socket = io("ws://10.64.67.66:8085", {
       path: "/socket.io/",
       transports: ["websocket"],
       upgrade: false,

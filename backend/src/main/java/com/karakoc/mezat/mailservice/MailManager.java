@@ -1,4 +1,4 @@
-package com.karakoc.mezat.config.mailservice;
+package com.karakoc.mezat.mailservice;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

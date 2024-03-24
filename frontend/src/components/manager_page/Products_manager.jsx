@@ -32,7 +32,7 @@ export default function Products_manager() {
 
     fetchProductCount();
     controlUserIsAdminOrNot();
-  }, [userToken]);
+  }, []);
   if (!role) return <Spinner />;
 
   if (role === "ROLE_USER") {
@@ -43,25 +43,14 @@ export default function Products_manager() {
   return (
     <div>
       <Navbar />
-      <Container className="text-light">
-        <Row>
-          <Row>
-            <h3>Müzayede için Ürün Ekle</h3>
-            <UrunEkle />
-          </Row>
-        </Row>
-        <Row>
-          <Row>
-            <h3>Ürün Listesi</h3>
-            <p>
-              Bunlar ürün, müzayede değil. Ürünlerden müzayede
-              oluşturabilirsiniz.
-            </p>
-          </Row>
-          <Row>
-            <ListProducts productCount={productCount} />
-          </Row>
-        </Row>
+      <Container className="text-light d-flex flex-column gap-1">
+        <h3>Müzayede için Ürün Ekle</h3>
+        <UrunEkle />
+        <h3>Ürün Listesi</h3>
+        <p>
+          Bunlar ürün, müzayede değil. Ürünlerden müzayede oluşturabilirsiniz.
+        </p>
+        <ListProducts productCount={productCount} />
       </Container>
     </div>
   );

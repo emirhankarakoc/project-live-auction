@@ -74,6 +74,7 @@ export default function ListAuctions(props) {
     window.location.replace("/");
     return null;
   }
+
   if (!auctions) {
     return (
       <div>
@@ -85,7 +86,6 @@ export default function ListAuctions(props) {
       </div>
     );
   }
-
   if (auctions.length == 0) {
     return (
       <div>

@@ -1,31 +1,59 @@
 import React, { useState } from "react";
-import { Button, Col, Container, Row, Spinner, Modal } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Row,
+  Spinner,
+  Modal,
+  Dropdown,
+  Pagination,
+} from "react-bootstrap";
 import { http, httpError } from "../../lib/http";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "./Navbar";
 
 export default function ListProducts(props) {
   const userToken = localStorage.getItem("userToken");
 
   const [role, setRole] = useState();
   const [products, setProducts] = useState();
+  const [productsSize, setProdctsSize] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(2);
+
+  const [pageItems, setPageItems] = useState([]);
+
+  useEffect(() => {
+    setPageItems(
+      Array.from({
+        length: Math.ceil(productsSize / size),
+      })
+    );
+  }, [productsSize, size]);
+
+  console.log(pageItems);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await http.get(`/users/token/${userToken}`);
         setRole(data.data);
-        const productsData = await http.get(`/products/page/${0}/${9}`);
+        const productsData = await http.get(
+          `/products/pageable?page=${page}&size=${size}`
+        );
         setProducts(productsData.data.content);
+
+        const res = await http.get(`/products/size`);
+        setProdctsSize(res.data);
       } catch (error) {
         console.log(httpError(error));
       }
     };
 
     fetchData();
-  }, []);
+  }, [page, size, userToken]);
 
   const handleDelete = (productId) => {
     setSelectedProductId(productId);
@@ -36,14 +64,18 @@ export default function ListProducts(props) {
     try {
       // Silme işlemi yapılır
       await http.delete(`/products/${selectedProductId}/token/${userToken}`);
+
       // Yeniden ürünleri getir
-      const productsData = await http.get(`/products/page/${0}/${9}`);
+      const productsData = await http.get(
+        `/products/pageable?page=${0}&size=${9}`
+      );
       setProducts(productsData.data.content);
       setShowModal(false);
     } catch (error) {
       console.log(httpError(error));
     }
   };
+
   if (!role) return <Spinner />;
 
   if (role === "ROLE_USER") {
@@ -62,7 +94,7 @@ export default function ListProducts(props) {
     );
   }
 
-  if (products.length == 0) {
+  if (products.length === 0) {
     return (
       <div>
         <div className="text-light"> Gösterilecek herhangi bir ürün yok.</div>
@@ -75,52 +107,74 @@ export default function ListProducts(props) {
       </div>
     );
   }
+
+  const sizeItems = [1, 3, 9, 27];
+
   return (
     <div className="d-flex justify-content-center">
       <Container>
+        <div className="d-flex justify-content-center gap-3">
+          <Pagination>
+            {pageItems.map((_, index) => {
+              // bu zımbırtıyı kullanmayacağız ama tanımlamız gerekiyor
+              return (
+                <Pagination.Item key={index} onClick={() => setPage(index)}>
+                  {index + 1}
+                </Pagination.Item>
+              );
+            })}
+          </Pagination>
+          <Dropdown>
+            <Dropdown.Toggle id="dropdown-basic" variant="warning">
+              {size.toString()}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {sizeItems.map((val) => {
+                return (
+                  <Dropdown.Item onClick={() => setSize(val)}>
+                    {val.toString()}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
         {products &&
           products.map((product, index) => (
-            <Row key={index} className="border border-warning my-2 p-2">
-              <Col>
-                <div>
-                  <Row>
-                    <Col>
-                      <img
-                        className="d-flex float-left"
-                        src={product.photoPath}
-                        style={{ height: "250px", width: "400px" }}
-                        alt={product.productTitle}
-                      />
-                    </Col>
-                    <Col className="d-flex float-left align-items-center">
-                      <div>
-                        <Row>Ürünün ismi: {product.productTitle}</Row>
-                        <Row>Oluşturulma tarihi: {product.createddatetime}</Row>
-                        <Row>Ekleyen kişi: {product.owner}</Row>
-                      </div>
-                    </Col>
-                  </Row>
+            <Row
+              key={index}
+              className="border rounded-5 border-warning my-2 p-3"
+            >
+              <div className="col-md-4">
+                <img
+                  className="img-fluid"
+                  src={product.photoPath}
+                  style={{ height: "250px", width: "400px" }}
+                  alt={product.productTitle}
+                />
+              </div>
+              <div className="col-md-4">
+                <div className="d-flex justify-content-center flex-column align-items-center h-100">
+                  <div>Ürünün ismi: {product.productTitle}</div>
+                  <div>Oluşturulma tarihi: {product.createddatetime}</div>
+                  <div>Ekleyen kişi: {product.owner}</div>
                 </div>
-              </Col>
-              <Col xl={2}>
-                <div>
-                  <Row>
-                    <Button
-                      className="bg-danger my-1"
-                      onClick={() => handleDelete(product.id)}
-                    >
-                      Sil
+              </div>
+              <div className="col-md-4">
+                <div className="d-flex justify-content-center  align-content-center h-100 flex-column">
+                  <Button
+                    className="bg-danger my-1 w-100"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    Sil
+                  </Button>
+                  <Link to={`/create/${product.id}`}>
+                    <Button className="bg-success my-1 w-100">
+                      Müzayede oluştur
                     </Button>
-                  </Row>
-                  <Row>
-                    <Link to={`/create/${product.id}`}>
-                      <Button className="bg-success my-1">
-                        Müzayede oluştur
-                      </Button>
-                    </Link>
-                  </Row>
+                  </Link>
                 </div>
-              </Col>
+              </div>
             </Row>
           ))}
       </Container>

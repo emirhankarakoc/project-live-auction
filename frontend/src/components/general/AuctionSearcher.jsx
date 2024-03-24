@@ -11,7 +11,7 @@ export default function AuctionSearcher() {
 
   return (
     <div>
-      <InputGroup className="mb-3">
+      <InputGroup>
         <Form.Control
           placeholder="Müzayede arama"
           aria-label="Güncel müzayedelerde ara"
@@ -20,8 +20,12 @@ export default function AuctionSearcher() {
           onChange={handleChange}
         />
         {searchTerm && (
-          <Button variant="outline-light" id="button-addon2">
-            <Link to={`/auctions/search/${searchTerm}`}>Ara</Link>
+          <Button
+            href={`/auctions/search/${searchTerm}`}
+            variant="outline-light"
+            id="button-addon2"
+          >
+            Ara
           </Button>
         )}
       </InputGroup>
