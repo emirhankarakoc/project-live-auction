@@ -31,6 +31,9 @@ export default function Auction(props) {
     socket.on("new_offer", () => {
       console.log("dinliyorum");
     });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
   const createOffer = async () => {
     try {
