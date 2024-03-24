@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { http, httpError } from "../../lib/http";
 
 export default function CreateAuction() {
   const { productId } = useParams();
   const [product, setProduct] = useState();
   const [message, setMessage] = useState("");
+  const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -29,14 +30,22 @@ export default function CreateAuction() {
     data.append("adminToken", localStorage.getItem("userToken"));
     data.append("productId", productId);
     try {
-      const response = await http.post(`/auctions`, data);
+      setIsLoad(true);
 
+      const response = await http.post(`/auctions`, data);
       if (response) {
+        setIsLoad(false);
         setTimeout(() => {
-          setMessage("Ürün eklenmiştir.");
+          window.location.replace("/admin/auctions");
         }, 3000);
+        setMessage(
+          "Müzayede eklenmiştir, yönlendiriliyorsunuz. Lütfen birkaç saniye bekleyin."
+        );
       }
+
       if (!response) {
+        setIsLoad(false);
+
         setMessage("Ürün eklenirken bir problem oluştu.");
       }
     } catch (error) {
@@ -111,7 +120,14 @@ export default function CreateAuction() {
                       <Button variant="danger" type="submit" className="mb-2">
                         Ekle
                       </Button>
-                      <div className="text-light my-3">{message}</div>
+                      <div className="text-light my-3">
+                        {isLoad && (
+                          <div>
+                            <Spinner />
+                          </div>
+                        )}
+                        {message && <div>{message}</div>}
+                      </div>
                     </Form>
                   </div>
                 </Row>

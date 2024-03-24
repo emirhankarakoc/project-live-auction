@@ -58,6 +58,10 @@ export default function Products_manager() {
         <Row>
           <Row>
             <h3>Ürün Listeleme</h3>
+            <p>
+              Bunlar ürün, müzayede değil. Ürünlerden müzayede
+              oluşturabilirsiniz.
+            </p>
           </Row>
           <Row>
             <ListProducts productCount={productCount} />

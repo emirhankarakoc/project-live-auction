@@ -53,7 +53,6 @@ export default function ListProducts(props) {
   if (!products) {
     return (
       <div>
-        <Navbar />
         <div className="text-light">
           Ürünler yüklenirken lütfen bekleyiniz
           <br />
@@ -66,7 +65,6 @@ export default function ListProducts(props) {
   if (products.length == 0) {
     return (
       <div>
-        <Navbar />
         <div className="text-light"> Gösterilecek herhangi bir ürün yok.</div>
         <br />
         <Link to={"/"}>
@@ -115,11 +113,10 @@ export default function ListProducts(props) {
                     </Button>
                   </Row>
                   <Row>
-                    <Button className="bg-warning my-1">Güncelle</Button>
-                  </Row>
-                  <Row>
                     <Link to={`/create/${product.id}`}>
-                      <Button className="bg-success my-1">Yayınla</Button>
+                      <Button className="bg-success my-1">
+                        Müzayede oluştur
+                      </Button>
                     </Link>
                   </Row>
                 </div>

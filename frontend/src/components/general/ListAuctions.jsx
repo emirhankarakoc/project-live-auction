@@ -12,6 +12,8 @@ export default function ListAuctions(props) {
   const [auctions, setAuctions] = useState();
   const [showModal, setShowModal] = useState(false);
   const [selectedAuctionId, setSelectedAuctionId] = useState(null);
+  const [isLoad, setIsLoad] = useState(false);
+  const [responseMessage, setResponseMessage] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,8 +37,14 @@ export default function ListAuctions(props) {
   const setProductAuctionStatusToReady = async (auctionId) => {
     try {
       // YAY
+      setIsLoad(true);
+
       const degistir = await http.put(
         `/auctions/filter/ready/auction/${auctionId}/token/${userToken}`
+      );
+      setIsLoad(false);
+      setResponseMessage(
+        "Müzayede başlatılmıştır, yönlendiriliyorsunuz. Lütfen birkaç saniye bekleyiniz."
       );
       setTimeout(() => {
         window.location.replace("/auctions");
@@ -48,10 +56,12 @@ export default function ListAuctions(props) {
   const confirmDelete = async () => {
     try {
       // Silme işlemi yapılır
+      setIsLoad(true);
       await http.delete(`/auctions/${selectedAuctionId}/token/${userToken}`);
       // Yeniden ürünleri getir
       const auctionsData = await http.get(`/auctions/page/${0}/size/${9}`);
       setAuctions(auctionsData.data.content);
+      setIsLoad(false);
       setShowModal(false);
     } catch (error) {
       console.log(httpError(error));
@@ -67,9 +77,8 @@ export default function ListAuctions(props) {
   if (!auctions) {
     return (
       <div>
-        <Navbar />
         <div className="text-light">
-          Ürünler yüklenirken lütfen bekleyiniz
+          Müzayedeler yüklenirken lütfen bekleyiniz
           <br />
           <Spinner className="mt-3" size="xl" />
         </div>
@@ -80,14 +89,19 @@ export default function ListAuctions(props) {
   if (auctions.length == 0) {
     return (
       <div>
-        <Navbar />
         <div className="text-light my-3 p-2">
           {" "}
-          Gösterilecek herhangi bir ürün yok.
+          Gösterilecek herhangi bir müzayede yok.
         </div>
         <Link to={"/"}>
           <Button variant="warning" className="text-decoration-none">
             Ana sayfaya dön
+          </Button>
+        </Link>
+        veya
+        <Link to={"/admin/products"}>
+          <Button variant="warning" className="text-decoration-none">
+            Ürün ekle
           </Button>
         </Link>
       </div>
@@ -96,6 +110,14 @@ export default function ListAuctions(props) {
   return (
     <div className="d-flex justify-content-center">
       <Container>
+        <Row>
+          {isLoad && (
+            <div>
+              <Spinner />
+            </div>
+          )}
+        </Row>
+        <Row>{responseMessage && <div>{responseMessage}</div>}</Row>
         {auctions &&
           auctions.map((auction, index) => (
             <Row key={index} className="border border-warning my-2 p-2">
@@ -129,7 +151,7 @@ export default function ListAuctions(props) {
                       className="bg-danger my-1"
                       onClick={() => handleDelete(auction.id)}
                     >
-                      Sil
+                      Yayından kaldır
                     </Button>
                   </Row>
                   <Row>
@@ -142,7 +164,7 @@ export default function ListAuctions(props) {
                         setProductAuctionStatusToReady(auction.id);
                       }}
                     >
-                      Yayınla
+                      Tekliflere aç
                     </Button>
                   </Row>
                 </div>
@@ -164,6 +186,11 @@ export default function ListAuctions(props) {
           <Button variant="danger" onClick={confirmDelete}>
             Sil
           </Button>
+          {isLoad && (
+            <div>
+              <Spinner />
+            </div>
+          )}
         </Modal.Footer>
       </Modal>
     </div>

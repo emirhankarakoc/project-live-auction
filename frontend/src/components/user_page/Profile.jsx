@@ -21,7 +21,6 @@ export default function Profile() {
 
     fetchUser();
   }, []);
-
   if (!user) {
     return (
       <div className="text-light">
@@ -79,24 +78,28 @@ export default function Profile() {
             <p>/</p>
             <p>/</p>
           </div>
-          <div className="d-flex my-3 justify-content-center">
-            <Button className=" bg-danger my-2 ">
-              <Link
-                to={"/admin/products"}
-                className="text-light text-decoration-none"
-              >
-                Ürünler sayfasına git
-              </Link>
-            </Button>
-            <Button className=" bg-danger my-2 ">
-              <Link
-                to={"/admin/auctions"}
-                className="text-light text-decoration-none"
-              >
-                Müzayedeler sayfasına git
-              </Link>
-            </Button>
-          </div>
+          {user.userRole === "ROLE_ADMIN" ? (
+            <div className="d-flex my-3 justify-content-center">
+              <Button className=" bg-danger my-2 ">
+                <Link
+                  to={"/admin/products"}
+                  className="text-light text-decoration-none"
+                >
+                  Ürünler sayfasına git
+                </Link>
+              </Button>
+              <Button className=" bg-danger my-2 ">
+                <Link
+                  to={"/admin/auctions"}
+                  className="text-light text-decoration-none"
+                >
+                  Müzayedeler sayfasına git
+                </Link>
+              </Button>
+            </div>
+          ) : (
+            <div></div>
+          )}
         </Container>
       )}
     </div>

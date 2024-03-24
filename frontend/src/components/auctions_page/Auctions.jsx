@@ -60,7 +60,11 @@ export default function Auctions() {
               {auctions.map((auction) => (
                 <Col key={auction.id} xl={4}>
                   <Card style={{ width: "18rem" }} className="my-2">
-                    <Card.Img variant="top" src={auction.product.photoPath} />
+                    <Card.Img
+                      variant="top"
+                      src={auction.product.photoPath}
+                      style={{ height: "300px" }}
+                    />
                     <Card.Body>
                       <Card.Title style={{ fontWeight: "700" }}>
                         {auction.product.productTitle}

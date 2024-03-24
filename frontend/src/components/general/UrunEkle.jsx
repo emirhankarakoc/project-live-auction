@@ -9,6 +9,7 @@ export default function UrunEkle() {
   const [role, setRole] = useState();
   const [image, setImage] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
     const response = async () => {
@@ -29,12 +30,23 @@ export default function UrunEkle() {
     data.append("adminToken", localStorage.getItem("userToken"));
 
     try {
+      setIsLoad(true);
+
       const response = await http.post(`/products`, data);
-      setMessage("Başarılı.");
-      setTimeout(() => {
-        window.location.replace("/admin/auctions");
-      }, 1000);
+      if (response) {
+        setIsLoad(false);
+        setTimeout(() => {
+          window.location.replace("/admin/products");
+        }, 3000);
+        setMessage(
+          "Ürün eklenmiştir, yönlendiriliyorsunuz. Lütfen birkaç saniye bekleyin."
+        );
+      }
     } catch (error) {
+      setIsLoad(false);
+
+      setMessage("Ürün eklenirken bir problem oluştu.");
+
       console.log(httpError(error));
     }
   }
@@ -46,6 +58,10 @@ export default function UrunEkle() {
   return (
     <>
       <div className="d-flex justify-content-center border border-danger p-2">
+        <div className="d-flex justify-content-center">
+          {isLoad && <Spinner />}
+        </div>
+
         <div className="col-md-6 col-lg-3">
           <Form onSubmit={handleSubmit} className="row g-3 ">
             <input
@@ -66,6 +82,9 @@ export default function UrunEkle() {
             <Button variant="danger" type="submit" className="mb-2">
               Ekle
             </Button>
+            <div className="d-flex justify-content-center">
+              {message && <div>{message}</div>}
+            </div>
           </Form>
         </div>
       </div>
