@@ -8,8 +8,11 @@ import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.karakoc.mezat.auction.Auction.auctionValidationsForNewOffers;
 import static com.karakoc.mezat.offer.Offer.offerToDTO;
@@ -24,21 +27,23 @@ public class OfferManager implements OfferService {
     private final SocketIOServer socketIOServer;
 
 
-
-    public OfferDTO createOffer(CreateOfferRequest request) {
-        Auction auction = auctionRepository.findById(request.getAuctionId())
+    @Transactional
+    public OfferDTO createOffer(double price, String auctionId,String userToken) {
+        Auction auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new NotfoundException("Auction not found"));
 
-        User user = userRepository.findUserByToken(request.getUserToken())
+        User user = userRepository.findUserByToken(userToken)
                 .orElseThrow(() -> new NotfoundException("User not found."));
 
-        auctionValidationsForNewOffers(auction, request);
+        auctionValidationsForNewOffers(auction, price);
 
         // Teklif oluşturma işlemi
-        Offer offer = Offer.createOffer(request);
+        Offer offer = Offer.createOffer(price,auctionId,userToken);
+        offer.setFullname(user.getFirstname() + " " +user.getLastname());
+
         OfferDTO dto = offerToDTO(offer);
         offerRepository.save(offer);
-        auction.setPrice(request.getPrice());
+        auction.setPrice(price);
         auction.getOffers().add(offer);
         auction.setEndDate(auction.getEndDate().plusMinutes(10));
         auctionRepository.save(auction);
@@ -53,4 +58,19 @@ public class OfferManager implements OfferService {
     public List<OfferDTO> getAll(){
         return offersToDTO(offerRepository.findAll());
     }
+
+
+    public List<OfferDTO> getOffersByAuctionId(String auctionId) {
+        Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
+        List<OfferDTO> offers = offersToDTO(auction.getOffers());
+
+        // Fiyata göre azalan şekilde sırala
+        List<OfferDTO> sortedOffers = offers.stream()
+                .sorted(Comparator.comparingDouble(OfferDTO::getPrice).reversed()) // Fiyata göre azalan sıralama
+                .collect(Collectors.toList());
+
+        return sortedOffers;
+    }
+
+
 }

@@ -54,8 +54,8 @@ public class Auction {
     }
 
 
-    public static void auctionValidationsForNewOffers(Auction auction, CreateOfferRequest request) {
-        if (auction.getPrice() > request.getPrice()) {
+    public static void auctionValidationsForNewOffers(Auction auction, double price) {
+        if (auction.getPrice() > price) {
             throw new BadRequestException("New offer must be higher than old price.");
         }
         if (auction.getEndDate().isBefore(LocalDateTime.now())) {

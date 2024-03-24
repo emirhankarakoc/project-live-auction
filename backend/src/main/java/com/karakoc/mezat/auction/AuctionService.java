@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface AuctionService {
     AuctionDTO createAuction(CreateAuctionRequest request);
-
+    void deleteAll();
 
     Page<AuctionDTO> getAll(int page, int size);
 

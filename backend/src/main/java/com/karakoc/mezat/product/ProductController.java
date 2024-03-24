@@ -60,4 +60,9 @@ public class ProductController {
         productService.deleteAll();
     }
 
+    @GetMapping("/size")
+    public int getAllProductsCount(){
+        return productService.getAllProductsCount();
+    }
+
 }

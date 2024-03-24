@@ -8,8 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class CreateProductRequest {
     private MultipartFile multipartFile;
     private String productTitle;
-    private double price;
     private String adminToken;
-
 
 }

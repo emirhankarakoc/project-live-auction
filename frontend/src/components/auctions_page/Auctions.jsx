@@ -22,8 +22,7 @@ export default function Auctions() {
     };
     fetchAuctions();
   }, []);
-
-  if (auctions.length === 0) {
+  if (!auctions) {
     return (
       <div>
         <Navbar />
@@ -36,7 +35,7 @@ export default function Auctions() {
     );
   }
 
-  if (!auctions) {
+  if (auctions.length == 0) {
     return (
       <div>
         <Navbar />
@@ -59,8 +58,8 @@ export default function Auctions() {
           <Container>
             <Row>
               {auctions.map((auction) => (
-                <Col key={auction.id}>
-                  <Card style={{ width: "18rem", margin: "50px" }}>
+                <Col key={auction.id} xl={4}>
+                  <Card style={{ width: "18rem" }} className="my-2">
                     <Card.Img variant="top" src={auction.product.photoPath} />
                     <Card.Body>
                       <Card.Title style={{ fontWeight: "700" }}>

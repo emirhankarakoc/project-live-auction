@@ -8,16 +8,16 @@ export default function UrunEkle() {
 
   const [role, setRole] = useState();
   const [image, setImage] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const response = async () => {
-      const data = await http.get(`/accounts/token/${userToken}`);
+      const data = await http.get(`/users/token/${userToken}`);
       setRole(data.data);
     };
 
     response();
   }, []);
-  console.log(role, "a31");
   if (!role) return <Spinner />;
 
   if (role == "ROLE_USER") {
@@ -27,11 +27,15 @@ export default function UrunEkle() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     data.append("adminToken", localStorage.getItem("userToken"));
+
     try {
       const response = await http.post(`/products`, data);
-      alert("urun olusturuldu.");
+      setMessage("Başarılı.");
+      setTimeout(() => {
+        window.location.replace("/admin/auctions");
+      }, 1000);
     } catch (error) {
-      httpError(error);
+      console.log(httpError(error));
     }
   }
   function onImageChange(event) {
@@ -39,17 +43,11 @@ export default function UrunEkle() {
     const imageUrl = URL.createObjectURL(file); // Create URL for the file
     setImage(imageUrl); // Set the image URL state
   }
-
-  console.log(role);
-
   return (
     <>
-      <Navbar />
-
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center border border-danger p-2">
         <div className="col-md-6 col-lg-3">
-          <h2>ADMIN SAYFASI</h2>
-          <Form onSubmit={handleSubmit} className="row g-3">
+          <Form onSubmit={handleSubmit} className="row g-3 ">
             <input
               type="file"
               name="multipartFile"
@@ -57,22 +55,16 @@ export default function UrunEkle() {
               accept="image/*"
               onChange={onImageChange}
             />
-            {image && <img src={image} alt="Uploaded" />}{" "}
-            {/* Display the image */}
-            <input
-              type="text"
-              name="price"
-              className="form-control"
-              placeholder="Fiyat"
-            />
+            {image && <img src={image} alt="Uploaded" />}
+
             <input
               type="text"
               name="productTitle"
-              className="form-control "
+              className="form-control"
               placeholder="Ürün ismi"
             />
-            <Button variant="danger" type="submit">
-              Urun ekle
+            <Button variant="danger" type="submit" className="mb-2">
+              Ekle
             </Button>
           </Form>
         </div>

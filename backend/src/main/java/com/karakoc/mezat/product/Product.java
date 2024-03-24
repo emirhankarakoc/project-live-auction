@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class Product {
     private String productTitle;
     private String imageName;
     private String imageCloudId;
+    private String owner;
+    private LocalDateTime createddatetime;
 
 
 
@@ -29,6 +33,8 @@ public class Product {
         dto.setId(product.getId());
         dto.setProductTitle(product.getProductTitle());
         dto.setPhotoPath(product.getPhotoPath());
+        dto.setCreateddatetime(product.getCreateddatetime());
+        dto.setOwner(product.getOwner());
         return dto;
     }
 

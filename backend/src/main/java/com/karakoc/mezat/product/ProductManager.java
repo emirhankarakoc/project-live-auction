@@ -15,7 +15,7 @@ import com.karakoc.mezat.user.roles.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 
@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,9 +32,8 @@ import java.util.UUID;
 
 import static com.karakoc.mezat.product.Product.productDTOS;
 import static com.karakoc.mezat.product.Product.productToDTO;
-import static com.karakoc.mezat.user.User.onlyAdminAndUserIsPresentValidation;import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import static com.karakoc.mezat.user.User.onlyAdminAndUserIsPresentValidation;
+
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -51,6 +51,8 @@ public class ProductManager implements ProductService{
         Optional<User> admin = userRepository.findUserByToken(request.getAdminToken());
         onlyAdminAndUserIsPresentValidation(admin);
         Product product = new Product();
+        product.setOwner(admin.get().getFirstname() + " " + admin.get().getLastname());
+        product.setCreateddatetime(LocalDateTime.now());
         product.setId(UUID.randomUUID().toString());
         product.setProductTitle(request.getProductTitle().toUpperCase());
 
@@ -88,7 +90,7 @@ public class ProductManager implements ProductService{
     }
 
     public Page<ProductDTO> getAllProductsPageable(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").descending());
         Page<Product> productPage = productRepository.findAll(pageable);
         List<ProductDTO> productDTOList = productDTOS(productPage.getContent());
         return new PageImpl<>(productDTOList, pageable, productPage.getTotalElements());
@@ -114,5 +116,9 @@ public class ProductManager implements ProductService{
     }
     public void deleteAll(){
         productRepository.deleteAll();
+    }
+
+    public int getAllProductsCount(){
+        return productRepository.findAll().size();
     }
 }

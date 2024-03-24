@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Navbar from "../general/Navbar";
-import { Col, Container, Row, Spinner } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import { http, httpError } from "../../lib/http";
 
 export default function Profile() {
@@ -78,6 +78,24 @@ export default function Profile() {
             <p>/</p>
             <p>/</p>
             <p>/</p>
+          </div>
+          <div className="d-flex my-3 justify-content-center">
+            <Button className=" bg-danger my-2 ">
+              <Link
+                to={"/admin/products"}
+                className="text-light text-decoration-none"
+              >
+                Ürünler sayfasına git
+              </Link>
+            </Button>
+            <Button className=" bg-danger my-2 ">
+              <Link
+                to={"/admin/auctions"}
+                className="text-light text-decoration-none"
+              >
+                Müzayedeler sayfasına git
+              </Link>
+            </Button>
           </div>
         </Container>
       )}

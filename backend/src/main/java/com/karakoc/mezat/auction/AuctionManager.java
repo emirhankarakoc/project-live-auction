@@ -8,6 +8,7 @@ import com.karakoc.mezat.product.ProductRepository;
 import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import static com.karakoc.mezat.product.Product.productToDTO;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AuctionManager implements AuctionService{
     private final AuctionRepository auctionRepository;
     private final ProductRepository productRepository;
@@ -41,6 +43,7 @@ public class AuctionManager implements AuctionService{
     public AuctionDTO setAuctionStatusToOpen(String auctionId, String adminToken) {
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
         Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
+       log.info("bi tane auctionu ready yaptik.");
         auction.setAuctionStatus(EAuctionStatus.READY);
         auctionRepository.save(auction);
         return auctionToDTO(auction);
@@ -93,6 +96,9 @@ public class AuctionManager implements AuctionService{
         AuctionDTO dto = auctionToDTO(auction);
         auctionRepository.delete(auction);
         return dto;
+    }
+    public void deleteAll(){
+        auctionRepository.deleteAll();
     }
 
 }

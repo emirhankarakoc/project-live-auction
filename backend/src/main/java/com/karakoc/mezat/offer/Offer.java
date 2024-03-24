@@ -16,18 +16,19 @@ public class Offer {
 
     private String auctionId;
     private double price;
-
+private String fullname;
     private String userToken;
 
 
 
 
-    public static Offer createOffer(CreateOfferRequest request){
+    public static Offer createOffer(double price, String auctionId,String userToken){
         Offer offer = new Offer();
         offer.setId(UUID.randomUUID().toString());
-        offer.setPrice(request.getPrice());
-        offer.setAuctionId(request.getAuctionId());
-        offer.setUserToken(request.getUserToken());
+        offer.setPrice(price);
+        offer.setFullname("");
+        offer.setAuctionId(auctionId);
+        offer.setUserToken(userToken);
         return offer;
     }
     public static OfferDTO offerToDTO(Offer offer){
@@ -35,6 +36,7 @@ public class Offer {
         dto.setId(offer.getId());
         dto.setAuctionId(offer.getAuctionId());
         dto.setPrice(offer.getPrice());
+        dto.setFullname(offer.getFullname());
         dto.setUserToken(offer.getUserToken());
         return dto;
     }

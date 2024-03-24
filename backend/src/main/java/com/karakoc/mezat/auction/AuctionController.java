@@ -20,7 +20,7 @@ public class AuctionController {
     @PostMapping
     @Operation(summary = "Müzayede oluştur.", description = "Müzayede oluşturur.")
 
-    public AuctionDTO createAuction(@RequestBody CreateAuctionRequest request) {
+    public AuctionDTO createAuction(CreateAuctionRequest request) {
         return service.createAuction(request);
     }
 
@@ -31,10 +31,10 @@ public class AuctionController {
         return service.getAuction(auctionId);
     }
 
-    @GetMapping
+    @GetMapping("/page/{page}/size/{size}")
     @Operation(summary = "Tüm müzayedeleri getir (Kaldırılacak)", description = "Tüm müzayedeleri getirir.")
 
-    public Page<AuctionDTO> getAll(int page, int size) {
+    public Page<AuctionDTO> getAll(@PathVariable int page,@PathVariable int size) {
         return service.getAll(page,size);
     }
 
@@ -71,5 +71,10 @@ public class AuctionController {
 
     public AuctionDTO deleteAuctionById(@PathVariable String auctionId, @PathVariable String adminToken) {
         return service.deleteAuctionById(auctionId, adminToken);
+    }
+
+    @DeleteMapping("/all")
+    public void deleteAllAuctions(){
+         service.deleteAll();
     }
 }

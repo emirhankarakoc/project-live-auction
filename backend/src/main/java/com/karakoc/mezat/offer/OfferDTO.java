@@ -9,5 +9,5 @@ public class OfferDTO {
     private double price;
     private String auctionId;
     private String userToken;
-
+    private String fullname;
 }

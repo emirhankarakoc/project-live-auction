@@ -9,8 +9,10 @@ import Login from "./components/general/login/Login";
 import Register from "./components/general/login/Register";
 import Profile from "./components/user_page/Profile";
 import About from "./components/static_pages/About";
-import UrunEkle from "./components/general/UrunEkle";
 import Rules from "./components/static_pages/Rules";
+import CreateAuction from "./components/general/CreateAuction";
+import Products_manager from "./components/manager_page/Products_manager";
+import Auctions_manager from "./components/manager_page/Auctions_manager";
 
 function App() {
   return (
@@ -24,8 +26,11 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/user/:username" element={<Profile />} />
           <Route path="/about" element={<About />} />
-          <Route path="/admin" element={<UrunEkle />} />
+          <Route path="/admin/products" element={<Products_manager />} />
+          <Route path="/admin/auctions" element={<Auctions_manager />} />
+
           <Route path="/rules" element={<Rules />} />
+          <Route path="/create/:productId" element={<CreateAuction />} />
         </Routes>
       </BrowserRouter>
     </div>
