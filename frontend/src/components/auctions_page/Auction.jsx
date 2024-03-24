@@ -4,15 +4,26 @@ import Navbar from "../general/Navbar";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import { http, httpError } from "../../lib/http";
 import OffersTable from "./OffersTable";
-import { io } from "socket.io-client";
+import io from "socket.io-client";
 
 export default function Auction(props) {
   const { id } = useParams();
 
   const [auction, setAuction] = useState(null);
-  const [newOffer, setNewOffer] = useState(null);
+  const [newOffer, setNewOffer] = useState(false);
 
   useEffect(() => {
+    const socket = io("ws://ws.backend.kgzkbi.easypanel.host/", {
+      path: "/socket.io/",
+      transports: ["websocket"],
+      upgrade: false,
+    });
+
+    socket.on("new_offer", () => {
+      console.log("teklif geldi!");
+      setNewOffer(!newOffer);
+    });
+
     const fetchProduct = async () => {
       try {
         const response = await http.get(`/auctions/${id}`);
@@ -22,15 +33,7 @@ export default function Auction(props) {
         console.error(httpError(error));
       }
     };
-
     fetchProduct();
-
-    const socket = io("wss://ws.backend.kgzkbi.easypanel.host", {
-      autoConnect: true,
-    });
-    socket.on("new_offer", () => {
-      console.log("dinliyorum");
-    });
     return () => {
       socket.disconnect();
     };
@@ -43,14 +46,16 @@ export default function Auction(props) {
       form.append("userToken", localStorage.getItem("userToken"));
 
       const data = await http.post("/offers", form);
-      setAuction((prevAuction) => ({
-        ...prevAuction,
-        startPrice: prevAuction.startPrice + 50,
-      }));
+      setNewOffer(!newOffer); // Teklif yapıldığında OffersTable yenilensin
     } catch (error) {
       console.log(httpError(error));
+    } finally {
+      setAuction((prevAuction) => ({
+        ...prevAuction,
+        startPrice: auction.startPrice + 50,
+      }));
     }
-    console.log("yeni teklif geldi.");
+    console.log("yeni teklif gonderdim.");
   };
   if (!auction) return <></>;
   return (
@@ -78,7 +83,8 @@ export default function Auction(props) {
               </Button>
             </Col>
             <Col className="text-white">
-              burada teklifler olcak <OffersTable id={auction.id} />
+              burada teklifler olcak{" "}
+              <OffersTable key={newOffer} id={auction.id} />
             </Col>
           </Row>
 

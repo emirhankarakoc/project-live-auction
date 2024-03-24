@@ -7,6 +7,7 @@ import com.karakoc.mezat.exceptions.general.NotfoundException;
 import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +20,7 @@ import static com.karakoc.mezat.offer.Offer.offerToDTO;
 import static com.karakoc.mezat.offer.Offer.offersToDTO;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class OfferManager implements OfferService {
     private final OfferRepository offerRepository;
@@ -50,6 +52,7 @@ public class OfferManager implements OfferService {
 
         // Sokete yeni teklif mesajı gönderme işlemi
         socketIOServer.getBroadcastOperations().sendEvent("new_offer", "Yeni bir teklif geldi.");
+        log.info("birileri teklif verdi.");
 
         return dto;
     }

@@ -52,7 +52,7 @@ function Register(props) {
     const data = new FormData(e.currentTarget);
 
     try {
-      const response = await http.post("/users", data);
+      const response = await http.post("/accounts/register", data);
 
       setResponseMessage("Kayıt başarılı, giriş yapabilirsiniz.");
       setTimeout(() => {

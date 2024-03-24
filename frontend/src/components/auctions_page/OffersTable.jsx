@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { http, httpError } from "../../lib/http";
 import { Col, Container, Row } from "react-bootstrap";
+import { io } from "socket.io-client";
 
 export default function OffersTable(props) {
   const [offers, setOffers] = useState([]);

@@ -29,7 +29,7 @@ public class AccountController {
     @PostMapping("/register")
     @Operation(summary = "Kullanıcı Kaydı", description = "Kullanıcının sisteme kayıt olmasını sağlar.")
 
-    public UserDTO register(@RequestBody CreateUserRequest request) {
+    public UserDTO register( CreateUserRequest request) {
         return userService.register(request);
     }
 
