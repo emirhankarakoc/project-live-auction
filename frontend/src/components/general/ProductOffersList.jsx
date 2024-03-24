@@ -39,7 +39,7 @@ export default function ProductOffersList() {
 
   const urunuSat = async () => {
     const form = new FormData();
-    const mesaj = `Ürünü ${auction.startPrice} tlye satın aldınız. Lütfen yönetim ekibi ile iletişime geçiniz.`;
+    const mesaj = `${auction.owner} kişisinin sattığı ${auction.product.productTitle} ürününü ${auction.startPrice} tlye satın aldınız. Lütfen yönetim ekibi ile iletişime geçiniz. 6 ${auction.product.photoPath}`;
     form.append("mesaj", mesaj);
     console.log(mesaj);
 

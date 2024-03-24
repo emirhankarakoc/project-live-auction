@@ -22,7 +22,7 @@ public class MailManager implements MailService {
     public String sendMail(String to, String icerik) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-
+        String mesajlar[] = icerik.split("6");
         try {
             helper.setFrom("shopifyemirhan6@gmail.com");
             helper.setTo(to);
@@ -32,8 +32,8 @@ public class MailManager implements MailService {
                     "  <body>\n" +
                     "    <h2>Tebrikler.!</h2>" +
                     "\n" +
-                    "    <h5>"+icerik+"</h5>\n" +
-                    "  </body>\n" +
+                    "    <h5>"+mesajlar[0]+"</h5>\n" +
+                    "<img src=\""+mesajlar[1]+"\"/>  </body>\n" +
                     "</html>";
             helper.setText(htmlContent, true); // true: HTML içerik olduğunu belirtir
             mailSender.send(mimeMessage);
