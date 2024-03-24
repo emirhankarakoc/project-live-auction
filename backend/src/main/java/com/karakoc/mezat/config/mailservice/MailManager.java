@@ -30,8 +30,8 @@ public class MailManager implements MailService {
             String htmlContent = "<html>\n" +
                     "  <style></style>\n" +
                     "  <body>\n" +
-                    "    <h2>Tebrikler.!</h2>\n" +
-                    "    <br />\n" +
+                    "    <h2>Tebrikler.!</h2>" +
+                    "\n" +
                     "    <h5>"+icerik+"</h5>\n" +
                     "  </body>\n" +
                     "</html>";
