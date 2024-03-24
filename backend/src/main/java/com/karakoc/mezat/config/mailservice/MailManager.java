@@ -31,8 +31,8 @@ public class MailManager implements MailService {
                     "  <style></style>\n" +
                     "  <body>\n" +
                     "    <h2>Tebrikler.!</h2>\n" +
-                    "    <br /><br />\n" +
-                    "    <div><h5>"+icerik+"</h5></div>\n" +
+                    "    <br />\n" +
+                    "    <h5>"+icerik+"</h5>\n" +
                     "  </body>\n" +
                     "</html>";
             helper.setText(htmlContent, true); // true: HTML içerik olduğunu belirtir
