@@ -69,6 +69,7 @@ export default function ProductOffersList() {
   if (isLoad) {
     return (
       <div className="text-light">
+        <Navbar />
         <p>İşlem tamamlanırken lütfen bekleyiniz.</p>
         <Spinner />
       </div>
@@ -99,7 +100,7 @@ export default function ProductOffersList() {
               >
                 {auction.startPrice} TL'YE {offers[0].fullname} KİŞİSİNE SAT
               </Button>
-              {mesaj}
+              <div className="my-2">{mesaj}</div>
               <div>
                 <h5 className="d-flex float-left">Offers List</h5>
                 {offers.map((offer) => (
