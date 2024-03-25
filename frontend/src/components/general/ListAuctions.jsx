@@ -134,6 +134,7 @@ export default function ListAuctions(props) {
                     </Col>
                     <Col className="d-flex float-left align-items-center">
                       <div>
+                        <Row>Durumu: {auction.status}</Row>
                         <Row>Ürünün ismi: {auction.product.productTitle}</Row>
                         <Row>Ekleyen kişi: {auction.product.owner}</Row>
                         <Row>Başlangıç fiyatı: {auction.startPrice}</Row>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Row, Spinner } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Navbar from "../Navbar";
@@ -8,14 +8,16 @@ import { http, httpError } from "../../../lib/http";
 
 function Login(props) {
   const [responseMessage, setResponseMessage] = useState("");
+  const [isLoad, setIsLoad] = useState();
   console.log("component re-rendered");
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const data = Object.fromEntries(formData.entries());
     try {
+      setIsLoad(true);
       const response = await http.post(`/accounts/login`, data);
-
+      setIsLoad(false);
       setResponseMessage(`Giriş başarılı , yönlendiriliyorsunuz.`);
       setTimeout(() => {
         localStorage.setItem("userToken", response.data.token);
@@ -31,6 +33,11 @@ function Login(props) {
     <div>
       <Navbar />
       <Container>
+        {isLoad && (
+          <div>
+            <Spinner />
+          </div>
+        )}
         <Row className="justify-content-md-center">
           <Col md={6}>
             <h1 className="text-light text-center mb-4">Giriş Yap</h1>
