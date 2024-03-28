@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/accounts")
 public class AccountController {
 
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @PostMapping("/login")

@@ -14,7 +14,7 @@ export default function Starter() {
           <Col className="col-md-7">
             <div
               className="my-5 text-light text-center"
-              style={{ fontSize: "75px" }}
+              style={{ fontSize: "45px" }}
             >
               Müzayede evine hoşgeldiniz
             </div>

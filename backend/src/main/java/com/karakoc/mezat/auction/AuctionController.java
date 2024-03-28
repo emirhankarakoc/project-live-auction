@@ -15,13 +15,18 @@ import java.util.List;
 @AllArgsConstructor
 public class AuctionController {
     private final AuctionService service;
+    private final AuctionRepository repository;
+
 
 
     @PostMapping
     @Operation(summary = "Müzayede oluştur.", description = "Müzayede oluşturur.")
-
     public AuctionDTO createAuction(CreateAuctionRequest request) {
         return service.createAuction(request);
+    }
+    @GetMapping("/size")
+    public int getAuctionsSize(){
+        return repository.findAll().size();
     }
 
     @GetMapping("/{auctionId}")
@@ -30,6 +35,7 @@ public class AuctionController {
     public AuctionDTO getAuction(@PathVariable String auctionId) {
         return service.getAuction(auctionId);
     }
+
 
     @GetMapping("/page/{page}/size/{size}")
     @Operation(summary = "Tüm müzayedeleri getir (Kaldırılacak)", description = "Tüm müzayedeleri getirir.")

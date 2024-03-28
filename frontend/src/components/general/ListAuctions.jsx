@@ -139,7 +139,9 @@ export default function ListAuctions(props) {
                         <Row>Ekleyen kişi: {auction.product.owner}</Row>
                         <Row>Başlangıç fiyatı: {auction.startPrice}</Row>
                         <Row>Bitiş tarihi: {auction.endDate}</Row>
-                        <Row>Açıklama: {auction.description}</Row>
+                        <Row className="d-flex float-start ">
+                          Açıklama: {auction.description}
+                        </Row>
                       </div>
                     </Col>
                   </Row>

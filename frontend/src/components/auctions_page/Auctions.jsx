@@ -58,7 +58,7 @@ export default function Auctions() {
           <Container>
             <Row>
               {auctions.map((auction) => (
-                <Col key={auction.id} xl={4}>
+                <Col key={auction.id} xl={4} sm={4}>
                   <Card style={{ width: "18rem" }} className="my-2">
                     <Card.Img
                       variant="top"

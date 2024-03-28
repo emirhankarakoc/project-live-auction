@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../general/Navbar";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import { http, httpError } from "../../lib/http";
 import OffersTable from "./OffersTable";
 import io from "socket.io-client";
@@ -11,10 +11,11 @@ export default function Auction(props) {
 
   const [auction, setAuction] = useState(null);
   const [newOffer, setNewOffer] = useState(false);
+  const [isLoad, setIsLoad] = useState(false);
 
   useEffect(() => {
-    const socket = io("ws://ws.backend.kgzkbi.easypanel.host/", {
-      //const socket = io("ws://10.64.67.66:8085", {
+    //const socket = io("ws://ws.backend.kgzkbi.easypanel.host/", {
+    const socket = io("ws://10.64.67.66:8085", {
       path: "/socket.io/",
       transports: ["websocket"],
       upgrade: false,
@@ -27,11 +28,12 @@ export default function Auction(props) {
 
     const fetchProduct = async () => {
       try {
+        setIsLoad(true);
         const response = await http.get(`/auctions/${id}`);
-        console.log(response.data);
+        setIsLoad(false);
         setAuction(response.data);
       } catch (error) {
-        console.error(httpError(error));
+        console.log(httpError(error));
       }
     };
     fetchProduct();
@@ -55,14 +57,20 @@ export default function Auction(props) {
       console.log(httpError(error));
       window.location.replace(`/auction/${auction.id}`);
     } finally {
-      setAuction((prevAuction) => ({
-        ...prevAuction,
-        startPrice: auction.startPrice + 50,
-      }));
+      setAuction({ startPrice: auction.startPrice + 50 });
     }
     console.log("yeni teklif gonderdim.");
   };
-  if (!auction) return <></>;
+  if (isLoad)
+    return (
+      <>
+        <div>Yüklenirken lütfen bekleyiniz.</div>
+        <Spinner size="xl" color="white" />
+      </>
+    );
+  if (!auction) {
+    return <div>Gösterilecek bir müzayede yok.</div>;
+  }
   return (
     <div className="bg-dark">
       <Navbar />

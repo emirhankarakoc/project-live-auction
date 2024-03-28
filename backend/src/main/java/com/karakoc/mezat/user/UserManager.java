@@ -27,19 +27,7 @@ public class UserManager implements UserService{
     private final UserRepository userRepository;
 
     public UserDTO register(CreateUserRequest request) {
-        if (userRepository.findAll().size()==0){
-            User user = new User();
-            user.setId(UUID.randomUUID().toString());
-            user.setUserRole(UserRole.ROLE_ADMIN);
-            user.setToken(UUID.randomUUID().toString());
-            User user1 = new User();
-            user1.setId(UUID.randomUUID().toString());
-            user1.setToken("1");
-            user1.setUserRole(UserRole.ROLE_ADMIN);
-            userRepository.save(user);
-            userRepository.save(user1);
 
-        }
         validatePhoneNumber(request.getPhoneNumber());
         validatePasswords(request.getPassword(), request.getRepeatPassword());
         validateMailAdress(request.getMail());
