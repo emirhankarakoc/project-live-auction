@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const HOSTLINK = "https://backend.kgzkbi.easypanel.host";
-const LOCALHOST = "http://localhost:8080";
-export const APIURL = HOSTLINK;
+const LOCALHOST = "http://192.168.131.212:8080";
+export const APIURL = LOCALHOST;
 
 export const http = axios.create({
   baseURL: APIURL,

@@ -14,8 +14,7 @@ export default function Auction() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const socket = io("ws://ws.backend.kgzkbi.easypanel.host/", {
-      //const socket = io("ws://10.64.67.66:8085", {
+    const socket = io("ws://192.168.131.212:8085", {
       path: "/socket.io/",
       transports: ["websocket"],
       upgrade: false,
@@ -24,6 +23,7 @@ export default function Auction() {
     socket.on("new_offer", () => {
       console.log("Yeni teklif geldi!");
       setNewOffer((prevState) => !prevState);
+      fetchAuction(); // Yeni teklif geldiğinde müzayede verilerini güncelle
     });
 
     const fetchAuction = async () => {
@@ -43,7 +43,7 @@ export default function Auction() {
     return () => {
       socket.off("new_offer");
     };
-  }, [id]);
+  }, [auction]);
 
   const createOffer = async () => {
     if (!localStorage.getItem("userToken")) {

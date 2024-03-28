@@ -39,7 +39,7 @@ function Login(props) {
       <div className="container">
         {isLoad && (
           <div>
-            <Spinner />
+            <Spinner color="white" />
           </div>
         )}
         <div className="row justify-content-md-center">
