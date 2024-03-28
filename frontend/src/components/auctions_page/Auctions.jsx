@@ -1,27 +1,59 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../general/Navbar";
-import { Container, Row, Col, Spinner, Card, Button } from "react-bootstrap";
-import { http, httpError } from "../../lib/http";
+import {
+  Container,
+  Row,
+  Col,
+  Spinner,
+  Card,
+  Button,
+  Pagination,
+  Dropdown,
+} from "react-bootstrap";
+import { http } from "../../lib/http";
 import { Link } from "react-router-dom";
 
 export default function Auctions() {
   const [auctions, setAuctions] = useState([]);
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(10);
+  const [size, setSize] = useState(2);
+  const [pageItems, setPageItems] = useState([]);
+  const [isLoad, setIsLoad] = useState(false);
+  const [auctionsSize, setAuctionsSize] = useState(0);
+
+  useEffect(() => {
+    setPageItems(
+      Array.from({
+        length: Math.ceil(auctionsSize / size),
+      })
+    );
+  }, [auctionsSize, size]);
 
   useEffect(() => {
     const fetchAuctions = async () => {
       try {
+        setIsLoad(true);
         const data = await http.get(
-          `/auctions/filter/ready/page/${page}/size/${size}`
+          `/auctions/filter/ready/pageable?page=${page}&size=${size}`
         );
         setAuctions(data.data.content);
+        const res = await http.get(`/auctions/filter/ready/size`);
+        setAuctionsSize(res.data);
+        setIsLoad(false);
       } catch (error) {
         console.log(error);
       }
     };
     fetchAuctions();
-  }, []);
+  }, [page, size]);
+  if (isLoad) {
+    return (
+      <div>
+        <Navbar />
+        <Spinner />
+      </div>
+    );
+  }
   if (!auctions) {
     return (
       <div>
@@ -49,11 +81,43 @@ export default function Auctions() {
       </div>
     );
   }
+  const sizeItems = [1, 3, 9, 27];
 
   return (
     <div>
       <Navbar />
       <div>
+        <div className="d-flex justify-content-center gap-3">
+          <Pagination>
+            {pageItems.map((_, index) => {
+              // bu zımbırtıyı kullanmayacağız ama tanımlamız gerekiyor
+              return (
+                <Pagination.Item key={index} onClick={() => setPage(index)}>
+                  {index + 1}
+                </Pagination.Item>
+              );
+            })}
+          </Pagination>
+          <Dropdown>
+            <Dropdown.Toggle id="dropdown-basic" variant="warning">
+              {size.toString()}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {sizeItems.map((val) => {
+                return (
+                  <Dropdown.Item
+                    onClick={() => {
+                      setSize(val);
+                      setPage(0);
+                    }}
+                  >
+                    {val.toString()}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
         {auctions && (
           <Container>
             <Row>

@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, Col, Container, Row, Spinner, Modal } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Row,
+  Spinner,
+  Modal,
+  Pagination,
+  Dropdown,
+} from "react-bootstrap";
 import { http, httpError } from "../../lib/http";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -10,25 +19,47 @@ export default function ListAuctions(props) {
 
   const [role, setRole] = useState();
   const [auctions, setAuctions] = useState();
+  const [auctionsSize, setAuctionsSize] = useState(0);
+
   const [showModal, setShowModal] = useState(false);
   const [selectedAuctionId, setSelectedAuctionId] = useState(null);
   const [isLoad, setIsLoad] = useState(false);
   const [responseMessage, setResponseMessage] = useState();
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(2);
+  const [pageItems, setPageItems] = useState([]);
+
+  useEffect(() => {
+    setPageItems(
+      Array.from({
+        length: Math.ceil(auctionsSize / size),
+      })
+    );
+  }, [auctionsSize, size]);
+
+  console.log(pageItems);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoad(true);
         const data = await http.get(`/users/token/${userToken}`);
         setRole(data.data);
-        const auctionsData = await http.get(`/auctions/page/${0}/size/${9}`);
+        const auctionsData = await http.get(
+          `/auctions/pageable?page=${page}&size=${size}`
+        );
         setAuctions(auctionsData.data.content);
+
+        const productsSize = await http.get(`/auctions/size`);
+        setAuctionsSize(productsSize.data);
+        setIsLoad(false);
       } catch (error) {
         console.log(httpError(error));
       }
     };
 
     fetchData();
-  }, []);
+  }, [page, size, userToken]);
   console.log(auctions);
   const handleDelete = (auctionId) => {
     setSelectedAuctionId(auctionId);
@@ -86,11 +117,10 @@ export default function ListAuctions(props) {
       </div>
     );
   }
-  if (auctions.length == 0) {
+  if (auctions.length === 0) {
     return (
       <div>
         <div className="text-light my-3 p-2">
-          {" "}
           Gösterilecek herhangi bir müzayede yok.
         </div>
         <Link to={"/"}>
@@ -107,6 +137,8 @@ export default function ListAuctions(props) {
       </div>
     );
   }
+  const sizeItems = [1, 3, 9, 27];
+
   return (
     <div className="d-flex justify-content-center">
       <Container>
@@ -117,10 +149,43 @@ export default function ListAuctions(props) {
             </div>
           )}
         </Row>
-        <Row>{responseMessage && <div>{responseMessage}</div>}</Row>
+        <div className="d-flex justify-content-center gap-3">
+          <Pagination>
+            {pageItems.map((_, index) => {
+              // bu zımbırtıyı kullanmayacağız ama tanımlamız gerekiyor
+              return (
+                <Pagination.Item key={index} onClick={() => setPage(index)}>
+                  {index + 1}
+                </Pagination.Item>
+              );
+            })}
+          </Pagination>
+          <Dropdown>
+            <Dropdown.Toggle id="dropdown-basic" variant="warning">
+              {size.toString()}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {sizeItems.map((val) => {
+                return (
+                  <Dropdown.Item
+                    onClick={() => {
+                      setSize(val);
+                      setPage(0);
+                    }}
+                  >
+                    {val.toString()}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+        <div className="row">
+          {responseMessage && <div>{responseMessage}</div>}
+        </div>
         {auctions &&
           auctions.map((auction, index) => (
-            <Row key={index} className="border border-warning my-2 p-2">
+            <div key={index} className="row border border-warning my-2 p-2">
               <Col>
                 <div>
                   <Row>
@@ -139,8 +204,9 @@ export default function ListAuctions(props) {
                         <Row>Ekleyen kişi: {auction.product.owner}</Row>
                         <Row>Başlangıç fiyatı: {auction.startPrice}</Row>
                         <Row>Bitiş tarihi: {auction.endDate}</Row>
-                        <Row className="d-flex float-start ">
-                          Açıklama: {auction.description}
+                        Açıklama:
+                        <Row style={{ maxWidth: "300px", overflowY: "auto" }}>
+                          {auction.description}
                         </Row>
                       </div>
                     </Col>
@@ -182,7 +248,7 @@ export default function ListAuctions(props) {
                   </Row>
                 </div>
               </Col>
-            </Row>
+            </div>
           ))}
       </Container>
 

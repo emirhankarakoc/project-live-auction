@@ -28,6 +28,11 @@ public class AuctionController {
     public int getAuctionsSize(){
         return repository.findAll().size();
     }
+    @GetMapping("/filter/ready/size")
+    public int getReadyAuctionsSize() throws InterruptedException {
+
+        return repository.countAllByAuctionStatus(EAuctionStatus.READY);
+    }
 
     @GetMapping("/{auctionId}")
     @Operation(summary = "ID'ye göre müzayede getir", description = "Verilen ID'ye sahip olan müzayedeyi bulur getirir. Yoksa hata döndürür.")
@@ -37,10 +42,11 @@ public class AuctionController {
     }
 
 
-    @GetMapping("/page/{page}/size/{size}")
+    @GetMapping("/pageable")
     @Operation(summary = "Tüm müzayedeleri getir (Kaldırılacak)", description = "Tüm müzayedeleri getirir.")
-
-    public Page<AuctionDTO> getAll(@PathVariable int page,@PathVariable int size) {
+    public Page<AuctionDTO> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
         return service.getAll(page,size);
     }
     @GetMapping("/page/{page}/size/{size}/search/{keyword}")
@@ -62,10 +68,12 @@ public class AuctionController {
         return service.getCreatedAuctions(adminToken,page,size);
     }
 
-    @GetMapping("/filter/ready/page/{page}/size/{size}")
+    @GetMapping("/filter/ready/pageable")
     @Operation(summary = "Yayındaki müzayedeler", description = "Kullanıcının sisteme giriş yapmasını sağlar.")
 
-    public Page<AuctionDTO> getReadyAuctions(@PathVariable int page, @PathVariable int size) throws InterruptedException {
+    public Page<AuctionDTO> getReadyAuctions(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) throws InterruptedException {
         return service.getReadyAuctions(page,size);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface AuctionRepository extends JpaRepository<Auction,String> {
 
     Page<Auction> findAllByAuctionStatus(EAuctionStatus status, Pageable pageable);
+    int countAllByAuctionStatus(EAuctionStatus status);
 
     Page<Auction> findByProductProductTitleContains(Pageable pageable, String key);
 

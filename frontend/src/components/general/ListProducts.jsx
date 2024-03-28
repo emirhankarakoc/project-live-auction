@@ -17,13 +17,13 @@ export default function ListProducts(props) {
 
   const [role, setRole] = useState();
   const [products, setProducts] = useState();
-  const [productsSize, setProdctsSize] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(2);
-
   const [pageItems, setPageItems] = useState([]);
+  const [isLoad, setIsLoad] = useState(false);
+  const [productsSize, setProdctsSize] = useState(0);
 
   useEffect(() => {
     setPageItems(
@@ -38,15 +38,16 @@ export default function ListProducts(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoad(true);
         const data = await http.get(`/users/token/${userToken}`);
         setRole(data.data);
         const productsData = await http.get(
           `/products/pageable?page=${page}&size=${size}`
         );
         setProducts(productsData.data.content);
-
         const res = await http.get(`/products/size`);
         setProdctsSize(res.data);
+        setIsLoad(false);
       } catch (error) {
         console.log(httpError(error));
       }
@@ -62,6 +63,7 @@ export default function ListProducts(props) {
 
   const confirmDelete = async () => {
     try {
+      setIsLoad(true);
       // Silme işlemi yapılır
       await http.delete(`/products/${selectedProductId}/token/${userToken}`);
 
@@ -70,6 +72,8 @@ export default function ListProducts(props) {
         `/products/pageable?page=${0}&size=${9}`
       );
       setProducts(productsData.data.content);
+      setIsLoad(false);
+
       setShowModal(false);
     } catch (error) {
       console.log(httpError(error));
@@ -113,6 +117,13 @@ export default function ListProducts(props) {
   return (
     <div className="d-flex justify-content-center">
       <Container>
+        <Row>
+          {isLoad && (
+            <div>
+              <Spinner />
+            </div>
+          )}
+        </Row>
         <div className="d-flex justify-content-center gap-3">
           <Pagination>
             {pageItems.map((_, index) => {
@@ -131,7 +142,12 @@ export default function ListProducts(props) {
             <Dropdown.Menu>
               {sizeItems.map((val) => {
                 return (
-                  <Dropdown.Item onClick={() => setSize(val)}>
+                  <Dropdown.Item
+                    onClick={() => {
+                      setSize(val);
+                      setPage(0);
+                    }}
+                  >
                     {val.toString()}
                   </Dropdown.Item>
                 );
