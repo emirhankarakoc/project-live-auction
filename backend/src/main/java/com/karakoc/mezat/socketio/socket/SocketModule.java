@@ -27,12 +27,12 @@ public class SocketModule
 
     private ConnectListener onConnected(){
         return client -> {
-           // log.info("Socket ID Connected: " + client.getSessionId().toString());
+           log.info("Socket ID Connected: " + client.getSessionId().toString());
         };
     }
     private DisconnectListener onDisconnected(){
         return client -> {
-            //log.info("Socket ID Disconnected: " + client.getSessionId().toString());
+            log.info("Socket ID Disconnected: " + client.getSessionId().toString());
         };
     }
 

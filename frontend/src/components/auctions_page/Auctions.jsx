@@ -46,14 +46,7 @@ export default function Auctions() {
     };
     fetchAuctions();
   }, [page, size]);
-  if (isLoad) {
-    return (
-      <div>
-        <Navbar />
-        <Spinner />
-      </div>
-    );
-  }
+
   if (!auctions) {
     return (
       <div>

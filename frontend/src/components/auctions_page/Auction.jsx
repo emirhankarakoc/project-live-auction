@@ -14,8 +14,9 @@ export default function Auction() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    //console.log("başlaring");
     const socket = io("ws://ws.backend.kgzkbi.easypanel.host/", {
-      // const socket = io("ws://192.168.131.212:8085", {
+      //const socket = io("ws://10.64.67.66:8085", {
       path: "/socket.io/",
       transports: ["websocket"],
       upgrade: false,
@@ -42,9 +43,11 @@ export default function Auction() {
 
     // Cleanup
     return () => {
+      // console.log("dismount edildi.");
       socket.off("new_offer");
+      socket.disconnect();
     };
-  }, [auction]);
+  }, []);
 
   const createOffer = async () => {
     if (!localStorage.getItem("userToken")) {
