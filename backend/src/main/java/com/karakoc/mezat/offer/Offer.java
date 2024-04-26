@@ -16,7 +16,7 @@ public class Offer {
 
     private String auctionId;
     private double price;
-private String fullname;
+    private String fullname;
     private String userToken;
 
 
