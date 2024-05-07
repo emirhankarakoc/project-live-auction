@@ -38,8 +38,9 @@ function Rules() {
               <tr>
                 <td>4.</td>
                 <td>
-                  Artırma Miktarı: Artırma miktarı, her teklifin en az ne kadar
-                  artırılacağını belirler.
+                  Artırma Miktarı: Artırma miktarı, her teklifin üzerine en az
+                  50 TL olacak şekilde ayarlanmıştır. Fazlası için birden fazla
+                  kez teklif verebilirsiniz.
                 </td>
               </tr>
               <tr>

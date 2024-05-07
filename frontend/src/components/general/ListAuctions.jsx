@@ -223,9 +223,7 @@ export default function ListAuctions(props) {
                       Yayından kaldır
                     </Button>
                   </Row>
-                  <Row>
-                    <Button className="bg-warning my-1">Güncelle</Button>
-                  </Row>
+
                   <Row>
                     <Button
                       className="bg-success my-1"

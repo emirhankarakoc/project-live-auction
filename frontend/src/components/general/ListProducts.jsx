@@ -174,6 +174,7 @@ export default function ListProducts(props) {
                   <div>Ürünün ismi: {product.productTitle}</div>
                   <div>Oluşturulma tarihi: {product.createddatetime}</div>
                   <div>Ekleyen kişi: {product.owner}</div>
+                  <div>Durumu: {product.productStatus}</div>
                 </div>
               </div>
               <div className="col-md-4">
@@ -186,7 +187,9 @@ export default function ListProducts(props) {
                   </Button>
                   <Link to={`/create/${product.id}`}>
                     <Button className="bg-success my-1 w-100">
-                      Müzayede oluştur
+                      {product.productStatus === "YAYINDA"
+                        ? alert("Zaten yayında, ilk önce onu kaldırın.")
+                        : "Müzayede oluştur"}
                     </Button>
                   </Link>
                 </div>

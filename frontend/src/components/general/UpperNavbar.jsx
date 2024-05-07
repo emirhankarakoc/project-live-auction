@@ -11,18 +11,19 @@ export default function UpperNavbar() {
             <Link to="/" className="text-light text-decoration-none">
               Ana Sayfa
             </Link>
-            <Link to="/about" className="text-light text-decoration-none">
+            {/* <Link to="/about" className="text-light text-decoration-none">
               Hakkında
-            </Link>
+            </Link> */}
+            {/* anamizi siktin ege. */}
             <Link to="/rules" className="text-light text-decoration-none">
               Kurallar
             </Link>
-            <Link to="/archive" className="text-light text-decoration-none">
+            {/* <Link to="/archive" className="text-light text-decoration-none">
               Arşiv
-            </Link>
-            <Link to="/contact" className="text-light text-decoration-none">
+            </Link> */}
+            {/* <Link to="/contact" className="text-light text-decoration-none">
               İletişim
-            </Link>
+            </Link> */}
           </div>
         </div>
       </Container>

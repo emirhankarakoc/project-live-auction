@@ -14,5 +14,7 @@ public class ProductDTO {
     private String productTitle;
     private String owner;
     private LocalDateTime createddatetime;
+    private ProductAuctionStatus productStatus;
+
 
 }

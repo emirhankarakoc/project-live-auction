@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Navbar from "../general/Navbar";
 import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
-import { http, httpError } from "../../lib/http";
+import { SOCKETURL, http, httpError } from "../../lib/http";
 import OffersTable from "./OffersTable";
 import io from "socket.io-client";
 
@@ -15,7 +15,7 @@ export default function Auction() {
 
   useEffect(() => {
     //console.log("başlaring");
-    const socket = io("wss://ws.backend.bdmstf.easypanel.host/", {
+    const socket = io(SOCKETURL, {
       //const socket = io("ws://10.64.67.66:8085", {
       path: "/socket.io/",
       transports: ["websocket"],

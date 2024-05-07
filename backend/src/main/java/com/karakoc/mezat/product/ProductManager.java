@@ -67,6 +67,7 @@ public class ProductManager implements ProductService{
             product.setImageCloudId((String) uploadResult.get("public_id"));
             product.setImageName((String) uploadResult.get("original_filename"));
             product.setPhotoPath(photoPath); // Ürünün fotoğraf yolunu ayarla
+            product.setProductStatus(ProductAuctionStatus.HAZIR);
         } catch (IOException e) {
             log.info(e.getMessage());
             throw new BadRequestException(e.getMessage());

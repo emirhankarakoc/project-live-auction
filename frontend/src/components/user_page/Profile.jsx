@@ -45,7 +45,6 @@ export default function Profile() {
             <Col>
               <h3>
                 {user.firstname} {user.lastname} adlı kullanıcının profili
-                {user.mail}
               </h3>
             </Col>
           </Row>
@@ -53,31 +52,18 @@ export default function Profile() {
           <div className="text-left">
             <Row>
               <Col>
-                <h4>Mail adresi: {user.mail}</h4>
-              </Col>
-              <Col>
                 <h4>Adı: {user.firstname}</h4>
               </Col>
             </Row>
             <br />
             <Row>
               <Col>
-                <h4>Telefon numarası: {user.phoneNumber}</h4>
-              </Col>
-              <Col>
                 <h4>Soyadı: {user.lastname}</h4>
               </Col>
             </Row>
           </div>
           <br />
-          <div>
-            <h2>Kazandığı açık arttırmalar:</h2>
-            <p>/</p>
-            <p>/</p>
-            <p>/</p>
-            <p>/</p>
-            <p>/</p>
-          </div>
+
           {user.userRole === "ROLE_ADMIN" ? (
             <div className="d-flex my-3 justify-content-center">
               <Button className=" bg-danger my-2 ">

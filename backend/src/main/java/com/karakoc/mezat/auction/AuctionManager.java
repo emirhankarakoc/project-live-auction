@@ -3,6 +3,7 @@ package com.karakoc.mezat.auction;
 import com.karakoc.mezat.exceptions.general.BadRequestException;
 import com.karakoc.mezat.exceptions.general.NotfoundException;
 import com.karakoc.mezat.product.Product;
+import com.karakoc.mezat.product.ProductAuctionStatus;
 import com.karakoc.mezat.product.ProductDTO;
 import com.karakoc.mezat.product.ProductRepository;
 import com.karakoc.mezat.user.User;
@@ -40,20 +41,29 @@ public class AuctionManager implements AuctionService{
         return dto;
     }
 
+    @Transactional
     public AuctionDTO setAuctionStatusToOpen(String auctionId, String adminToken) {
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
         Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
        log.info("bi tane auctionu ready yaptik.");
         auction.setAuctionStatus(EAuctionStatus.READY);
+        Product pro = auction.getProduct();
+        pro.setProductStatus(ProductAuctionStatus.YAYINDA);
         auctionRepository.save(auction);
+        productRepository.save(pro);
         return auctionToDTO(auction);
     }
+
+    @Transactional
     public AuctionDTO closeAuction(String auctionId,String adminToken){
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
         Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
         log.info("bi tane auctionu bitirdik. haneye hayirli olsun.");
         auction.setAuctionStatus(EAuctionStatus.ENDED);
+        Product prod = auction.getProduct();
+        prod.setProductStatus(ProductAuctionStatus.HAZIR);
         auctionRepository.save(auction);
+        productRepository.save(prod);
         return auctionToDTO(auction);
 
     }

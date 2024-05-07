@@ -25,6 +25,7 @@ public class Product {
     private String imageCloudId;
     private String owner;
     private LocalDateTime createddatetime;
+    private ProductAuctionStatus productStatus;
 
 
 
@@ -35,6 +36,7 @@ public class Product {
         dto.setPhotoPath(product.getPhotoPath());
         dto.setCreateddatetime(product.getCreateddatetime());
         dto.setOwner(product.getOwner());
+        dto.setProductStatus(product.getProductStatus());
         return dto;
     }
 
