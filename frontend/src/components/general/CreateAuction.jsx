@@ -15,9 +15,10 @@ export default function CreateAuction() {
       try {
         const data = await http.get(`/products/${productId}`);
         setProduct(data.data);
-        console.log(product);
       } catch (error) {
+        setIsLoad(false);
         console.log(httpError(error));
+        setMessage(error);
       }
     };
 
@@ -46,9 +47,22 @@ export default function CreateAuction() {
       if (!response) {
         setIsLoad(false);
 
-        setMessage("Ürün eklenirken bir problem oluştu.");
+        setMessage(
+          "Bu üründen oluşturulmuş bir müzayede zaten var. Yenisini ekleyemezsiniz. Birkaç saniye bekleyin , ürün oluşturma sayfasına yönlendiriliyorsunuz."
+        );
+
+        setTimeout(() => {
+          window.location.replace("/admin/products");
+        }, 3000);
       }
     } catch (error) {
+      setIsLoad(false);
+      setMessage(
+        "Bu üründen oluşturulmuş bir müzayede zaten var. Yenisini ekleyemezsiniz. Birkaç saniye bekleyin , ürün oluşturma sayfasına yönlendiriliyorsunuz."
+      );
+      setTimeout(() => {
+        window.location.replace("/admin/products");
+      }, 3000);
       console.log(httpError(error));
     }
   }

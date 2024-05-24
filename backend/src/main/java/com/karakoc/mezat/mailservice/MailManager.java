@@ -22,7 +22,7 @@ public class MailManager implements MailService {
     public String sendMail(String to, String icerik) {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
-        String mesajlar[] = icerik.split("_6_");
+        String mesajlar[] = icerik.split("burayisilme_backend_icin_lazim");
         try {
             helper.setFrom("shopifyemirhan6@gmail.com");
             helper.setTo(to);

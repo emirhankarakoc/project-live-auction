@@ -90,8 +90,12 @@ export default function ListAuctions(props) {
       setIsLoad(true);
       await http.delete(`/auctions/${selectedAuctionId}/token/${userToken}`);
       // Yeniden ürünleri getir
-      const auctionsData = await http.get(`/auctions/page/${0}/size/${9}`);
+
+      const auctionsData = await http.get(
+        `/auctions/pageable?page=${page}&size=${size}`
+      );
       setAuctions(auctionsData.data.content);
+
       setIsLoad(false);
       setShowModal(false);
     } catch (error) {
@@ -112,7 +116,7 @@ export default function ListAuctions(props) {
         <div className="text-light">
           Müzayedeler yüklenirken lütfen bekleyiniz
           <br />
-          <Spinner className="mt-3" size="xl" />
+          <Spinner className="mt-2" size="xl" />
         </div>
       </div>
     );
@@ -120,17 +124,17 @@ export default function ListAuctions(props) {
   if (auctions.length === 0) {
     return (
       <div>
-        <div className="text-light my-3 p-2">
+        <div className="text-light my-2 p-1">
           Gösterilecek herhangi bir müzayede yok.
         </div>
         <Link to={"/"}>
-          <Button variant="warning" className="text-decoration-none">
+          <Button variant="warning" className=" mx-2 text-decoration-none">
             Ana sayfaya dön
           </Button>
         </Link>
         veya
         <Link to={"/admin/products"}>
-          <Button variant="warning" className="text-decoration-none">
+          <Button variant="warning" className=" mx-2 text-decoration-none">
             Ürün ekle
           </Button>
         </Link>

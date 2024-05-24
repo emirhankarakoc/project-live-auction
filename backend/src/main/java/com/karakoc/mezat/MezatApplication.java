@@ -1,5 +1,7 @@
 package com.karakoc.mezat;
 
+import com.karakoc.mezat.archive.Archive;
+import com.karakoc.mezat.archive.ArchiveRepository;
 import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserRepository;
 import com.karakoc.mezat.user.roles.UserRole;
@@ -9,7 +11,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.TimeZone;
+import java.util.UUID;
 
 @SpringBootApplication
 public class MezatApplication {
@@ -24,6 +28,7 @@ public class MezatApplication {
 	public class MyCommandLineRunner implements CommandLineRunner {
 
 		private final UserRepository userRepository;
+		private final ArchiveRepository archive;
 		@Override
 		public void run(String... args) throws Exception {
 
@@ -46,6 +51,11 @@ public class MezatApplication {
 			user2.setMail("user@muzayede.com");
 			user2.setPassword("user");
 			userRepository.save(user);
+
+			Archive archive1 = new Archive();
+			archive1.setId("1");
+			archive1.setAuction(new ArrayList<>());
+			archive.save(archive1);
 
 			}
 		}

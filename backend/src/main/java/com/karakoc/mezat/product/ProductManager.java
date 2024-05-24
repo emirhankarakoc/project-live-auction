@@ -102,12 +102,14 @@ public class ProductManager implements ProductService{
 
 
 
-    public ProductDTO deleteProductById(String id, String adminToken) {
+    public ProductDTO deleteProductById(String id, String adminToken) throws IOException {
         Optional<User> admin = userRepository.findUserByToken(adminToken);
         onlyAdminAndUserIsPresentValidation(admin);
 
         Optional<Product> product = productRepository.findById(id);
+        if (product.get().getProductStatus().equals(ProductAuctionStatus.YAYINDA)) {throw new BadRequestException("You can't delete this product now. There is a live auction.");}
         if (product.isPresent()){
+            cloudinaryService.delete(product.get().getImageCloudId());
             productRepository.delete(product.get());
             return productToDTO(product.get());
         }

@@ -10,6 +10,7 @@ export default function ProductOffersList() {
   const { auctionId } = useParams();
   const [auction, setAuction] = useState();
   const [mesaj, setMesaj] = useState("");
+  const [satildiMi, setSatildiMi] = useState(false);
 
   useEffect(() => {
     const fetchOffers = async () => {
@@ -19,7 +20,9 @@ export default function ProductOffersList() {
         setOffers(response.data);
         setIsLoad(false);
       } catch (error) {
+        setIsLoad(false);
         console.log(httpError(error));
+        setMesaj(error);
       }
     };
     const fetchAuction = async () => {
@@ -39,7 +42,7 @@ export default function ProductOffersList() {
 
   const urunuSat = async () => {
     const form = new FormData();
-    const mesaj = `${auction.product.owner} kişisinin sattığı ${auction.product.productTitle} ürününü ${auction.startPrice} tlye satın aldınız. Lütfen yönetim ekibi ile iletişime geçiniz. _6_ ${auction.product.photoPath}`;
+    const mesaj = `${auction.product.owner} kişisinin sattığı ${auction.product.productTitle} ürününü ${auction.startPrice} tlye satın aldınız. Lütfen yönetim ekibi ile iletişime geçiniz. burayisilme_backend_icin_lazim  ${auction.product.photoPath}`;
     form.append("mesaj", mesaj);
     console.log(mesaj);
 
@@ -57,6 +60,7 @@ export default function ProductOffersList() {
       );
 
       setMesaj("Ürün başarıyla satıldı. Haneye hayırlı olsun.");
+      setSatildiMi(true);
       setIsLoad(false);
     } catch (error) {
       console.log(httpError(error));
@@ -76,7 +80,15 @@ export default function ProductOffersList() {
     );
   }
   if (offers.length === 0) {
-    return <div className="text-light">Gösterilecek hiçbir teklif yok.</div>;
+    return (
+      <div>
+        <Navbar />
+        <div className="text-light">Gösterilecek hiçbir teklif yok.</div>
+        <div>
+          <Button href="/admin/auctions">Geri dön</Button>
+        </div>
+      </div>
+    );
   }
   return (
     <div>
@@ -92,14 +104,19 @@ export default function ProductOffersList() {
                 ></img>
               </Col>
             </Row>
-
             <Col className="text-light">
-              <Button
-                className="bg-warning my-2 text-dark text-decoration-none"
-                onClick={urunuSat}
-              >
-                {auction.startPrice} TL'YE {offers[0].fullname} KİŞİSİNE SAT
-              </Button>
+              {!satildiMi && (
+                <Button
+                  className="bg-warning my-2 text-dark text-decoration-none"
+                  onClick={urunuSat}
+                >
+                  {auction.startPrice} TL'YE {offers[0].fullname} KİŞİSİNE SAT
+                </Button>
+              )}
+              <div>
+                {" "}
+                <Button>Teklifleri döküman olarak indir.</Button>
+              </div>
               <div className="my-2">{mesaj}</div>
               <div>
                 <h5 className="d-flex float-left">Offers List</h5>

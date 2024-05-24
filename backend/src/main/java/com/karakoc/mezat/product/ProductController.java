@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -51,7 +52,7 @@ public class ProductController {
     @DeleteMapping("/{id}/token/{adminToken}")
     @Operation(summary = "Ürün sil", description = "")
 
-    public ProductDTO deleteProductById(@PathVariable String id, @PathVariable String adminToken) {
+    public ProductDTO deleteProductById(@PathVariable String id, @PathVariable String adminToken) throws IOException {
         return productService.deleteProductById(id, adminToken);
     }
 

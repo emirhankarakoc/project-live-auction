@@ -1,10 +1,11 @@
 package com.karakoc.mezat.auction;
 
+import com.karakoc.mezat.archive.Archive;
+import com.karakoc.mezat.archive.ArchiveRepository;
 import com.karakoc.mezat.exceptions.general.BadRequestException;
 import com.karakoc.mezat.exceptions.general.NotfoundException;
 import com.karakoc.mezat.product.Product;
 import com.karakoc.mezat.product.ProductAuctionStatus;
-import com.karakoc.mezat.product.ProductDTO;
 import com.karakoc.mezat.product.ProductRepository;
 import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserRepository;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.karakoc.mezat.auction.Auction.*;
-import static com.karakoc.mezat.product.Product.productDTOS;
 import static com.karakoc.mezat.product.Product.productToDTO;
 
 @Service
@@ -27,6 +27,7 @@ public class AuctionManager implements AuctionService{
     private final AuctionRepository auctionRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final ArchiveRepository archive;
 
 
     public AuctionDTO createAuction(CreateAuctionRequest request) {
@@ -34,8 +35,12 @@ public class AuctionManager implements AuctionService{
         Product product = productRepository.findById(request.getProductId()).orElseThrow(() -> new BadRequestException("Product not found."));
         //validations
         Auction auction = Auction.createAuction(request);
-        auction.setProduct(product);
-        auctionRepository.save(auction);
+      try{
+          auction.setProduct(product);
+          auctionRepository.save(auction);}
+      catch (Exception e){
+          throw new BadRequestException("An error occured. Must be duplicate entry.");}
+
         AuctionDTO dto = auctionToDTO(auction);
         dto.setProduct(productToDTO(product));
         return dto;
@@ -45,14 +50,17 @@ public class AuctionManager implements AuctionService{
     public AuctionDTO setAuctionStatusToOpen(String auctionId, String adminToken) {
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
         Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
-       log.info("bi tane auctionu ready yaptik.");
-        auction.setAuctionStatus(EAuctionStatus.READY);
         Product pro = auction.getProduct();
+        if (pro.getProductStatus().equals(ProductAuctionStatus.YAYINDA)){ throw new BadRequestException("You can't create an auction for this product. Because there is already an open auction.");}
+
+        log.info("bi tane auctionu ready yaptik.");
+        auction.setAuctionStatus(EAuctionStatus.READY);
         pro.setProductStatus(ProductAuctionStatus.YAYINDA);
         auctionRepository.save(auction);
         productRepository.save(pro);
         return auctionToDTO(auction);
     }
+
 
     @Transactional
     public AuctionDTO closeAuction(String auctionId,String adminToken){
@@ -62,8 +70,12 @@ public class AuctionManager implements AuctionService{
         auction.setAuctionStatus(EAuctionStatus.ENDED);
         Product prod = auction.getProduct();
         prod.setProductStatus(ProductAuctionStatus.HAZIR);
-        auctionRepository.save(auction);
+        Archive  archive1 = archive.findById("1").get();
+        archive1.getAuction().add(auction);
+        archive.save(archive1);
         productRepository.save(prod);
+        auctionRepository.delete(auction);
+
         return auctionToDTO(auction);
 
     }
@@ -102,10 +114,15 @@ public class AuctionManager implements AuctionService{
     }
 
     public Page<AuctionDTO> getAll(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());
-        Page<Auction> auctionPage = auctionRepository.findAll(pageable);
-        List<AuctionDTO> auctionsDTO = auctionsToDTO(auctionPage.getContent());
-        return new PageImpl<>(auctionsDTO,pageable,auctionPage.getTotalElements());
+        try{
+            Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());
+            Page<Auction> auctionPage = auctionRepository.findAll(pageable);
+            List<AuctionDTO> auctionsDTO = auctionsToDTO(auctionPage.getContent());
+            return new PageImpl<>(auctionsDTO,pageable,auctionPage.getTotalElements());
+        }
+        catch (Exception e){
+            throw new BadRequestException("An error occured.");
+        }
     }
     public Page<AuctionDTO> getAllBySearchbox(int page,int size, String keyword){
         Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());

@@ -10,6 +10,7 @@ public interface AuctionService {
 
     Page<AuctionDTO> getAll(int page, int size);
 
+
     AuctionDTO getAuction(String auctionId);
 
     Page<AuctionDTO> getEndedAuctions(String adminToken,int page,int size);

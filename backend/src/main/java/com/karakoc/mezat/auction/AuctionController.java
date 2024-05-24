@@ -54,6 +54,7 @@ public class AuctionController {
         return service.getAllBySearchbox(page,size,keyword);
     }
 
+
     @GetMapping("/filter/closed/token/{adminToken}/page/{page}/size{size}")
     @Operation(summary = "Bitmiş müzayedeler", description = "Süresi bitmiş müzayedeleri getirir.")
 

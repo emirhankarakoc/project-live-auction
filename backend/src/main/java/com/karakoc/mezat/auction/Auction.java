@@ -20,7 +20,7 @@ public class Auction {
     @Id
     private String id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "productId")
     private Product product;
     private LocalDateTime endDate;
