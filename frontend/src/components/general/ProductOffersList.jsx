@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { http, httpError } from "../../lib/http";
+import { APIURL, http, httpError } from "../../lib/http";
 import { Button, Col, Container, Row, Spinner } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -113,9 +113,14 @@ export default function ProductOffersList() {
                   {auction.startPrice} TL'YE {offers[0].fullname} KİŞİSİNE SAT
                 </Button>
               )}
+              <div className="mt-0 mb-2">
+                Eğer şimdi indirmezsen , sattıktan sonra teklifleri birdaha
+                göremeyebilirsin.
+              </div>
               <div>
-                {" "}
-                <Button>Teklifleri döküman olarak indir.</Button>
+                <Button href={`${APIURL}/openpdf/export/${auction.id}`}>
+                  Teklifleri döküman olarak indir.
+                </Button>
               </div>
               <div className="my-2">{mesaj}</div>
               <div>
