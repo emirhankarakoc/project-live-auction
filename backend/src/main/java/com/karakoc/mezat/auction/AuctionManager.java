@@ -1,7 +1,4 @@
 package com.karakoc.mezat.auction;
-
-import com.karakoc.mezat.archive.Archive;
-import com.karakoc.mezat.archive.ArchiveRepository;
 import com.karakoc.mezat.exceptions.general.BadRequestException;
 import com.karakoc.mezat.exceptions.general.NotfoundException;
 import com.karakoc.mezat.product.Product;
@@ -27,7 +24,8 @@ public class AuctionManager implements AuctionService{
     private final AuctionRepository auctionRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
-    private final ArchiveRepository archive;
+    
+
 
 
     public AuctionDTO createAuction(CreateAuctionRequest request) {
@@ -70,10 +68,7 @@ public class AuctionManager implements AuctionService{
         auction.setAuctionStatus(EAuctionStatus.ENDED);
         Product prod = auction.getProduct();
         prod.setProductStatus(ProductAuctionStatus.HAZIR);
-        Archive  archive1 = archive.findById("1").get();
-        archive1.getAuction().add(auction);
-        archive.save(archive1);
-        productRepository.save(prod);
+         productRepository.save(prod);
         auctionRepository.delete(auction);
 
         return auctionToDTO(auction);

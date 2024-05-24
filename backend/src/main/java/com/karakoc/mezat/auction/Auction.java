@@ -26,13 +26,10 @@ public class Auction {
     private LocalDateTime endDate;
     private LocalDateTime createddatetime;
     private double price;
-
+    private String description;
     @OneToMany
     @JoinColumn(name = "offerId")
     private List<Offer> offers;
-
-    private String description;
-
     @Enumerated
     private EAuctionStatus auctionStatus;
 

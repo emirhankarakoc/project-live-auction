@@ -1,8 +1,6 @@
 package com.karakoc.mezat;
 
-import com.karakoc.mezat.archive.Archive;
-import com.karakoc.mezat.archive.ArchiveRepository;
-import com.karakoc.mezat.user.User;
+ import com.karakoc.mezat.user.User;
 import com.karakoc.mezat.user.UserRepository;
 import com.karakoc.mezat.user.roles.UserRole;
 import lombok.AllArgsConstructor;
@@ -28,8 +26,7 @@ public class MezatApplication {
 	public class MyCommandLineRunner implements CommandLineRunner {
 
 		private final UserRepository userRepository;
-		private final ArchiveRepository archive;
-		@Override
+ 		@Override
 		public void run(String... args) throws Exception {
 
 			User user = new User();
@@ -51,11 +48,6 @@ public class MezatApplication {
 			user2.setMail("user@muzayede.com");
 			user2.setPassword("user");
 			userRepository.save(user);
-
-			Archive archive1 = new Archive();
-			archive1.setId("1");
-			archive1.setAuction(new ArrayList<>());
-			archive.save(archive1);
 
 			}
 		}
