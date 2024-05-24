@@ -49,6 +49,10 @@ public class AuctionController {
             @RequestParam(defaultValue = "10") int size) {
         return service.getAll(page,size);
     }
+    @GetMapping("/archive")
+    public List<ArchiveEntityDTO> getAllFromArchive(){
+        return service.getAllFromArchive();
+    }
     @GetMapping("/page/{page}/size/{size}/search/{keyword}")
    public Page<AuctionDTO> getAllBySearchbox(@PathVariable int page,@PathVariable int size,@PathVariable String keyword){
         return service.getAllBySearchbox(page,size,keyword);

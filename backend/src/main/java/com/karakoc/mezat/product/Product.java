@@ -21,9 +21,10 @@ public class Product {
     private String id;
     private String photoPath;
     private String productTitle;
+    private String owner;
+
     private String imageName;
     private String imageCloudId;
-    private String owner;
     private LocalDateTime createddatetime;
     private ProductAuctionStatus productStatus;
 

@@ -18,9 +18,9 @@ export default function UpperNavbar() {
             <Link to="/rules" className="text-light text-decoration-none">
               Kurallar
             </Link>
-            {/* <Link to="/archive" className="text-light text-decoration-none">
+            <Link to="/archive" className="text-light text-decoration-none">
               Arşiv
-            </Link> */}
+            </Link>
             {/* <Link to="/contact" className="text-light text-decoration-none">
               İletişim
             </Link> */}

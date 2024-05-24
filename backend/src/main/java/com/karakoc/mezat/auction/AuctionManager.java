@@ -12,8 +12,10 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.karakoc.mezat.auction.ArchiveEntity.archivesToDTO;
 import static com.karakoc.mezat.auction.Auction.*;
 import static com.karakoc.mezat.product.Product.productToDTO;
 
@@ -24,7 +26,7 @@ public class AuctionManager implements AuctionService{
     private final AuctionRepository auctionRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
-    
+    private final Archive archive;
 
 
 
@@ -61,6 +63,7 @@ public class AuctionManager implements AuctionService{
 
 
     @Transactional
+    //sell product.
     public AuctionDTO closeAuction(String auctionId,String adminToken){
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
         Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
@@ -68,9 +71,23 @@ public class AuctionManager implements AuctionService{
         auction.setAuctionStatus(EAuctionStatus.ENDED);
         Product prod = auction.getProduct();
         prod.setProductStatus(ProductAuctionStatus.HAZIR);
-         productRepository.save(prod);
-        auctionRepository.delete(auction);
+        productRepository.save(prod);
 
+
+        ArchiveEntity archiveEntity = new ArchiveEntity();
+        archiveEntity.setId(auction.getId());
+        archiveEntity.setProductTitle(prod.getProductTitle());
+        archiveEntity.setPhotoPath(prod.getPhotoPath());
+        archiveEntity.setOwner(prod.getOwner());
+        archiveEntity.setCreateddatetime(auction.getCreateddatetime());
+        archiveEntity.setEndDate(auction.getEndDate());
+        archiveEntity.setPrice(auction.getPrice());
+        archiveEntity.setDescription(auction.getDescription());
+        archiveEntity.setAuctionStatus(auction.getAuctionStatus());
+        log.info("Saving to archive: {}", archiveEntity);
+        archive.save(archiveEntity);
+
+        auctionRepository.delete(auction);
         return auctionToDTO(auction);
 
     }
@@ -118,6 +135,10 @@ public class AuctionManager implements AuctionService{
         catch (Exception e){
             throw new BadRequestException("An error occured.");
         }
+    }
+    public List<ArchiveEntityDTO> getAllFromArchive() {
+        List<ArchiveEntity> archiveEntities = archive.findAll();
+        return archivesToDTO(archiveEntities);
     }
     public Page<AuctionDTO> getAllBySearchbox(int page,int size, String keyword){
         Pageable pageable = PageRequest.of(page, size, Sort.by("createddatetime").ascending());

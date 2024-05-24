@@ -15,6 +15,7 @@ import Products_manager from "./components/manager_page/Products_manager";
 import Auctions_manager from "./components/manager_page/Auctions_manager";
 import FilteredAuctions from "./components/auctions_page/FilteredAuctions";
 import ProductOffersList from "./components/general/ProductOffersList";
+import Archive from "./components/archive_page/Archive";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
             element={<ProductOffersList />}
           />
           <Route path="/auction/:id" element={<Auction />} />
+          <Route path="/archive" element={<Archive />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/user/:username" element={<Profile />} />

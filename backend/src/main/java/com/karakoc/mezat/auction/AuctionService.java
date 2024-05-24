@@ -9,7 +9,7 @@ public interface AuctionService {
     void deleteAll();
 
     Page<AuctionDTO> getAll(int page, int size);
-
+    List<ArchiveEntityDTO> getAllFromArchive();
 
     AuctionDTO getAuction(String auctionId);
 
