@@ -1,7 +1,7 @@
 Introduction video: https://youtu.be/_L2Rda-7xJU?si=Yrr6raoM_5txvsej
 
 # Real-Time Auction Project
-- This project is create a real-time auction platform. Here are the key features of the project:
+- This project is create a real-time auction platform.Here are the key features of the project:
 
 ## Technologies:
 - Spring Boot
@@ -18,4 +18,7 @@ Users can place bids on items, and the highest bid is `updated` in real time.
 ## Admin Panel: 
 An admin panel allows managing items and auctions.
 
+
+
+This project created for Software Engineering 2024 lesson. I also got 95 point from this project!
 emirhan karakoc, denizli, april 2024
