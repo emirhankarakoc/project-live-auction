@@ -18,3 +18,4 @@ Users can place bids on items, and the highest bid is `updated` in real time.
 ## Admin Panel: 
 An admin panel allows managing items and auctions.
 
+emirhan karakoc, denizli, april 2024
