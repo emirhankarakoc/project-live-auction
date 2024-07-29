@@ -4,7 +4,10 @@ Introduction video: https://youtu.be/_L2Rda-7xJU?si=Yrr6raoM_5txvsej
 - This project is developed using a microservices architecture to create a real-time auction platform. Here are the key features of the project:
 
 ## Technologies:
-Spring Boot, React.js, MySQL8, and other relevant technologies.
+-Spring Boot,
+-React.js, 
+-MySQL8,
+and other relevant technologies.
 ## Real-Time Updates: 
 Socket.io is used for real-time communication between clients and the server.
 ## Authentication and Authorization:
