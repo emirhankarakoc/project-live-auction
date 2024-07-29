@@ -1,7 +1,7 @@
 Introduction video: https://youtu.be/_L2Rda-7xJU?si=Yrr6raoM_5txvsej
 
 # Real-Time Auction Project
-- This project is developed using a microservices architecture to create a real-time auction platform. Here are the key features of the project:
+- This project is create a real-time auction platform. Here are the key features of the project:
 
 ## Technologies:
 - Spring Boot
