@@ -31,6 +31,7 @@ public class OfferManager implements OfferService {
 
     @Transactional
     public OfferDTO createOffer(double price, String auctionId,String userToken) {
+
         Auction auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new NotfoundException("Auction not found"));
 

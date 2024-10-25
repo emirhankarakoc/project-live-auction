@@ -1,5 +1,6 @@
 package com.karakoc.mezat.mailservice;
 
+import com.karakoc.mezat.exceptions.general.BadRequestException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,11 @@ public class MailManager implements MailService {
                     "<img src=\""+mesajlar[1]+"\"/>  </body>\n" +
                     "</html>";
             helper.setText(htmlContent, true); // true: HTML içerik olduğunu belirtir
-            mailSender.send(mimeMessage);
+            try{
+                mailSender.send(mimeMessage);
+            }catch (Exception e){
+                throw new BadRequestException("Mail service crashed. Possibly internet connection problem. Try again later.");
+            }
             return "Gönderildi";
         } catch (MessagingException e) {
             log.info("bir hata");

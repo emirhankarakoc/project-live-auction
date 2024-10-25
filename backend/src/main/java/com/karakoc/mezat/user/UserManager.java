@@ -27,7 +27,27 @@ public class UserManager implements UserService{
     private final UserRepository userRepository;
 
     public UserDTO register(CreateUserRequest request) {
-
+        if (request.getUsername() == null || request.getUsername().equals("")) {
+            throw new BadRequestException("Username must not be null.");
+        }
+        if (request.getMail() == null  || request.getMail().equals("")) {
+            throw new BadRequestException("Mail must not be null.");
+        }
+        if (request.getFirstname() == null  || request.getFirstname().equals("")) {
+            throw new BadRequestException("First name must not be null.");
+        }
+        if (request.getLastname() == null  || request.getLastname().equals("")) {
+            throw new BadRequestException("Last name must not be null.");
+        }
+        if (request.getPhoneNumber() == null || request.getPhoneNumber().equals("")) {
+            throw new BadRequestException("Phone number must not be null.");
+        }
+        if (request.getPassword() == null || request.getPassword().equals("")) {
+            throw new BadRequestException("Password must not be null.");
+        }
+        if (request.getRepeatPassword() == null || request.getRepeatPassword().equals("")) {
+            throw new BadRequestException("Repeat password must not be null.");
+        }
         validatePhoneNumber(request.getPhoneNumber());
         validatePasswords(request.getPassword(), request.getRepeatPassword());
         validateMailAdress(request.getMail());
@@ -115,6 +135,7 @@ public class UserManager implements UserService{
     }
 
     public UserDTO createAdmin(CreateUserRequest request){
+
         validatePhoneNumber(request.getPhoneNumber());
         validatePasswords(request.getPassword(), request.getRepeatPassword());
         validateMailAdress(request.getMail());
@@ -132,6 +153,10 @@ public class UserManager implements UserService{
     }
 
     public LoginResponse login( LoginRequest request){
+        if (request.getUsername() ==null || request.getPassword() == null || request.getUsername().equals("") || request.getPassword().equals("")){
+            throw new BadRequestException("Missing request body.");
+        }
+
         User user = userRepository.findByMail(request.getUsername()).orElseThrow(()-> new BadRequestException("Invalid username or password."));
         LoginResponse response = new LoginResponse();
 

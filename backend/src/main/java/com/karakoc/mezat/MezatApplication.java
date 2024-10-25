@@ -47,7 +47,17 @@ public class MezatApplication {
 			user2.setLastname("KARAKOC");
 			user2.setMail("user@muzayede.com");
 			user2.setPassword("user");
-			userRepository.save(user);
+			userRepository.save(user2);
+
+			User user3 = new User();
+			user3.setId("emirhan3");
+			user3.setUserRole(UserRole.ROLE_USER);
+			user3.setToken("6");
+			user3.setUsername("user2");
+			user3.setLastname("SOFTWARE_ENG_DERS");
+			user3.setMail("user2@muzayede.com");
+			user3.setPassword("user2");
+			userRepository.save(user3);
 
 			}
 		}

@@ -50,10 +50,15 @@ public class ExportManager {
         document.add(headerParagraph);
 
         // Resmi A4 boyutunda ve ortalanmış şekilde ekleme
-        Image image = Image.getInstance(new URL(auction.getProduct().getPhotoPath()));
-        image.setAlignment(Image.MIDDLE);
-        image.scaleToFit(PageSize.A4.getWidth() - document.leftMargin() - document.rightMargin(), PageSize.A4.getHeight() - document.topMargin() - document.bottomMargin());
-        document.add(image);
+        try{
+            Image image = Image.getInstance(new URL(auction.getProduct().getPhotoPath()));
+            image.setAlignment(Image.MIDDLE);
+            image.scaleToFit(PageSize.A4.getWidth() - document.leftMargin() - document.rightMargin(), PageSize.A4.getHeight() - document.topMargin() - document.bottomMargin());
+            document.add(image);
+        }catch (Exception e){
+            throw new BadRequestException("PDF Exporter service problem. Possibly internet connection failed. Try again later.");
+        }
+
 
         // Tekliflerin olduğu tablo oluşturma
         PdfPTable table = new PdfPTable(2); // 2 sütunlu bir tablo oluştur
