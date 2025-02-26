@@ -179,22 +179,44 @@ export default function ListProducts(props) {
               </div>
               <div className="col-md-4">
                 <div className="d-flex justify-content-center  align-content-center h-100 flex-column">
-                  <Button
+                  {/* <Button
+                    className="bg-danger my-1 w-100"
+                    onClick={() => handleDelete(product.id)}
+                  >
+                    Sil
+                  </Button> */}
+       
+            <div>
+              {
+                product.productStatus==="YAYINDA"?(
+                  <div>
+                       <Button href={`/admin/auctions`}
+                    className="bg-danger my-1 w-100"
+                  >
+                    Silmek icin muzayedeler sayfasina gitmelisin.
+                  </Button>
+                    <p>Zaten yayında, ilk önce onu kaldırın.</p>
+                  </div>
+                ):(
+                  <div>
+                       <Button
                     className="bg-danger my-1 w-100"
                     onClick={() => handleDelete(product.id)}
                   >
                     Sil
                   </Button>
-                  <Link to={`/create/${product.id}`}>
+                     <Link to={`/create/${product.id}`}>
                     <Button className="bg-success my-1 w-100">
-                      {
-                      
-                      
-                      product.productStatus === "YAYINDA" 
-                        ? "Zaten yayında, ilk önce onu kaldırın."
-                        : "Müzayede oluştur"}
+                      Müzayede oluştur 
                     </Button>
                   </Link>
+                  </div>
+                )
+              }
+            </div>
+
+
+                  
                 </div>
               </div>
             </Row>

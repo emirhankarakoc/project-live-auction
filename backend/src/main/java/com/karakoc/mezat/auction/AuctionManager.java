@@ -151,6 +151,9 @@ public class AuctionManager implements AuctionService{
     public AuctionDTO deleteAuctionById(String auctionId, String adminToken) {
         User.onlyAdminAndUserIsPresentValidation(userRepository.findUserByToken(adminToken));
         Auction auction = auctionRepository.findById(auctionId).orElseThrow(() -> new NotfoundException("Auction not found."));
+        Product auctiondakiUrun = auction.getProduct();
+        auctiondakiUrun.setProductStatus(ProductAuctionStatus.HAZIR);
+        productRepository.save(auctiondakiUrun);
         AuctionDTO dto = auctionToDTO(auction);
         auctionRepository.delete(auction);
         return dto;
