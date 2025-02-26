@@ -34,6 +34,7 @@ public class MezatApplication {
 			user.setUserRole(UserRole.ROLE_ADMIN);
 			user.setToken("1");
 			user.setUsername("admin");
+			user.setFirstname("EMIRHAN");
 			user.setLastname("KARAKOC");
 			user.setMail("admin@muzayede.com");
 			user.setPassword("admin");
