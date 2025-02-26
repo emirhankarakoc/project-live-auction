@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const HOSTLINK = "https://backend.bdmstf.easypanel.host";
+const HOSTLINK = "https://auction-backend.6xzqep.easypanel.host";
 const LOCALHOST = "http://localhost:8080";
-export const APIURL = LOCALHOST;
+export const APIURL = HOSTLINK;
 
-const SOCKET_HOST = "wss://ws.backend.bdmstf.easypanel.host/";
+const SOCKET_HOST = "wss://ws.auction-backend.6xzqep.easypanel.host/";
 const SOCKET_LOCAL = "ws://localhost:8085";
-export const SOCKETURL = SOCKET_LOCAL;
+export const SOCKETURL = SOCKET_HOST;
 
 export const http = axios.create({
   baseURL: APIURL,

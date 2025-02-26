@@ -187,8 +187,11 @@ export default function ListProducts(props) {
                   </Button>
                   <Link to={`/create/${product.id}`}>
                     <Button className="bg-success my-1 w-100">
-                      {product.productStatus === "YAYINDA"
-                        ? alert("Zaten yayında, ilk önce onu kaldırın.")
+                      {
+                      
+                      
+                      product.productStatus === "YAYINDA" 
+                        ? "Zaten yayında, ilk önce onu kaldırın."
                         : "Müzayede oluştur"}
                     </Button>
                   </Link>
