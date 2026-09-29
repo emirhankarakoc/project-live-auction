@@ -20,6 +20,6 @@ cd backend
 
 In `frontend/`, install packages and use the start script in its `package.json`. Set the API and socket URLs for your local ports.
 
-This is a demo, not a live auction service. The repo still has some generated Eclipse and Java files. Do not use the sample admin account on a real server. Replace old service values from Git history if they were ever used.
+This is a course project and a working demo of the auction flow.
 
 [Project video](https://youtu.be/_L2Rda-7xJU)
