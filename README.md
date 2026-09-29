@@ -1,37 +1,25 @@
-Introduction video: https://youtu.be/_L2Rda-7xJU?si=Yrr6raoM_5txvsej
+# Real-Time Auction Platform
 
-# how to start on LOCAL MACHINE (deployment branch is for production.)
-for backend, make sure your database url, database username and password are true. mine is root and root and db url is localhost:3306, so if you run on your local, this datas probably same but make sure. 
-<br>
-for frontend: make sure `lib>http.js` constants, APIURL and SOCKETURL is your localhost. its already set for your local working but make sure.
-<br>
-accounts: for admin, username: admin@muzayede.com password:admin <br>
-if you want to create users, you can with register page or go backend>src>MezatApplication.java then add new user in commandlinerunner.
+A full-stack auction prototype with a Java/Spring Boot backend, React frontend, MySQL storage, and Socket.IO updates for connected clients.
 
+## What it demonstrates
+- Account registration and authentication
+- Item and auction management
+- Bidding and live highest-bid updates
+- Admin-facing management flows
+- A backend and frontend that communicate through HTTP and sockets
 
+The project began as a software engineering course project in 2024. The introduction video is available at https://youtu.be/_L2Rda-7xJU.
 
+## Local setup
+Install Java, MySQL 8, and Node.js. Set your local datasource URL/user and provide `DB_PASSWORD`. Optional image and email flows need your own Cloudinary and mail configuration plus `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, and `MAIL_PASSWORD`. Configure the frontend's API and socket URLs for your local ports.
 
-# Real-Time Auction Project
-- This project is create a real-time auction platform.Here are the key features of the project:
+```bash
+cd backend
+./mvnw spring-boot:run
+```
 
-## Technologies:
-- Spring Boot
-- React.js
-- MySQL8 and other relevant technologies.
-## Real-Time Updates: 
-Socket.io is used for real-time communication between clients and the server.
-## Authentication and Authorization:
-Users can register, log in, and participate in auctions. Tokens are used for secure authentication.
-## Item Listings:
-Users can view available items, their descriptions, and current bids.
-## Bidding:
-Users can place bids on items, and the highest bid is `updated` in real time.
-## Admin Panel: 
-An admin panel allows managing items and auctions.
+Run the frontend from `frontend/` using the package scripts defined there.
 
-
-
-This project created for Software Engineering 2024 lesson. I also got 95 point from this project!
-emirhan karakoc, denizli, april 2024
-
-
+## Status and security
+This is a demonstration, not a production auction service. Do not reuse the sample admin login in a deployment. The repository still contains generated Eclipse/Java build output; that is cleanup work. Previously committed service values remain in Git history and need rotation if used on live accounts.
