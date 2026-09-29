@@ -1,25 +1,25 @@
-# Real-Time Auction Platform
+# Live Auction Project
 
-A full-stack auction prototype with a Java/Spring Boot backend, React frontend, MySQL storage, and Socket.IO updates for connected clients.
+A Spring Boot and React auction demo. Users can sign in, view items, place bids, and see live updates through Socket.IO. Admin pages manage auction data. MySQL stores the records.
 
-## What it demonstrates
-- Account registration and authentication
-- Item and auction management
-- Bidding and live highest-bid updates
-- Admin-facing management flows
-- A backend and frontend that communicate through HTTP and sockets
+I started this as a software engineering course project in 2024.
 
-The project began as a software engineering course project in 2024. The introduction video is available at https://youtu.be/_L2Rda-7xJU.
+## Code
 
-## Local setup
-Install Java, MySQL 8, and Node.js. Set your local datasource URL/user and provide `DB_PASSWORD`. Optional image and email flows need your own Cloudinary and mail configuration plus `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, and `MAIL_PASSWORD`. Configure the frontend's API and socket URLs for your local ports.
+- `backend/` has the API, bidding logic, and socket server.
+- `frontend/` has the React app.
+
+## Run locally
+
+You need Java, MySQL 8, and Node.js. Set your local database details and `DB_PASSWORD`. Images and email need your own Cloudinary and SMTP settings: `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, and `MAIL_PASSWORD`.
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-Run the frontend from `frontend/` using the package scripts defined there.
+In `frontend/`, install packages and use the start script in its `package.json`. Set the API and socket URLs for your local ports.
 
-## Status and security
-This is a demonstration, not a production auction service. Do not reuse the sample admin login in a deployment. The repository still contains generated Eclipse/Java build output; that is cleanup work. Previously committed service values remain in Git history and need rotation if used on live accounts.
+This is a demo, not a live auction service. The repo still has some generated Eclipse and Java files. Do not use the sample admin account on a real server. Replace old service values from Git history if they were ever used.
+
+[Project video](https://youtu.be/_L2Rda-7xJU)
