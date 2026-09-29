@@ -20,6 +20,5 @@ cd backend
 
 In `frontend/`, install packages and use the start script in its `package.json`. Set the API and socket URLs for your local ports.
 
-This is a course project and a working demo of the auction flow.
 
 [Project video](https://youtu.be/_L2Rda-7xJU)
