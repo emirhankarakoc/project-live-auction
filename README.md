@@ -11,14 +11,14 @@ I started this as a software engineering course project in 2024.
 
 ## Run locally
 
-You need Java, MySQL 8, and Node.js. Set your local database details and `DB_PASSWORD`. Images and email need your own Cloudinary and SMTP settings: `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`, and `MAIL_PASSWORD`.
+You need Java, MySQL 8, and Node.js. Set `DB_URL`, `DB_USERNAME`, and `DB_PASSWORD` for your MySQL database. Images need `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET`. Email needs `MAIL_USERNAME` and `MAIL_PASSWORD`.
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-In `frontend/`, install packages and use the start script in its `package.json`. Set the API and socket URLs for your local ports.
+In a second terminal, run `npm install` and `npm start` from `frontend/`. Set the API and socket URLs for your local ports.
 
 
 [Project video](https://youtu.be/_L2Rda-7xJU)
